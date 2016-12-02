@@ -1,0 +1,270 @@
+package com.orgzly.org;
+
+import com.orgzly.org.datetime.OrgRange;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Heading with text below it.
+ *
+ * Does not contain any coordinates (position within the outline), not even a level.
+ */
+public class OrgHead {
+    private String title;
+
+    private List<String> tags;
+
+    private String state;
+
+    private String priority;
+
+    private OrgRange scheduled;
+    private OrgRange deadline;
+    private OrgRange closed;
+
+    private OrgRange clock; // TODO: Create OrgClock with elapsed time?
+
+    private List<OrgProperty> properties;
+
+    private List<String> logbook;
+
+    private StringBuilder content;
+
+    /**
+     * Creates an empty heading.
+     */
+    public OrgHead() {
+        this("");
+    }
+
+    public OrgHead(String str) {
+        this.title = str;
+        this.content = new StringBuilder();
+    }
+
+    /**
+     * Title.
+     */
+    public String getTitle() {
+        if (title == null) {
+            return "";
+        } else {
+            return title;
+        }
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Tags.
+     */
+    public List<String> getTags() {
+        if (tags == null) {
+            return new ArrayList<>();
+        } else {
+            return tags;
+        }
+    }
+
+    public boolean hasTags() {
+        return tags != null && !tags.isEmpty();
+    }
+
+    public void setTags(String[] tags) {
+        if (tags == null) {
+            throw new IllegalArgumentException("Tags passed to setTags cannot be null");
+        }
+
+        this.tags = new ArrayList<>();
+
+        /* Only add non-null and non-empty strings. */
+        for (String tag: tags) {
+            if (!OrgStringUtils.isEmpty(tag)) {
+                this.tags.add(tag);
+            }
+        }
+    }
+
+    /**
+     * Content (body).
+     */
+    public String getContent() {
+        return content.toString();
+    }
+
+    public boolean hasContent() {
+        return content.length() > 0;
+    }
+
+    public void setContent(String s) {
+        if (s != null) {
+            content = new StringBuilder(s);
+        } else {
+            content = new StringBuilder("");
+        }
+    }
+
+    public void appendContent(String s) {
+        content.append(s);
+    }
+
+    /**
+     * Scheduled time.
+     */
+    public OrgRange getScheduled() {
+        if (hasScheduled()) {
+            return scheduled;
+        }
+        return null;
+    }
+
+    public boolean hasScheduled() {
+        return scheduled != null && scheduled.isSet();
+    }
+
+    public void setScheduled(OrgRange time) {
+        scheduled = time;
+    }
+
+    /**
+     * Closed time.
+     */
+    public OrgRange getClosed() {
+        if (hasClosed()) {
+            return closed;
+        }
+        return null;
+    }
+
+    public boolean hasClosed() {
+        return closed != null && closed.isSet();
+    }
+
+    public void setClosed(OrgRange time) {
+        closed = time;
+    }
+
+    /**
+     * Deadline time.
+     */
+    public OrgRange getDeadline() {
+        if (hasDeadline()) {
+            return deadline;
+        }
+        return null;
+    }
+
+    public boolean hasDeadline() {
+        return deadline != null && deadline.isSet();
+    }
+
+    public void setDeadline(OrgRange time) {
+        deadline = time;
+    }
+
+    /**
+     * CLOCK time.
+     */
+    public OrgRange getClock() {
+        if (hasClock()) {
+            return clock;
+        }
+        return null;
+    }
+
+    public boolean hasClock() {
+        return clock != null && clock.isSet();
+    }
+
+    public void setClock(OrgRange time) {
+        clock = time;
+    }
+
+    /**
+     * Priority.
+     */
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * State.
+     */
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    /**
+     * Properties.
+     */
+    public List<OrgProperty> getProperties() {
+        if (properties == null) {
+            return new ArrayList<>();
+        } else {
+            return properties;
+        }
+    }
+
+    public boolean hasProperties() {
+        return properties != null && !properties.isEmpty();
+    }
+
+    public void addProperty(OrgProperty property) {
+        if (properties == null) {
+            properties = new ArrayList<>();
+        }
+
+        properties.add(property);
+    }
+
+    public void setProperties(List<OrgProperty> properties) {
+        this.properties = properties;
+    }
+
+    public void removeProperties() {
+        properties = null;
+    }
+
+    /*
+     * Logbook.
+     */
+
+    public void initLogbook() {
+        if (logbook == null) {
+            logbook = new ArrayList<>();
+        }
+    }
+
+    public List<String> getLogbook() {
+        if (logbook == null) {
+            throw new IllegalArgumentException("Logbook does not exist");
+        }
+
+        return logbook;
+    }
+
+    public boolean hasLogbook() {
+        return logbook != null;
+    }
+
+    public void addLog(String log) {
+        initLogbook();
+
+        logbook.add(log);
+    }
+
+    public String toString() {
+        return title;
+    }
+}
