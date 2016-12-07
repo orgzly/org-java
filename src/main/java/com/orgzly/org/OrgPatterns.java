@@ -3,7 +3,7 @@ package com.orgzly.org;
 import java.util.regex.Pattern;
 
 /**
- * <2015-03-13 Fri 13:15 ++1y --2d>---[2015-03-13 金 13:20-16:00 .+1d/2d --1w]
+ * {@literal <2015-03-13 Fri 13:15 ++1y --2d>---[2015-03-13 金 13:20-16:00 .+1d/2d --1w]}
  */
 public class OrgPatterns {
     // org-ts-regexp-both

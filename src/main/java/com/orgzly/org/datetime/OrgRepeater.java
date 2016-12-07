@@ -96,7 +96,9 @@ public class OrgRepeater extends OrgInterval {
 
     /**
      * Shifts calendar by this repeater interval.
-     * @param now used by tests
+     *
+     * @param cal Time to shift
+     * @param now Current time
      */
     public void shiftCalendar(Calendar cal, Calendar now) {
         switch (type) {

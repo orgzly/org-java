@@ -9,10 +9,7 @@ import java.util.regex.Matcher;
 /**
  * Org mode range.
  *
- * {@link #endTime} can be {@code null}.
- *
- * For example <2004-08-23 Mon> or <2004-08-23 Mon>--<2004-08-26 Thu>.
- *
+ * For example {@literal <2004-08-23 Mon>} or {@literal <2004-08-23 Mon>--<2004-08-26 Thu>}.
  */
 public class OrgRange {
     private OrgDateTime startTime;
@@ -87,6 +84,9 @@ public class OrgRange {
         return startTime;
     }
 
+    /**
+     * @return last time of the range, can be {@code null}
+     */
     public OrgDateTime getEndTime() {
         return endTime;
     }
@@ -127,6 +127,9 @@ public class OrgRange {
 
     /**
      * Shifts both timestamps by their repeater intervals.
+     *
+     * @param now current time
+     * @return {@code true} if shift was performed
      */
     public boolean shift(Calendar now) {
         boolean shifted = false;

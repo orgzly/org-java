@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * Org mode timestamp.
  *
- * For example <2014-05-26> or [2014-05-26 Mon 09:15].
+ * For example {@literal <2014-05-26>} or {@literal [2014-05-26 Mon 09:15]}.
  *
  * http://orgmode.org/manual/Timestamps.html
  * http://orgmode.org/manual/Repeated-tasks.html
@@ -44,9 +44,11 @@ public class OrgDateTime {
     }
 
     /**
-     * Gets instance based on current time.
+     * Creates instance representing current time.
      *
-     * @param isActive Active or inactive
+     * @param isActive {@code true} to create active {@link OrgDateTime}, {@code false} for inactive
+     *
+     * @return current time
      */
     public static OrgDateTime getInstance(boolean isActive) {
         OrgDateTime time = new OrgDateTime();
@@ -63,11 +65,11 @@ public class OrgDateTime {
     }
 
     /**
-     * Get instance parsing the provided string
+     * Creates instance from the given string
      *
-     * @param str Org timestamp such as <2014-05-26> or [2014-05-26 Mon 09:15]
+     * @param str Org timestamp such as {@code <2014-05-26> or [2014-05-26 Mon 09:15]}
      *
-     * @return Instance if the provided string is not empty
+     * @return instance if the provided string is not empty
      */
     public static OrgDateTime getInstance(String str) {
         if (str == null) {

@@ -27,6 +27,8 @@ public abstract class OrgParser {
         /**
          * Copy settings as some of the parsers will use other parsers and
          * changing settings by setting the listener.
+         *
+         * @param settings Parser settings
          */
         public Builder(OrgParserSettings settings) {
             this.settings = new OrgParserSettings(settings);

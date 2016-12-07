@@ -45,6 +45,8 @@ public class OrgHead {
 
     /**
      * Title.
+     *
+     * @return title
      */
     public String getTitle() {
         if (title == null) {
@@ -60,6 +62,8 @@ public class OrgHead {
 
     /**
      * Tags.
+     *
+     * @return list of tags
      */
     public List<String> getTags() {
         if (tags == null) {
@@ -89,21 +93,26 @@ public class OrgHead {
     }
 
     /**
-     * Content (body).
+     * Content (body). Text after the heading.
+     *
+     * @return content
      */
     public String getContent() {
         return content.toString();
     }
 
+    /**
+     * @return {@code true} if there is a text below heading, {@code false} otherwise
+     */
     public boolean hasContent() {
         return content.length() > 0;
     }
 
-    public void setContent(String s) {
-        if (s != null) {
-            content = new StringBuilder(s);
+    public void setContent(String content) {
+        if (content != null) {
+            this.content = new StringBuilder(content);
         } else {
-            content = new StringBuilder("");
+            this.content = new StringBuilder("");
         }
     }
 
@@ -113,6 +122,8 @@ public class OrgHead {
 
     /**
      * Scheduled time.
+     *
+     * @return scheduled time or {@code null} if not set
      */
     public OrgRange getScheduled() {
         if (hasScheduled()) {
@@ -131,6 +142,8 @@ public class OrgHead {
 
     /**
      * Closed time.
+     *
+     * @return closed time or {@code null} if not set
      */
     public OrgRange getClosed() {
         if (hasClosed()) {
@@ -149,6 +162,8 @@ public class OrgHead {
 
     /**
      * Deadline time.
+     *
+     * @return deadline time or {@code null} if not set
      */
     public OrgRange getDeadline() {
         if (hasDeadline()) {
@@ -167,6 +182,8 @@ public class OrgHead {
 
     /**
      * CLOCK time.
+     *
+     * @return clock time or {@code null} if not set
      */
     public OrgRange getClock() {
         if (hasClock()) {
@@ -185,6 +202,8 @@ public class OrgHead {
 
     /**
      * Priority.
+     *
+     * @return priority
      */
     public String getPriority() {
         return priority;
@@ -196,6 +215,8 @@ public class OrgHead {
 
     /**
      * State.
+     *
+     * @return state
      */
     public String getState() {
         return state;
@@ -207,6 +228,8 @@ public class OrgHead {
 
     /**
      * Properties.
+     *
+     * @return list of properties
      */
     public List<OrgProperty> getProperties() {
         if (properties == null) {

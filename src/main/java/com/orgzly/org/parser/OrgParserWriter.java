@@ -30,6 +30,9 @@ public class OrgParserWriter {
     /**
      * Make sure content ends with at least 2 new-line characters, unless it's empty.
      * Required so notes can be just appended to it.
+     *
+     * @param content Preface
+     * @return preface ready for appending
      */
     public String whiteSpacedFilePreface(String content) {
         if (content == null || content.length() == 0) {
@@ -46,6 +49,11 @@ public class OrgParserWriter {
     /**
      * Prepare heading for appending.
      * No white space is appended or prepended.
+     *
+     * @param head heading
+     * @param level level (depth)
+     * @param isIndented indented or not
+     * @return heading ready for appending
      */
     public String whiteSpacedHead(OrgHead head, int level, boolean isIndented) {
         StringBuilder s = new StringBuilder();
