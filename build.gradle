@@ -2,107 +2,83 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-def pomConfig = {
-  name 'org-java'
-  description 'Org files parser and generator'
-  url 'https://github.com/orgzly/org-java'
-
-  issueManagement {
-    system 'GitHub'
-    url 'https://github.com/orgzly/org-java/issues'
-  }
-
-  scm {
-    url "http://github.com/orgzly/org-java"
-    connection "scm:git:http://github.com/orgzly/org-java.git"
-    developerConnection "scm:git:git@github.com:orgzly/org-java.git"
-  }
-
-  properties {
-    'project.build.sourceEncoding' 'UTF-8'
-  }
-
-  licenses {
-    license {
-      name 'GNU General Public License, Version 3'
-      url 'http://www.gnu.org/licenses/gpl-3.0.html'
-      distribution 'repo'
-    }
-  }
-}
-
-// http://gradle-staging.discourse.org/t/some-elements-are-removed-when-generate-a-pom-xml-using-the-maven-publish-plugin/5344/6
-pomConfig.resolveStrategy = Closure.DELEGATE_ONLY
-
-
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 allprojects {
-  sourceCompatibility = JavaVersion.VERSION_1_7
-  targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 }
 
 dependencies {
-  testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 }
 
 group = "com.orgzly"
+
 version = "1.0-SNAPSHOT"
 
 task javadocJar(type: Jar) {
-  classifier = 'javadoc'
-  from javadoc
+    classifier = 'javadoc'
+    from javadoc
 }
 
 task sourcesJar(type: Jar) {
-  classifier = 'sources'
-  from sourceSets.main.allSource
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 artifacts {
-  archives javadocJar, sourcesJar
+    archives javadocJar, sourcesJar
 }
 
 
 signing {
-  sign configurations.archives
+    sign configurations.archives
 }
 
 uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
 
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
 
-      pom.project {
-        name 'org-java'
-        packaging 'jar'
-        artifactId 'org-java'
-        description 'Org files parser and generator'
-        url 'https://github.com/orgzly/org-java'
+            pom.project {
+                name 'org-java'
+                packaging 'jar'
+                artifactId 'org-java'
+                description 'Org files parser and generator'
+                url 'https://github.com/orgzly/org-java'
 
-        scm {
-          url "http://github.com/orgzly/org-java"
-          connection "scm:git:http://github.com/orgzly/org-java.git"
-          developerConnection "scm:git:git@github.com:orgzly/org-java.git"
+                scm {
+                    url "http://github.com/orgzly/org-java"
+                    connection "scm:git:http://github.com/orgzly/org-java.git"
+                    developerConnection "scm:git:git@github.com:orgzly/org-java.git"
+                }
+
+                licenses {
+                    license {
+                        name 'GNU General Public License, Version 3'
+                        url 'http://www.gnu.org/licenses/gpl-3.0.html'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'neven'
+                        name 'Neven'
+                        email 'neven@orgzly.com'
+                    }
+                }
+            }
         }
-
-        licenses {
-          license {
-            name 'GNU General Public License, Version 3'
-            url 'http://www.gnu.org/licenses/gpl-3.0.html'
-          }
-        }
-      }
     }
-  }
 }
