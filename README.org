@@ -1,1 +1,25 @@
 [[http://orgmode.org/][Org files]] parser used by [[http://www.orgzly.com][Orgzly]].
+
+* Installation
+
+** Maven
+
+#+BEGIN_SRC xml
+<dependency>
+  <groupId>com.orgzly</groupId>
+  <artifactId>org-java</artifactId>
+  <version>1.0</version>
+</dependency>
+#+END_SRC
+
+** Gradle
+
+#+BEGIN_SRC groovy
+  compile 'com.orgzly:org-java:1.0'
+#+END_SRC
+
+** SBT
+
+#+BEGIN_SRC scala
+  libraryDependencies += "com.orgzly" % "org-java" % "1.0"
+#+END_SRC
