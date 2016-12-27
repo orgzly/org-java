@@ -1,6 +1,6 @@
 package com.orgzly.org;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class OrgStringUtils {
     public static String trimLines(String str) {
@@ -11,11 +11,11 @@ public class OrgStringUtils {
         return s == null || s.length() == 0;
     }
 
-    public static String join(Set<String> set, String d) {
+    public static String join(Collection set, String d) {
         StringBuilder result = new StringBuilder();
 
         int i = 0;
-        for (String str: set) {
+        for (Object str: set) {
             result.append(str);
 
             if (i++ < set.size() - 1) { /* Not last. */
