@@ -73,11 +73,11 @@ public class OrgDateTime {
      */
     public static OrgDateTime getInstance(String str) {
         if (str == null) {
-            throw new IllegalArgumentException("null string cannot be parsed as OrgDateTime");
+            throw new IllegalArgumentException("OrgDateTime cannot be created from null string");
         }
 
         if (str.length() == 0) {
-            throw new IllegalArgumentException("empty string cannot be parsed as OrgDateTime");
+            throw new IllegalArgumentException("OrgDateTime cannot be created from null string");
         }
 
         OrgDateTime time = new OrgDateTime();

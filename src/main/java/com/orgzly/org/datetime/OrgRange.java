@@ -21,7 +21,7 @@ public class OrgRange {
 
     public static OrgRange getInstance(OrgDateTime fromTime, OrgDateTime endTime) {
         if (fromTime == null) {
-            throw new IllegalArgumentException("null from OrgDateTime cannot be used for OrgRange");
+            throw new IllegalArgumentException("OrgRange cannot be created from null OrgDateTime");
         }
 
         OrgRange t = new OrgRange();
@@ -43,11 +43,11 @@ public class OrgRange {
 
     public static OrgRange getInstance(String str) {
         if (str == null) {
-            throw new IllegalArgumentException("null string cannot be parsed as OrgRange");
+            throw new IllegalArgumentException("OrgRange cannot be created from null string");
         }
 
         if (str.length() == 0) {
-            throw new IllegalArgumentException("empty string cannot be parsed as OrgRange");
+            throw new IllegalArgumentException("OrgRange cannot be created from null string");
         }
 
         OrgRange t = new OrgRange();
@@ -72,7 +72,7 @@ public class OrgRange {
 
         } else {
             throw new IllegalArgumentException(
-                    "string " + str +
+                    "String " + str +
                     " cannot be parsed as OrgRange using pattern " + OrgPatterns.DT_OR_RANGE_P);
         }
     }
