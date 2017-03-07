@@ -58,7 +58,10 @@ public class OrgNestedSetParser extends OrgParser {
             public void onHead(OrgNodeInList thisNode) throws IOException {
                 if (prevLevel < thisNode.getLevel()) {
                     /*
-                     * This is a descendant of previous thisNode.
+                     * This is a descendant of previous node.
+                     *
+                     *      *-----
+                     *        *---  <--
                      */
 
                     /* Put the current thisNode on the stack. */
@@ -67,8 +70,11 @@ public class OrgNestedSetParser extends OrgParser {
 
                 } else if (prevLevel == thisNode.getLevel()) {
                     /*
-                     * This is a sibling, which means that the last thisNode visited can be completed.
+                     * This is a sibling, which means that the last node visited can be completed.
                      * Take it off the stack, update its rgt value and announce it.
+                     *
+                     *      *-----  onNode()
+                     *      *-----  <--
                      */
 
                     OrgNodeInSet nodeFromStack = stack.pop();
@@ -85,6 +91,10 @@ public class OrgNestedSetParser extends OrgParser {
                     /*
                      * Note has lower level then the previous one - we're out of the set.
                      * Start popping the stack, up to and including the thisNode with the same level.
+                     *
+                     *      *-----  onNode()
+                     *        *---  onNode()
+                     *      *-----  <--
                      */
 
                     while (!stack.empty()) {

@@ -6,6 +6,7 @@ import com.orgzly.org.OrgStringUtils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,8 +20,11 @@ import java.util.regex.Pattern;
  *
  */
 public class OrgDateTime {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd EEE");
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+    private static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat("yyyy-MM-dd EEE", Locale.ENGLISH);
+
+    private static final SimpleDateFormat TIME_FORMAT =
+            new SimpleDateFormat("HH:mm", Locale.ENGLISH);
 
     private boolean isActive;
 
