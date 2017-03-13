@@ -12,7 +12,7 @@ public class OrgRangeTest {
             OrgRange.getInstance((String) null);
             Assert.fail("Parsing null String must throw exception");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue(e.getMessage().startsWith("null"));
+            Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null string"));
         }
     }
 
@@ -22,7 +22,7 @@ public class OrgRangeTest {
             OrgRange.getInstance((OrgDateTime) null);
             Assert.fail("Parsing null OrgDateTime must throw exception");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue(e.getMessage().startsWith("null"));
+            Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null OrgDateTime"));
         }
     }
 
@@ -32,7 +32,7 @@ public class OrgRangeTest {
             OrgRange.getInstance("");
             Assert.fail("Parsing empty string must throw exception");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue(e.getMessage().startsWith("empty string"));
+            Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null string"));
         }
     }
 
