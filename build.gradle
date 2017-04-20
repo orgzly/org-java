@@ -12,6 +12,8 @@ allprojects {
 }
 
 dependencies {
+    compile 'joda-time:joda-time:2.9.9'
+
     testCompile 'junit:junit:4.12'
 }
 
