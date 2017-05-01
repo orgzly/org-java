@@ -16,6 +16,7 @@ public class OrgParserSettings {
     Set<String> doneKeywords;
 
     public SeparateNotesWithNewLine separateNotesWithNewLine;
+    public boolean separateHeaderAndContentWithNewLine;
 
     OrgParserSettings() {
         propertyFormat = "%-10s %s";
@@ -24,6 +25,7 @@ public class OrgParserSettings {
         doneKeywords = new HashSet<>();
 
         separateNotesWithNewLine = SeparateNotesWithNewLine.MULTI_LINE_NOTES_ONLY;
+        separateHeaderAndContentWithNewLine = true;
     }
 
     /**
