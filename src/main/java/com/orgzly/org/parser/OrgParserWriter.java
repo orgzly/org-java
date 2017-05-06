@@ -187,7 +187,9 @@ public class OrgParserWriter {
              */
             String content = head.getContent().trim();
             if (!content.startsWith(":LOGBOOK:") && !content.startsWith("CLOCK: ") && !isLogNoteHeading(content)) {
-                s.append("\n");
+                if (settings.separateHeaderAndContentWithNewLine) {
+                    s.append("\n");
+                }
             }
 
             s.append(head.getContent());

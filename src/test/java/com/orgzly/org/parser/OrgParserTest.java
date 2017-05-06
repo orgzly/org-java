@@ -3,12 +3,11 @@ package com.orgzly.org.parser;
 
 import com.orgzly.org.OrgFileSettings;
 import com.orgzly.org.OrgHead;
+import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgTestParser;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import java.io.IOException;
 
@@ -382,6 +381,49 @@ public class OrgParserTest extends OrgTestParser {
 
         String out = parserWriter.whiteSpacedFilePreface("") + parserWriter.whiteSpacedHead(nodeInList1, false) + parserWriter.whiteSpacedHead(nodeInList2, false);
         Assert.assertEquals("* Title 1\n\n\n\nContent\n\n* Title 2\n", out);
+    }
+
+    @Test
+    public void testNotSeparateHeaderContent() throws Exception {
+        OrgParserSettings settings = new OrgParserSettings();
+        settings.separateHeaderAndContentWithNewLine = false;
+        parserWriter = new OrgParserWriter(settings);
+
+        OrgHead head1 = new OrgHead("Title 1");
+        head1.setContent("Content");
+        OrgNodeInList nodeInList1 = new OrgNodeInList(1, 1, head1);
+
+        String out = parserWriter.whiteSpacedFilePreface("") + parserWriter.whiteSpacedHead(nodeInList1, false);
+        Assert.assertEquals("* Title 1\nContent\n\n", out);
+    }
+
+    @Test
+    public void testNotSeparateHeaderContentWhitespace() throws Exception {
+        OrgParserSettings settings = new OrgParserSettings();
+        settings.separateHeaderAndContentWithNewLine = false;
+        parserWriter = new OrgParserWriter(settings);
+
+        OrgHead head1 = new OrgHead("Title 1");
+        head1.setContent("\n\nContent");
+        OrgNodeInList nodeInList1 = new OrgNodeInList(1, 1, head1);
+
+        String out = parserWriter.whiteSpacedFilePreface("") + parserWriter.whiteSpacedHead(nodeInList1, false);
+        Assert.assertEquals("* Title 1\n\n\nContent\n\n", out);
+    }
+
+    @Test
+    public void testNotSeparateHeaderContentWithHeader() throws Exception {
+        OrgParserSettings settings = new OrgParserSettings();
+        settings.separateHeaderAndContentWithNewLine = false;
+        parserWriter = new OrgParserWriter(settings);
+
+        OrgHead head1 = new OrgHead("Title 1");
+        head1.setContent("Content");
+        head1.addProperty(new OrgProperty("A", "B"));
+        OrgNodeInList nodeInList1 = new OrgNodeInList(1, 1, head1);
+
+        String out = parserWriter.whiteSpacedFilePreface("") + parserWriter.whiteSpacedHead(nodeInList1, false);
+        Assert.assertEquals("* Title 1\n:PROPERTIES:\n:A:        B\n:END:\nContent\n\n", out);
     }
 
     /*
