@@ -5,6 +5,7 @@ import org.joda.time.DurationFieldType;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
+import org.joda.time.ReadableInstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public class OrgDateTimeUtils {
     private static final int MAX_INSTANTS_IN_INTERVAL = 100;
 
     /**
+     * @param orgDateTime {@link OrgDateTime}
      * @param fromTime Inclusive
      * @param beforeTime Exclusive. Can be null in which case limit has to be specified
      * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
@@ -20,8 +22,8 @@ public class OrgDateTimeUtils {
      */
     public static List<DateTime> getAllInstantsInInterval(
             OrgDateTime orgDateTime,
-            DateTime fromTime,
-            DateTime beforeTime,
+            ReadableInstant fromTime,
+            ReadableInstant beforeTime,
             int limit) {
 
         DateTime time = new DateTime(orgDateTime.getCalendar());
