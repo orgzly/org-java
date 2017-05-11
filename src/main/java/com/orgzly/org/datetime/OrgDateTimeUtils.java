@@ -14,13 +14,16 @@ public class OrgDateTimeUtils {
     private static final int MAX_INSTANTS_IN_INTERVAL = 100;
 
     /**
+     * Returns list of {@link DateTime} that belong to specified {@link OrgDateTime}
+     * and are within specified time interval.
+     *
      * @param orgDateTime {@link OrgDateTime}
      * @param fromTime Inclusive
      * @param beforeTime Exclusive. Can be null in which case limit has to be specified
      * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
      * @return List of times within specified interval
      */
-    public static List<DateTime> getAllInstantsInInterval(
+    public static List<DateTime> getTimesInInterval(
             OrgDateTime orgDateTime,
             ReadableInstant fromTime,
             ReadableInstant beforeTime,
@@ -30,6 +33,7 @@ public class OrgDateTimeUtils {
 
         List<DateTime> result = new ArrayList<>();
 
+        /* If time has no repeater, just check if it's within interval and return it. */
         if (! orgDateTime.hasRepeater()) {
             if (!time.isBefore(fromTime) && (beforeTime == null || time.isBefore(beforeTime))) {
                 result.add(time);
@@ -46,31 +50,28 @@ public class OrgDateTimeUtils {
 
             OrgRepeater repeater = orgDateTime.getRepeater();
 
-            /* Interval between org time and from time. */
-            Interval gap = new Interval(time, fromTime);
+            DateTime curr = time;
 
-            /* How many units in gap. */
-            Period intervalPeriod = gap.toPeriod(OrgDateTimeUtils.getPeriodType(repeater.getUnit()));
-            int units = intervalPeriod.getValue(0);
+            if (time.isBefore(fromTime)) {
+                /* How many periods between time and start of interval. */
+                Interval gap = new Interval(time, fromTime);
+                Period intervalPeriod = gap.toPeriod(OrgDateTimeUtils.getPeriodType(repeater.getUnit()));
+                int units = intervalPeriod.getValue(0);
 
-            /* How many units to add to get to just before fromTime.
-             * This is multiples of repeater's value.
-             */
-            int repeatTimes = units / repeater.getValue();
-            int addUnits = repeater.getValue() * repeatTimes;
+                /* How many units to add to get just after the start of interval.
+                 * This is multiples of repeater's value.
+                 */
+                int repeatTimes = units / repeater.getValue();
+                int addUnits = repeater.getValue() * (repeatTimes + 1);
 
-            /* Time just before the interval we are interested in. */
-            DateTime justBefore = time.withFieldAdded(OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()), addUnits);
-
-            /* Shift once. */
-            DateTime curr = justBefore.withFieldAdded(
-                    OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()),
-                    repeater.getValue()
-            );
+                /* Time just after the interval we are interested in. */
+                curr = time.withFieldAdded(OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()), addUnits);
+            }
 
             while (beforeTime == null || curr.isBefore(beforeTime)) {
                 result.add(curr);
 
+                /* Check if limit has been reached. */
                 if (limit > 0 && result.size() >= limit) {
                     break;
                 }
