@@ -80,13 +80,29 @@ public class OrgParserWriter {
 
         /* Tags. */
         if (head.hasTags()) {
+            StringBuilder ts = new StringBuilder();
+
+            /* Always add at least one space after the heading. */
             s.append(" ");
 
+            /* String the tags together, separated by colons. */
             for (int i = 0; i < head.getTags().size(); i++) {
-                s.append(":").append(head.getTags().get(i));
+                ts.append(":").append(head.getTags().get(i));
             }
 
-            s.append(":");
+            ts.append(":");
+
+            /* Figure out how many spaces we need to align the tags properly. */
+            int padding = Math.abs(settings.tagsColumn) - s.length();
+            if (settings.tagsColumn < 0) {
+                padding -= ts.length();
+            }
+
+            for (; padding > 0; padding--) {
+                s.append(" ");
+            }
+
+            s.append(ts.toString());
         }
 
         /* Anything that should go right under header, with no new-line in between. */

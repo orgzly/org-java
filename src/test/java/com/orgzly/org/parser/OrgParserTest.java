@@ -45,7 +45,7 @@ public class OrgParserTest extends OrgTestParser {
     @Test
     public void testTodoWithTagScheduledAndContent() throws IOException {
         Assert.assertEquals(
-                "** TODO Multiple SCHEDULED for a note :multiple:\n" +
+                "** TODO Multiple SCHEDULED for a note                              :multiple:\n" +
                 "SCHEDULED: <2013-01-01>\n" +
                 "\n" +
                 "Content.\n\n",
@@ -58,7 +58,7 @@ public class OrgParserTest extends OrgTestParser {
     @Test
     public void testTodoWithHourlyScheduled1() throws IOException {
         Assert.assertEquals(
-                "** TODO Multiple SCHEDULED for a note :multiple:\n" +
+                "** TODO Multiple SCHEDULED for a note                              :multiple:\n" +
                 "SCHEDULED: <2013-01-01 01:00>\n" +
                 "\n" +
                 "Content.\n" +
@@ -72,7 +72,7 @@ public class OrgParserTest extends OrgTestParser {
     @Test
     public void testTodoWithHourlyScheduled2() throws IOException {
         Assert.assertEquals(
-                "** TODO Multiple SCHEDULED for a note :multiple:\n" +
+                "** TODO Multiple SCHEDULED for a note                              :multiple:\n" +
                 "SCHEDULED: <2013-01-01 00:00>\n" +
                 "\n" +
                 "Content.\n" +
@@ -85,19 +85,19 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testTodoWithSingleTag() throws IOException {
-        Assert.assertEquals("** TODO Simple todo note :simple:\n",
+        Assert.assertEquals("** TODO Simple todo note                                             :simple:\n",
                 parsed("** TODO Simple todo note :simple:"));
     }
 
     @Test
     public void testTodoWithSingleSpacedOutTag() throws IOException {
-        Assert.assertEquals("** TODO Simple todo note :simple:\n",
+        Assert.assertEquals("** TODO Simple todo note                                             :simple:\n",
                 parsed("** TODO Simple todo note           :simple:"));
     }
 
     @Test
     public void testTagsCharacters1() throws IOException {
-        OrgHead head = parserBuilder.setInput("* Note :سلامی:").build().parse().getHeadsInList().get(0).getHead();
+        OrgHead head = parserBuilder.setInput("* Note                                                               :سلامی:").build().parse().getHeadsInList().get(0).getHead();
 
         Assert.assertEquals(1, head.getTags().size());
         Assert.assertEquals("سلامی", head.getTags().get(0));
@@ -105,7 +105,7 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testTagsCharacters2() throws IOException {
-        OrgHead head = parserBuilder.setInput("* Note :Αλφα:").build().parse().getHeadsInList().get(0).getHead();
+        OrgHead head = parserBuilder.setInput("* Note                                                                :Αλφα:").build().parse().getHeadsInList().get(0).getHead();
 
         Assert.assertEquals(1, head.getTags().size());
         Assert.assertEquals("Αλφα", head.getTags().get(0));
@@ -113,7 +113,7 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testTagsCharacters3() throws IOException {
-        OrgHead head = parserBuilder.setInput("* Note :Σ:").build().parse().getHeadsInList().get(0).getHead();
+        OrgHead head = parserBuilder.setInput("* Note                                                                   :Σ:").build().parse().getHeadsInList().get(0).getHead();
 
         Assert.assertEquals(1, head.getTags().size());
         Assert.assertEquals("Σ", head.getTags().get(0));
@@ -121,7 +121,7 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testTagsCharacters4() throws IOException {
-        OrgHead head = parserBuilder.setInput("* Note :русский:").build().parse().getHeadsInList().get(0).getHead();
+        OrgHead head = parserBuilder.setInput("* Note                                                             :русский:").build().parse().getHeadsInList().get(0).getHead();
 
         Assert.assertEquals(1, head.getTags().size());
         Assert.assertEquals("русский", head.getTags().get(0));
@@ -129,7 +129,7 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testTagsCharacters5() throws IOException {
-        OrgHead head = parserBuilder.setInput("* Note :漢語:").build().parse().getHeadsInList().get(0).getHead();
+        OrgHead head = parserBuilder.setInput("* Note                                                                 :漢語:").build().parse().getHeadsInList().get(0).getHead();
 
         Assert.assertEquals(1, head.getTags().size());
         Assert.assertEquals("漢語", head.getTags().get(0));
@@ -137,7 +137,7 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testTagsCharactersA() throws IOException {
-        OrgHead head = parserBuilder.setInput("* Note :0aZ_#@%:").build().parse().getHeadsInList().get(0).getHead();
+        OrgHead head = parserBuilder.setInput("* Note                                                             :0aZ_#@%:").build().parse().getHeadsInList().get(0).getHead();
 
         Assert.assertEquals(1, head.getTags().size());
         Assert.assertEquals("0aZ_#@%", head.getTags().get(0));
@@ -145,14 +145,14 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testTagsCharactersB() throws IOException {
-        OrgHead head = parserBuilder.setInput("* Note :ру́сский:Αλφα:Σ:سلامی:漢語:").build().parse().getHeadsInList().get(0).getHead();
+        OrgHead head = parserBuilder.setInput("* Note                                           :ру́сский:Αλφα:Σ:سلامی:漢語:").build().parse().getHeadsInList().get(0).getHead();
 
         Assert.assertEquals(5, head.getTags().size());
     }
 
     @Test
     public void testScheduledAndClosed() throws IOException {
-        Assert.assertEquals("** TODO Multiple SCHEDULED for a note :multiple:\n" +
+        Assert.assertEquals("** TODO Multiple SCHEDULED for a note                              :multiple:\n" +
                             "CLOSED: [2012-12-29 Sat 08:05] DEADLINE: <2012-12-28 Fri> SCHEDULED: <2012-12-27 Thu>\n\n",
                 parsed("** TODO Multiple SCHEDULED for a note :multiple:\n" +
                        "CLOSED: [2012-12-29 Sat 08:05] DEADLINE: <2012-12-28 Fri> SCHEDULED: <2012-12-27 Thu>"));
@@ -161,7 +161,7 @@ public class OrgParserTest extends OrgTestParser {
     @Test
     public void testTodoWithWeekKay() throws IOException {
         Assert.assertEquals(
-                "** TODO Multiple SCHEDULED for a note :multiple:\n"
+                "** TODO Multiple SCHEDULED for a note                              :multiple:\n"
                 + "SCHEDULED: <2013-01-01 Tue>\n" +
                 "\n" +
                 "Content.\n" +
@@ -175,7 +175,7 @@ public class OrgParserTest extends OrgTestParser {
     @Test
     public void testTodoWithoutWeekKay() throws IOException {
         Assert.assertEquals(
-                "** TODO Multiple SCHEDULED for a note :multiple:\n"
+                "** TODO Multiple SCHEDULED for a note                              :multiple:\n"
                 + "SCHEDULED: <2013-01-01>\n" +
                 "\n" +
                 "Content.\n" +
@@ -541,7 +541,7 @@ public class OrgParserTest extends OrgTestParser {
 
     @Test
     public void testRich1() throws IOException {
-        String str = "* TODO Rich markup :tag:\n" +
+        String str = "* TODO Rich markup                                                      :tag:\n" +
                      "  DEADLINE: <2015-02-08 Sun> SCHEDULED: <2015-02-11 Wed +1d>\n" +
                      "  :LOGBOOK:  \n" +
                      "  - Note taken on [2015-02-07 Sat 20:58] \\\\\n" +

@@ -17,6 +17,9 @@ public class OrgParserSettings {
 
     public SeparateNotesWithNewLine separateNotesWithNewLine;
     public boolean separateHeaderAndContentWithNewLine;
+    /* The column to align tags to. A positive int left-aligns to the given
+     * column; a negative int right-aligns. */
+    public int tagsColumn;
 
     OrgParserSettings() {
         propertyFormat = "%-10s %s";
@@ -26,6 +29,7 @@ public class OrgParserSettings {
 
         separateNotesWithNewLine = SeparateNotesWithNewLine.MULTI_LINE_NOTES_ONLY;
         separateHeaderAndContentWithNewLine = true;
+        tagsColumn = -77;
     }
 
     /**
@@ -40,6 +44,7 @@ public class OrgParserSettings {
         this.doneKeywords.addAll(that.doneKeywords);
 
         this.separateNotesWithNewLine = that.separateNotesWithNewLine;
+        this.tagsColumn = that.tagsColumn;
     }
 
     public static OrgParserSettings getBasic() {
