@@ -20,6 +20,9 @@ public class OrgParserSettings {
     /* The column to align tags to. A positive int left-aligns to the given
      * column; a negative int right-aligns. */
     public int tagsColumn;
+    /* Support how `org-indent-mode' shifts tags to the left to offset its
+     * virtual indentation. */
+    public int realPlusVirtualIndentationPerLevel;
 
     OrgParserSettings() {
         propertyFormat = "%-10s %s";
@@ -30,6 +33,8 @@ public class OrgParserSettings {
         separateNotesWithNewLine = SeparateNotesWithNewLine.MULTI_LINE_NOTES_ONLY;
         separateHeaderAndContentWithNewLine = true;
         tagsColumn = 0;
+        /* Only real indentation by default. */
+        realPlusVirtualIndentationPerLevel = 1;
     }
 
     /**
@@ -45,6 +50,7 @@ public class OrgParserSettings {
 
         this.separateNotesWithNewLine = that.separateNotesWithNewLine;
         this.tagsColumn = that.tagsColumn;
+        this.realPlusVirtualIndentationPerLevel = that.realPlusVirtualIndentationPerLevel;
     }
 
     public static OrgParserSettings getBasic() {

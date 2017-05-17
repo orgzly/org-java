@@ -94,6 +94,17 @@ public class OrgParserWriter {
 
             /* Figure out how many spaces we need to align the tags properly. */
             int padding = Math.abs(settings.tagsColumn) - s.length();
+
+            /* Shift the tags left for users of org-indent-mode.
+
+               The first level of indentation has already been added (the
+               heading asterisks), the indentation we add per level is 1 LESS
+               than settings.realPlusVirtualIndentationPerLevel.
+             */
+            if (settings.realPlusVirtualIndentationPerLevel > 0) {
+                padding -= (settings.realPlusVirtualIndentationPerLevel - 1) * level;
+            }
+
             if (settings.tagsColumn < 0) {
                 padding -= ts.length();
             }
