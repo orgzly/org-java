@@ -102,7 +102,7 @@ public class OrgParserWriter {
              * than settings.orgIndentIndentationPerLevel.
              */
             if (settings.orgIndentMode && settings.orgIndentIndentationPerLevel > 0) {
-                padding -= (settings.orgIndentIndentationPerLevel - 1) * level;
+                padding -= (settings.orgIndentIndentationPerLevel - 1) * (level - 1);
             }
 
             if (settings.tagsColumn < 0) {
