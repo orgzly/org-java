@@ -96,13 +96,13 @@ public class OrgParserWriter {
             int padding = Math.abs(settings.tagsColumn) - s.length();
 
             /* Shift the tags left for users of org-indent-mode.
-
-               The first level of indentation has already been added (the
-               heading asterisks), the indentation we add per level is 1 LESS
-               than settings.realPlusVirtualIndentationPerLevel.
+             *
+             * The first level of indentation has already been added (the
+             * heading asterisks), the indentation we add per level is 1 LESS
+             * than settings.orgIndentIndentationPerLevel.
              */
-            if (settings.realPlusVirtualIndentationPerLevel > 0) {
-                padding -= (settings.realPlusVirtualIndentationPerLevel - 1) * level;
+            if (settings.orgIndentMode && settings.orgIndentIndentationPerLevel > 0) {
+                padding -= (settings.orgIndentIndentationPerLevel - 1) * level;
             }
 
             if (settings.tagsColumn < 0) {
