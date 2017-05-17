@@ -118,13 +118,13 @@ public class OrgDomyParserTest {
             "*** TODO Two timestamps (range?)\n" +
             "    SCHEDULED: <2014-10-22 сре>--<2014-10-23 чет>\n" +
             "\n" +
-            "* This is the first line with tag at the end of the line               :tag1:\n" +
-            "** [#A] Second heading with priority                                   :tag2:\n" +
-            "*** TODO [#B] Third heading with spaced priority                       :tag3:\n" +
-            "**** DONE Heading number 4                                         :tag:todo:\n" +
+            "* This is the first line with tag at the end of the line :tag1:\n" +
+            "** [#A] Second heading with priority :tag2:\n" +
+            "*** TODO [#B] Third heading with spaced priority :tag3:\n" +
+            "**** DONE Heading number 4 :tag:todo:\n" +
             "     CLOSED: [2012-12-29 Sat 08:05] DEADLINE: <2012-12-28 Fri> SCHEDULED: <2012-12-27 Thu>\n" +
             "\n" +
-            "***** This is 5                                                         :tag:\n" +
+            "***** This is 5 :tag:\n" +
             "      SCHEDULED: <2013-01-04 Fri 01:00>\n" +
             "      :PROPERTIES:\n" +
             "      :created_at: <2013-06-22 Sat 12:35>\n" +
@@ -135,12 +135,12 @@ public class OrgDomyParserTest {
             "| asd | asd |\n" +
             "| 1   |   2 |\n" +
             "\n" +
-            "****** [#F] OMG, this is 6, not more                                    :tag:\n" +
-            "* Commonly used tags1                                    :tags:help:org:mode:\n" +
-            "* Commonly used tags2                                    :tags:help:org:mode:\n" +
+            "****** [#F] OMG, this is 6, not more :tag:\n" +
+            "* Commonly used tags1 :tags:help:org:mode:\n" +
+            "* Commonly used tags2 :tags:help:org:mode:\n" +
             "* Commonly used tags3:tags:help:org:mode:\n" +
             "* Scheduling\n" +
-            "** TODO Multiple SCHEDULED for a note                              :multiple:\n" +
+            "** TODO Multiple SCHEDULED for a note :multiple:\n" +
             "   SCHEDULED: <2013-01-01>\n" +
             "- State \"DONE\"       from \"TODO\"       [2013-06-22 Sat 14:53]\n" +
             "- State \"DONE\"       from \"TODO\"       [2013-06-22 Sat 14:53]\n" +

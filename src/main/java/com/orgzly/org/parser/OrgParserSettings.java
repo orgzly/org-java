@@ -29,7 +29,7 @@ public class OrgParserSettings {
 
         separateNotesWithNewLine = SeparateNotesWithNewLine.MULTI_LINE_NOTES_ONLY;
         separateHeaderAndContentWithNewLine = true;
-        tagsColumn = -77;
+        tagsColumn = 0;
     }
 
     /**
