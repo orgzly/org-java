@@ -47,4 +47,18 @@ public class OrgParsedFile { // TODO: Extend OrgFile instead?
 
         return str.toString();
     }
+
+    public String toString(OrgParserSettings settings) {
+        StringBuilder str = new StringBuilder();
+
+        OrgParserWriter parserWriter = new OrgParserWriter(settings);
+
+        str.append(parserWriter.whiteSpacedFilePreface(file.getPreface()));
+
+        for (OrgNodeInList nodeInList : headsInList) {
+            str.append(parserWriter.whiteSpacedHead(nodeInList, file.getSettings().isIndented()));
+        }
+
+        return str.toString();
+    }
 }

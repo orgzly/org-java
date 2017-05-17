@@ -627,7 +627,61 @@ public class OrgParserTest extends OrgTestParser {
         Assert.assertEquals(str, parsed(str));
     }
 
+    @Test
+    public void testOrgTagsColumnPositive () throws IOException {
+        String str = "* Note :tag:thisalsoisatag:\n" +
+            "**** Note 2 :tag2:\n\n";
+
+        String expectedStr =
+            "* Note              :tag:thisalsoisatag:\n" +
+            "**** Note 2         :tag2:\n";
+
+        OrgParserSettings settings = new OrgParserSettings();
+        settings.tagsColumn = 20;
+
+        String parsedStr = parsedWithSettings(str, settings);
+        Assert.assertEquals(expectedStr, parsedStr);
+    }
+
+    @Test
+    public void testOrgTagsColumnNegative () throws IOException {
+        String str = "* Note :tag:tag234:\n" +
+            "**** Note 2 :tag2:\n\n";
+
+        String expectedStr =
+            "* Note  :tag:tag234:\n" +
+            "**** Note 2   :tag2:\n";
+
+        OrgParserSettings settings = new OrgParserSettings();
+        settings.tagsColumn = -20;
+
+        String parsedStr = parsedWithSettings(str, settings);
+        Assert.assertEquals(expectedStr, parsedStr);
+    }
+
+    @Test
+    public void testOrgTagsColumnNegativeWithVirtual() throws IOException {
+        String str = "* Note :tag:t2:\n" +
+            "** Note 2 :tag2:\n\n";
+
+        String expectedStr =
+            "* Note      :tag:t2:\n" +
+            "** Note 2  :tag2:\n";
+
+        OrgParserSettings settings = new OrgParserSettings();
+        settings.tagsColumn = -20;
+        settings.orgIndentMode = true;
+        settings.orgIndentIndentationPerLevel = 4;
+
+        String parsedStr = parsedWithSettings(str, settings);
+        Assert.assertEquals(expectedStr, parsedStr);
+    }
+
     private String parsed(String original) throws IOException {
         return parserBuilder.setInput(original).build().parse().toString();
+    }
+
+    private String parsedWithSettings(String original, OrgParserSettings settings) throws IOException {
+        return parserBuilder.setInput(original).build().parse().toString(settings);
     }
 }
