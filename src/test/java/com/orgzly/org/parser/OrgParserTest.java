@@ -639,7 +639,7 @@ public class OrgParserTest extends OrgTestParser {
         OrgParserSettings settings = new OrgParserSettings();
         settings.tagsColumn = 20;
 
-        String parsedStr = parsedWithSettings(str, settings);
+        String parsedStr = parsed(str, settings);
         Assert.assertEquals(expectedStr, parsedStr);
     }
 
@@ -655,7 +655,7 @@ public class OrgParserTest extends OrgTestParser {
         OrgParserSettings settings = new OrgParserSettings();
         settings.tagsColumn = -20;
 
-        String parsedStr = parsedWithSettings(str, settings);
+        String parsedStr = parsed(str, settings);
         Assert.assertEquals(expectedStr, parsedStr);
     }
 
@@ -673,15 +673,15 @@ public class OrgParserTest extends OrgTestParser {
         settings.orgIndentMode = true;
         settings.orgIndentIndentationPerLevel = 4;
 
-        String parsedStr = parsedWithSettings(str, settings);
+        String parsedStr = parsed(str, settings);
         Assert.assertEquals(expectedStr, parsedStr);
     }
 
     private String parsed(String original) throws IOException {
-        return parserBuilder.setInput(original).build().parse().toString();
+        return parsed(original, OrgParserSettings.getBasic());
     }
 
-    private String parsedWithSettings(String original, OrgParserSettings settings) throws IOException {
+    private String parsed(String original, OrgParserSettings settings) throws IOException {
         return parserBuilder.setInput(original).build().parse().toString(settings);
     }
 }

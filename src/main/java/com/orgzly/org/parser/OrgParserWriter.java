@@ -5,7 +5,7 @@ import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgStringUtils;
 
 public class OrgParserWriter {
-    // org-log-note-headings
+    /** org-log-note-headings */
     private static final String[] ORG_LOG_NOTE_HEADINGS = new String[] {
             "CLOSING NOTE ",
             "State ",
