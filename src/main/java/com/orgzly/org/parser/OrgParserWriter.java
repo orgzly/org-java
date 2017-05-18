@@ -5,7 +5,7 @@ import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgStringUtils;
 
 public class OrgParserWriter {
-    // org-log-note-headings
+    /** org-log-note-headings */
     private static final String[] ORG_LOG_NOTE_HEADINGS = new String[] {
             "CLOSING NOTE ",
             "State ",
@@ -80,13 +80,40 @@ public class OrgParserWriter {
 
         /* Tags. */
         if (head.hasTags()) {
+            StringBuilder ts = new StringBuilder();
+
+            /* Always add at least one space after the heading. */
             s.append(" ");
 
+            /* String the tags together, separated by colons. */
             for (int i = 0; i < head.getTags().size(); i++) {
-                s.append(":").append(head.getTags().get(i));
+                ts.append(":").append(head.getTags().get(i));
             }
 
-            s.append(":");
+            ts.append(":");
+
+            /* Figure out how many spaces we need to align the tags properly. */
+            int padding = Math.abs(settings.tagsColumn) - s.length();
+
+            /* Shift the tags left for users of org-indent-mode.
+             *
+             * The first level of indentation has already been added (the
+             * heading asterisks), the indentation we add per level is 1 LESS
+             * than settings.orgIndentIndentationPerLevel.
+             */
+            if (settings.orgIndentMode && settings.orgIndentIndentationPerLevel > 0) {
+                padding -= (settings.orgIndentIndentationPerLevel - 1) * (level - 1);
+            }
+
+            if (settings.tagsColumn < 0) {
+                padding -= ts.length();
+            }
+
+            for (; padding > 0; padding--) {
+                s.append(" ");
+            }
+
+            s.append(ts.toString());
         }
 
         /* Anything that should go right under header, with no new-line in between. */

@@ -35,9 +35,13 @@ public class OrgParsedFile { // TODO: Extend OrgFile instead?
     }
 
     public String toString() {
+        return toString(OrgParserSettings.getBasic());
+    }
+
+    public String toString(OrgParserSettings settings) {
         StringBuilder str = new StringBuilder();
 
-        OrgParserWriter parserWriter = new OrgParserWriter();
+        OrgParserWriter parserWriter = new OrgParserWriter(settings);
 
         str.append(parserWriter.whiteSpacedFilePreface(file.getPreface()));
 
