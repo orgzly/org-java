@@ -27,14 +27,17 @@ public class OrgDateTimeUtils {
             OrgDateTime orgDateTime,
             ReadableInstant fromTime,
             ReadableInstant beforeTime,
+            boolean useRepeater,
             int limit) {
 
         DateTime time = new DateTime(orgDateTime.getCalendar());
 
         List<DateTime> result = new ArrayList<>();
 
-        /* If time has no repeater, just check if it's within interval and return it. */
-        if (! orgDateTime.hasRepeater()) {
+        /* If Org time has no repeater or it should be ignored,
+         * just check if time part is within the interval.
+         */
+        if (!useRepeater || !orgDateTime.hasRepeater()) {
             if (!time.isBefore(fromTime) && (beforeTime == null || time.isBefore(beforeTime))) {
                 result.add(time);
             }
