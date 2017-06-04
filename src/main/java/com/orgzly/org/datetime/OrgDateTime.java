@@ -42,7 +42,7 @@ public class OrgDateTime {
 
     private OrgRepeater repeater;
 
-    private OrgDelay delay;
+    private OrgDelay delay; // or warning period for deadline time
 
     private OrgDateTime() {
     }

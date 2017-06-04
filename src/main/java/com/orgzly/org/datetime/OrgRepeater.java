@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
  * http://orgmode.org/manual/Repeated-tasks.html
  */
 public class OrgRepeater extends OrgInterval {
-
     public enum Type {
         CUMULATE,  //  +
         CATCH_UP,  //  ++

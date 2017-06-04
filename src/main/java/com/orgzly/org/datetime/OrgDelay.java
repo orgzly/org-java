@@ -5,7 +5,10 @@ import com.orgzly.org.OrgPatterns;
 import java.util.regex.Matcher;
 
 /**
+ * Delay used for scheduled time.
+ * Also used as a warning period for deadline time.
  *
+ * http://orgmode.org/manual/Deadlines-and-scheduling.html
  */
 public class OrgDelay extends OrgInterval {
     public enum Type {
