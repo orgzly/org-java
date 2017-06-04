@@ -123,15 +123,15 @@ class OrgSaxyParser extends OrgParser {
 
                             switch (timeKey) {
                                 case "SCHEDULED:":
-                                    currentElement.getHead().setScheduled(OrgRange.getInstance(timeString));
+                                    currentElement.getHead().setScheduled(OrgRange.parse(timeString));
                                     break;
 
                                 case "CLOSED:":
-                                    currentElement.getHead().setClosed(OrgRange.getInstance(timeString));
+                                    currentElement.getHead().setClosed(OrgRange.parse(timeString));
                                     break;
 
                                 case "DEADLINE:":
-                                    currentElement.getHead().setDeadline(OrgRange.getInstance(timeString));
+                                    currentElement.getHead().setDeadline(OrgRange.parse(timeString));
                                     break;
 
                                 default:

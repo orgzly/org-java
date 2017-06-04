@@ -52,20 +52,15 @@ public class OrgDateTime {
      *
      * @param isActive {@code true} to create active {@link OrgDateTime}, {@code false} for inactive
      *
-     * @return current time
      */
-    public static OrgDateTime getInstance(boolean isActive) {
-        OrgDateTime time = new OrgDateTime();
+    public OrgDateTime(boolean isActive) {
+        this.isActive = isActive;
 
-        time.isActive = isActive;
+        this.cal = GregorianCalendar.getInstance();
+        this.cal.set(Calendar.SECOND, 0);
+        this.cal.set(Calendar.MILLISECOND, 0);
 
-        time.cal = GregorianCalendar.getInstance();
-        time.cal.set(Calendar.SECOND, 0);
-        time.cal.set(Calendar.MILLISECOND, 0);
-
-        time.hasTime = true;
-
-        return time;
+        this.hasTime = true;
     }
 
     /**
@@ -75,7 +70,7 @@ public class OrgDateTime {
      *
      * @return instance if the provided string is not empty
      */
-    public static OrgDateTime getInstance(String str) {
+    public static OrgDateTime parse(String str) {
         if (str == null) {
             throw new IllegalArgumentException("OrgDateTime cannot be created from null string");
         }
@@ -90,7 +85,7 @@ public class OrgDateTime {
         return time;
     }
 
-    public static OrgDateTime getInstanceOrNull(String str) {
+    public static OrgDateTime parseOrNull(String str) {
         if (OrgStringUtils.isEmpty(str)) {
             return null;
         }
@@ -249,13 +244,13 @@ public class OrgDateTime {
         /* Repeater with at-least interval. */
         m = OrgPatterns.REPEAT_P.matcher(string);
         if (m.find()) {
-            repeater = OrgRepeater.getInstance(m.group(1));
+            repeater = OrgRepeater.parse(m.group(1));
         }
 
         /* Delay. */
         m = OrgPatterns.TIME_DELAY_P.matcher(string);
         if (m.find()) {
-            delay = OrgDelay.getInstance(m.group(0));
+            delay = OrgDelay.parse(m.group(0));
         }
     }
 

@@ -22,17 +22,32 @@ public class OrgRepeater extends OrgInterval {
     private OrgInterval habitDeadline;
 
 
-    public static OrgRepeater getInstance(String str) {
-        return new OrgRepeater(str);
-    }
-
-    public static OrgRepeater getInstance(Type type, int value, OrgInterval.Unit unit) {
+    public static OrgRepeater parse(String str) {
         OrgRepeater repeater = new OrgRepeater();
 
-        repeater.type = type;
+        Matcher m = OrgPatterns.REPEATER.matcher(str);
 
-        repeater.value = value;
-        repeater.unit = unit;
+        if (m.find()) {
+            if (m.groupCount() == 7) {
+                repeater.setTypeFromString(m.group(2));
+                repeater.setValue(m.group(3));
+                repeater.setUnit(m.group(4));
+
+                if (! OrgStringUtils.isEmpty(m.group(6))) {
+                    repeater.habitDeadline = new OrgInterval();
+                    repeater.habitDeadline.setValue(m.group(6));
+                    repeater.habitDeadline.setUnit(m.group(7));
+                }
+
+            } else {
+                throw new IllegalArgumentException("Expected 7 groups (got " + m.groupCount() +
+                                                   ") when matching repeater " + str + " against " + OrgPatterns.REPEATER);
+            }
+
+        } else {
+            throw new IllegalArgumentException("Failed matching repeater " +
+                                               str + " against " + OrgPatterns.REPEATER);
+        }
 
         return repeater;
     }
@@ -40,30 +55,10 @@ public class OrgRepeater extends OrgInterval {
     private OrgRepeater() {
     }
 
-    private OrgRepeater(String str) {
-        Matcher m = OrgPatterns.REPEATER.matcher(str);
-
-        if (m.find()) {
-            if (m.groupCount() == 7) {
-                setTypeFromString(m.group(2));
-                setValue(m.group(3));
-                setUnit(m.group(4));
-
-                if (! OrgStringUtils.isEmpty(m.group(6))) {
-                    habitDeadline = new OrgInterval();
-                    habitDeadline.setValue(m.group(6));
-                    habitDeadline.setUnit(m.group(7));
-                }
-
-            } else {
-                throw new IllegalArgumentException("Expected 7 groups (got " + m.groupCount() +
-                        ") when matching repeater " + str + " against " + OrgPatterns.REPEATER);
-            }
-
-        } else {
-            throw new IllegalArgumentException("Failed matching repeater " +
-                    str + " against " + OrgPatterns.REPEATER);
-        }
+    public OrgRepeater(Type type, int value, OrgInterval.Unit unit) {
+        this.type = type;
+        this.value = value;
+        this.unit = unit;
     }
 
     private void setTypeFromString(String str) {

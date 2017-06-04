@@ -9,7 +9,7 @@ public class OrgRangeTest {
     @Test
     public void testGetInstanceForNullString() {
         try {
-            OrgRange.getInstance((String) null);
+            OrgRange.parse((String) null);
             Assert.fail("Parsing null String must throw exception");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null string"));
@@ -19,7 +19,7 @@ public class OrgRangeTest {
     @Test
     public void testGetInstanceForNullOrgDateTime() {
         try {
-            OrgRange.getInstance((OrgDateTime) null);
+            new OrgRange(null);
             Assert.fail("Parsing null OrgDateTime must throw exception");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null OrgDateTime"));
@@ -29,7 +29,7 @@ public class OrgRangeTest {
     @Test
     public void testGetInstanceForEmptyString() {
         try {
-            OrgRange.getInstance("");
+            OrgRange.parse("");
             Assert.fail("Parsing empty string must throw exception");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null string"));
@@ -38,7 +38,7 @@ public class OrgRangeTest {
 
     @Test
     public void testFromString1() {
-        OrgRange time = OrgRange.getInstance("[2000-01-01]--<2000-02-02 10:20>");
+        OrgRange time = OrgRange.parse("[2000-01-01]--<2000-02-02 10:20>");
 
         Assert.assertNotNull(time);
         Assert.assertNotNull(time.getStartTime());
@@ -55,7 +55,7 @@ public class OrgRangeTest {
 
     @Test
     public void testFromString2() {
-        OrgRange time = OrgRange.getInstance("[2000-01-01 00:12 .+1h]--<2000-02-02 Mon +1d>");
+        OrgRange time = OrgRange.parse("[2000-01-01 00:12 .+1h]--<2000-02-02 Mon +1d>");
 
         Assert.assertNotNull(time);
         Assert.assertNotNull(time.getStartTime());
@@ -78,28 +78,28 @@ public class OrgRangeTest {
 
     @Test
     public void testRangeWithOneDash() {
-        OrgRange time = OrgRange.getInstance("[2000-01-01 00:12 .+1h]-<2000-02-02 Mon +1d>");
+        OrgRange time = OrgRange.parse("[2000-01-01 00:12 .+1h]-<2000-02-02 Mon +1d>");
         Assert.assertNotNull(time.getStartTime());
         Assert.assertNotNull(time.getEndTime());
     }
 
     @Test
     public void testRangeWith3Dashes() {
-        OrgRange time = OrgRange.getInstance("[2000-01-01 00:12 .+1h]---<2000-02-02 Mon +1d>");
+        OrgRange time = OrgRange.parse("[2000-01-01 00:12 .+1h]---<2000-02-02 Mon +1d>");
         Assert.assertNotNull(time.getStartTime());
         Assert.assertNotNull(time.getEndTime());
     }
 
     @Test
     public void testRangeWithRepeaterAndHabitDeadline() {
-        OrgRange time = OrgRange.getInstance("<2015-01-11 Sun .+1d/2d>");
+        OrgRange time = OrgRange.parse("<2015-01-11 Sun .+1d/2d>");
         Assert.assertNotNull(time.getStartTime());
         Assert.assertNull(time.getEndTime());
     }
 
     @Test
     public void testInvalidDateTimeWithNoSpacing() {
-        OrgRange time = OrgRange.getInstance("[2011-08-1819:12]");
+        OrgRange time = OrgRange.parse("[2011-08-1819:12]");
 
         Assert.assertNotNull(time.getStartTime());
         Assert.assertNull(time.getEndTime());
@@ -111,7 +111,7 @@ public class OrgRangeTest {
 
     @Test
     public void testEndTimes() {
-        OrgRange time = OrgRange.getInstance("<2015-01-13 уто 13:00-14:14>--<2015-01-14 сре 14:10-15:20>");
+        OrgRange time = OrgRange.parse("<2015-01-13 уто 13:00-14:14>--<2015-01-14 сре 14:10-15:20>");
 
         Assert.assertNotNull(time.getStartTime());
         Assert.assertNotNull(time.getEndTime());
@@ -125,7 +125,7 @@ public class OrgRangeTest {
 
     @Test
     public void testJeuWeekDay() {
-        OrgRange time = OrgRange.getInstance("[2011-08-18 jeu. 19:12]");
+        OrgRange time = OrgRange.parse("[2011-08-18 jeu. 19:12]");
 
         Assert.assertNotNull(time.getStartTime());
         Assert.assertNull(time.getEndTime());
@@ -139,12 +139,12 @@ public class OrgRangeTest {
 
     @Test
     public void testGeneratedString1() {
-        OrgRange range = OrgRange.getInstance("<2009-10-17 13:15-14:30 ++1y --2d>--<2015-01-18>");
+        OrgRange range = OrgRange.parse("<2009-10-17 13:15-14:30 ++1y --2d>--<2015-01-18>");
         Assert.assertEquals("2009-10-17 Sat 13:15-14:30 ++1y --2d--2015-01-18 Sun", range.toStringWithoutBrackets());
     }
 
     @Test
     public void testLargeYear() {
-        OrgRange.getInstance("<10016-04-03 Sun ++100y>");
+        OrgRange.parse("<10016-04-03 Sun ++100y>");
     }
 }

@@ -15,33 +15,16 @@ public class OrgRange {
     private OrgDateTime startTime;
     private OrgDateTime endTime;
 
-    public static OrgRange getInstance(OrgDateTime fromTime) {
-        return getInstance(fromTime, null);
-    }
 
-    public static OrgRange getInstance(OrgDateTime fromTime, OrgDateTime endTime) {
-        if (fromTime == null) {
-            throw new IllegalArgumentException("OrgRange cannot be created from null OrgDateTime");
-        }
-
-        OrgRange t = new OrgRange();
-
-        t.startTime = fromTime;
-        t.endTime = endTime;
-
-        return t;
-    }
-
-    public static OrgRange getInstanceOrNull(String str) {
+    public static OrgRange parseOrNull(String str) {
         if (OrgStringUtils.isEmpty(str)) {
             return null;
         }
 
-        return getInstance(str);
+        return parse(str);
     }
 
-
-    public static OrgRange getInstance(String str) {
+    public static OrgRange parse(String str) {
         if (str == null) {
             throw new IllegalArgumentException("OrgRange cannot be created from null string");
         }
@@ -60,11 +43,11 @@ public class OrgRange {
 //            }
 
             if (m.groupCount() == 6 && m.group(6) != null) { // Range - two timestamps
-                t.startTime = OrgDateTime.getInstance(m.group(2));
-                t.endTime = OrgDateTime.getInstance(m.group(5));
+                t.startTime = OrgDateTime.parse(m.group(2));
+                t.endTime = OrgDateTime.parse(m.group(5));
 
             } else { // Single timestamp
-                t.startTime = OrgDateTime.getInstance(m.group(2));
+                t.startTime = OrgDateTime.parse(m.group(2));
                 t.endTime = null;
             }
 
@@ -78,6 +61,19 @@ public class OrgRange {
     }
 
     private OrgRange() {
+    }
+
+    public OrgRange(OrgDateTime fromTime) {
+        this(fromTime, null);
+    }
+
+    public OrgRange(OrgDateTime fromTime, OrgDateTime endTime) {
+        if (fromTime == null) {
+            throw new IllegalArgumentException("OrgRange cannot be created from null OrgDateTime");
+        }
+
+        this.startTime = fromTime;
+        this.endTime = endTime;
     }
 
     public OrgDateTime getStartTime() {

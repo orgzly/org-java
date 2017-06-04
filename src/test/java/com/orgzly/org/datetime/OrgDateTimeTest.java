@@ -9,28 +9,28 @@ public class OrgDateTimeTest {
     /* This test is kinda useless because string is kept and not parsed and then just returned. */
     @Test
     public void testToStringFromString() {
-        Assert.assertEquals("<2014-05-26 Mon>", OrgDateTime.getInstance("<2014-05-26 Mon>").toString());
-        Assert.assertEquals("[2014-05-26 Mon]", OrgDateTime.getInstance("[2014-05-26 Mon]").toString());
-        Assert.assertEquals("<2014-05-26 Mon 09:15>", OrgDateTime.getInstance("<2014-05-26 Mon 09:15>").toString());
-        Assert.assertEquals("[2014-05-26]", OrgDateTime.getInstance("[2014-05-26]").toString());
-        Assert.assertEquals("<2000-01-01>--<2000-02-02>", OrgDateTime.getInstance("<2000-01-01>--<2000-02-02>").toString());
+        Assert.assertEquals("<2014-05-26 Mon>", OrgDateTime.parse("<2014-05-26 Mon>").toString());
+        Assert.assertEquals("[2014-05-26 Mon]", OrgDateTime.parse("[2014-05-26 Mon]").toString());
+        Assert.assertEquals("<2014-05-26 Mon 09:15>", OrgDateTime.parse("<2014-05-26 Mon 09:15>").toString());
+        Assert.assertEquals("[2014-05-26]", OrgDateTime.parse("[2014-05-26]").toString());
+        Assert.assertEquals("<2000-01-01>--<2000-02-02>", OrgDateTime.parse("<2000-01-01>--<2000-02-02>").toString());
     }
 
     @Test
     public void testIsWithTime() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26 Mon 09:15>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26 Mon 09:15>");
         Assert.assertTrue(time.hasTime());
     }
 
     @Test
     public void testIsNotWithTime() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26 Mon>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26 Mon>");
         Assert.assertFalse(time.hasTime());
     }
 
     @Test
     public void testGetCalendar() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26>");
 
         Assert.assertEquals(2014, time.getCalendar().get(Calendar.YEAR));
         Assert.assertEquals(4, time.getCalendar().get(Calendar.MONTH));
@@ -39,7 +39,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testGetCalendarRange() {
-        OrgDateTime time = OrgDateTime.getInstance("<2000-01-01>--<2000-02-02>");
+        OrgDateTime time = OrgDateTime.parse("<2000-01-01>--<2000-02-02>");
 
         Assert.assertEquals(2000, time.getCalendar().get(Calendar.YEAR));
         Assert.assertEquals(0, time.getCalendar().get(Calendar.MONTH));
@@ -48,7 +48,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testSingleDigitHour() {
-        OrgDateTime time = OrgDateTime.getInstance("[2014-06-03 Tue 3:34]");
+        OrgDateTime time = OrgDateTime.parse("[2014-06-03 Tue 3:34]");
 
         Assert.assertTrue(time.hasTime());
         Assert.assertEquals(3, time.getCalendar().get(Calendar.HOUR_OF_DAY));
@@ -56,19 +56,19 @@ public class OrgDateTimeTest {
 
     @Test
     public void testIsActive() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26 Mon>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26 Mon>");
         Assert.assertTrue(time.isActive());
     }
 
     @Test
     public void testIsNotActive() {
-        OrgDateTime time = OrgDateTime.getInstance("[2014-05-26 Mon]");
+        OrgDateTime time = OrgDateTime.parse("[2014-05-26 Mon]");
         Assert.assertFalse(time.isActive());
     }
 
     @Test
     public void testNoWeekDay() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26 13:15>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26 13:15>");
         Assert.assertTrue(time.isActive());
         Assert.assertTrue(time.hasTime());
         Assert.assertEquals(26, time.getCalendar().get(Calendar.DATE));
@@ -77,7 +77,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testSingleCharacterWeekDay() {
-        OrgDateTime time = OrgDateTime.getInstance("<2015-03-13 金>");
+        OrgDateTime time = OrgDateTime.parse("<2015-03-13 金>");
         Assert.assertTrue(time.isActive());
         Assert.assertFalse(time.hasTime());
         Assert.assertEquals(2015, time.getCalendar().get(Calendar.YEAR));
@@ -87,7 +87,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testSingleCharacterWeekDayWithTime() {
-        OrgDateTime time = OrgDateTime.getInstance("<2015-03-13 金 14:16>");
+        OrgDateTime time = OrgDateTime.parse("<2015-03-13 金 14:16>");
         Assert.assertTrue(time.isActive());
         Assert.assertTrue(time.hasTime());
         Assert.assertEquals("Year", 2015, time.getCalendar().get(Calendar.YEAR));
@@ -99,7 +99,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testRepeaterEvery() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26 +4w>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26 +4w>");
         Assert.assertEquals(4, time.getRepeater().getValue());
         Assert.assertEquals(OrgRepeater.Type.CUMULATE, time.getRepeater().getType());
         Assert.assertEquals(OrgRepeater.Unit.WEEK, time.getRepeater().getUnit());
@@ -107,7 +107,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testRepeaterInFuture() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26 ++4w>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26 ++4w>");
         Assert.assertEquals(4, time.getRepeater().getValue());
         Assert.assertEquals(OrgRepeater.Type.CATCH_UP, time.getRepeater().getType());
         Assert.assertEquals(OrgRepeater.Unit.WEEK, time.getRepeater().getUnit());
@@ -115,7 +115,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testRepeaterInAfterToday() {
-        OrgDateTime time = OrgDateTime.getInstance("<2014-05-26 .+4w>");
+        OrgDateTime time = OrgDateTime.parse("<2014-05-26 .+4w>");
         Assert.assertEquals(4, time.getRepeater().getValue());
         Assert.assertEquals(OrgRepeater.Type.RESTART, time.getRepeater().getType());
         Assert.assertEquals(OrgRepeater.Unit.WEEK, time.getRepeater().getUnit());
@@ -123,7 +123,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testRepeaterWithoutWeekDay() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 13:15 .+2d/4d>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15 .+2d/4d>");
 
         Assert.assertTrue(time.isActive());
         Assert.assertTrue(time.hasTime());
@@ -138,7 +138,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testRepeaterWithHabitDeadline() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 Sat 13:15 .+2d/4d>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 Sat 13:15 .+2d/4d>");
 
         Assert.assertTrue(time.isActive());
         Assert.assertTrue(time.hasTime());
@@ -156,7 +156,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testDelayOnlyWithTime() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 13:15 -2d>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15 -2d>");
         Assert.assertFalse(time.hasRepeater());
         Assert.assertTrue(time.hasDelay());
         Assert.assertEquals(OrgDelay.Type.ALL, time.getDelay().getType());
@@ -166,7 +166,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testDelayOnlyWithWeekday() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 Wed -2d>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 Wed -2d>");
         Assert.assertFalse(time.hasRepeater());
         Assert.assertTrue(time.hasDelay());
         Assert.assertEquals(OrgDelay.Type.ALL, time.getDelay().getType());
@@ -176,7 +176,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testDelayFirstOccurrence() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 13:15 +1m --2d>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15 +1m --2d>");
         Assert.assertTrue(time.hasRepeater());
         Assert.assertTrue(time.hasDelay());
         Assert.assertEquals(OrgDelay.Type.FIRST_ONLY, time.getDelay().getType());
@@ -187,7 +187,7 @@ public class OrgDateTimeTest {
     @Test
     public void testInvalidNoBrackets() {
         try {
-            OrgDateTime time = OrgDateTime.getInstance("2014-05-26 Mon");
+            OrgDateTime time = OrgDateTime.parse("2014-05-26 Mon");
             Assert.assertFalse(time.hasTime());
 
             Assert.fail("Parsing time with no brackets should fail");
@@ -199,7 +199,7 @@ public class OrgDateTimeTest {
 
     @Test
     public void testEndTime() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 13:15-14:30>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15-14:30>");
 
         Assert.assertTrue(time.hasTime());
         Assert.assertEquals(13, time.getCalendar().get(Calendar.HOUR_OF_DAY));
@@ -225,13 +225,13 @@ public class OrgDateTimeTest {
 
     @Test
     public void testGeneratedString1() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 13:15 .+1m>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15 .+1m>");
         Assert.assertEquals("2009-10-17 Sat 13:15 .+1m", time.toStringWithoutBrackets());
     }
 
     @Test
     public void testGeneratedString2() {
-        OrgDateTime time = OrgDateTime.getInstance("<2009-10-17 13:15-14:30 ++1y --2d>");
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15-14:30 ++1y --2d>");
         Assert.assertEquals("2009-10-17 Sat 13:15-14:30 ++1y --2d", time.toStringWithoutBrackets());
     }
 
@@ -318,14 +318,4 @@ public class OrgDateTimeTest {
 
         Assert.assertEquals("<2001-02-01 Thu>", timestamp.toString());
     }
-
-//    @Test
-//    public void testFromCalendarEndTime() {
-//        Assert.assertEquals("[2014-05-26 Mon 10:15-12:30]", OrgDateTime.getInstance(false, 2014, 4, 26, 10, 15, 12, 30).toString());
-//    }
-//
-//    @Test
-//    public void testFromCalendarEndTimeWithoutBrackets() {
-//        Assert.assertEquals("2014-05-26 Mon 10:15-12:30", OrgDateTime.getInstance(false, 2014, 4, 26, 10, 15, 12, 30).toStringWithoutBrackets());
-//    }
 }

@@ -18,11 +18,11 @@ public class OrgDelay extends OrgInterval {
 
     private Type type;
 
-    public static OrgDelay getInstance(String str) {
+    public static OrgDelay parse(String str) {
         return new OrgDelay(str);
     }
 
-    public OrgDelay(String str) {
+    private OrgDelay(String str) {
         Matcher m = OrgPatterns.TIME_DELAY_P.matcher(str);
 
         if (m.find()) {

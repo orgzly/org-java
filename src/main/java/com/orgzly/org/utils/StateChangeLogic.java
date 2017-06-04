@@ -52,7 +52,7 @@ public class StateChangeLogic {
                 } else {
                     /* Set state and closed time. */
                     state = targetState;
-                    closed = OrgRange.getInstance(OrgDateTime.getInstance(false));
+                    closed = new OrgRange(new OrgDateTime(false));
                 }
             }
 

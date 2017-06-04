@@ -1,7 +1,5 @@
 package com.orgzly.org.datetime;
 
-import com.orgzly.org.datetime.OrgRange;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,7 +72,7 @@ public class OrgRangeShiftTest {
 
     @Test
     public void testTimeShift() {
-        OrgRange range = OrgRange.getInstance(timestamp);
+        OrgRange range = OrgRange.parse(timestamp);
 
         Assert.assertEquals(isShifted, range.shift(now));
 

@@ -16,7 +16,7 @@ public class OrgDateTimeUtilsTest {
     public void testTimesInInterval() {
         assertThat(
                 toStringArray(OrgDateTimeUtils.getTimesInInterval(
-                        OrgDateTime.getInstance("<2017-04-01 .+3d>"),
+                        OrgDateTime.parse("<2017-04-01 .+3d>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         DateTime.parse("2017-04-20T05:39:58"),
                         true,
@@ -30,7 +30,7 @@ public class OrgDateTimeUtilsTest {
     public void testTimesInIntervalIgnoringRepeater() {
         assertThat(
                 toStringArray(OrgDateTimeUtils.getTimesInInterval(
-                        OrgDateTime.getInstance("<2017-04-01 .+3d>"),
+                        OrgDateTime.parse("<2017-04-01 .+3d>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         DateTime.parse("2017-04-20T05:39:58"),
                         false,
@@ -42,7 +42,7 @@ public class OrgDateTimeUtilsTest {
     public void testTimesInIntervalWithoutUpperBound() {
         assertThat(
                 toStringArray(OrgDateTimeUtils.getTimesInInterval(
-                        OrgDateTime.getInstance("<2017-04-01 .+3d>"),
+                        OrgDateTime.parse("<2017-04-01 .+3d>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         null,
                         true,
@@ -57,7 +57,7 @@ public class OrgDateTimeUtilsTest {
     public void testTimeInFuture() {
         assertThat(
                 toStringArray(OrgDateTimeUtils.getTimesInInterval(
-                        OrgDateTime.getInstance("<2017-07-16 Sun ++1w>"),
+                        OrgDateTime.parse("<2017-07-16 Sun ++1w>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         null,
                         true,
@@ -72,7 +72,7 @@ public class OrgDateTimeUtilsTest {
     public void testTimeInFutureIgnoringRepeater() {
         assertThat(
                 toStringArray(OrgDateTimeUtils.getTimesInInterval(
-                        OrgDateTime.getInstance("<2017-07-16 Sun ++1w>"),
+                        OrgDateTime.parse("<2017-07-16 Sun ++1w>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         null,
                         false,
