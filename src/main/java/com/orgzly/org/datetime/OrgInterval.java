@@ -16,6 +16,19 @@ public class OrgInterval {
 
     protected Unit unit;
 
+    protected OrgInterval() {
+    }
+
+    public OrgInterval(String value, String unit) {
+        setValue(value);
+        setUnit(unit);
+    }
+
+    public OrgInterval(int value, Unit unit) {
+        this.value = value;
+        this.unit = unit;
+    }
+
     public int getValue() {
         return value;
     }

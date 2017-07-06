@@ -19,17 +19,15 @@ public class OrgDelay extends OrgInterval {
     private Type type;
 
     public static OrgDelay parse(String str) {
-        return new OrgDelay(str);
-    }
+        OrgDelay delay = new OrgDelay();
 
-    private OrgDelay(String str) {
         Matcher m = OrgPatterns.TIME_DELAY_P.matcher(str);
 
         if (m.find()) {
             if (m.groupCount() == 3) {
-                setTypeFromString(m.group(1));
-                setValue(m.group(2));
-                setUnit(m.group(3));
+                delay.setTypeFromString(m.group(1));
+                delay.setValue(m.group(2));
+                delay.setUnit(m.group(3));
 
             } else {
                 throw new IllegalArgumentException("Expected 3 groups (got " + m.groupCount() + ") when matching time delay " + str + " against " + OrgPatterns.TIME_DELAY_P);
@@ -38,6 +36,8 @@ public class OrgDelay extends OrgInterval {
         } else {
             throw new IllegalArgumentException("Failed matching time delay " + str + " against " + OrgPatterns.TIME_DELAY_P);
         }
+
+        return delay;
     }
 
     private void setTypeFromString(String str) {

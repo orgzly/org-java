@@ -13,6 +13,28 @@ import java.util.List;
 public class OrgDateTimeUtils {
     private static final int MAX_INSTANTS_IN_INTERVAL = 100;
 
+    public static DateTime getFirstWarningTime(
+            int timeType,
+            OrgDateTime orgDateTime,
+            ReadableInstant fromTime,
+            ReadableInstant beforeTime,
+            OrgInterval defaultTimeOfDay,
+            OrgInterval defaultWarningPeriod) {
+
+        List<DateTime> times = OrgDateTimeUtils.getTimesInInterval(
+                orgDateTime, fromTime, beforeTime, false, 1);
+
+        for (DateTime time : times) {
+            if (!orgDateTime.hasTime()) {
+                time = time.plusHours(9); // TODO: Move to preferences
+            }
+
+            return time;
+        }
+
+        return null;
+    }
+
     /**
      * Returns list of {@link DateTime} that belong to specified {@link OrgDateTime}
      * and are within specified time interval.
