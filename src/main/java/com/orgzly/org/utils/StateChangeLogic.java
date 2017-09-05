@@ -9,7 +9,7 @@ import java.util.Set;
  * State setting logic.
  */
 public class StateChangeLogic {
-    final private Set<String> doneKeywords;
+    private final Set<String> doneKeywords;
 
     private String state;
 

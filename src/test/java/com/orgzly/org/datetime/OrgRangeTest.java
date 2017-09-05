@@ -9,7 +9,7 @@ public class OrgRangeTest {
     @Test
     public void testGetInstanceForNullString() {
         try {
-            OrgRange.parse((String) null);
+            OrgRange.parse(null);
             Assert.fail("Parsing null String must throw exception");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null string"));
