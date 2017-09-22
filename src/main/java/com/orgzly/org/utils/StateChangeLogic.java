@@ -29,8 +29,14 @@ public class StateChangeLogic {
         this.scheduled = scheduledTime;
         this.deadline = deadlineTime;
 
-        if (doneKeywords.contains(targetState)) { /* Target state is a done state. */
-            if (! doneKeywords.contains(originalState)) { /* Original state is not done. */
+        if (doneKeywords.contains(targetState)) {
+            if (! doneKeywords.contains(originalState)) {
+                /* From to-do-type to done-type state.
+                 * Try to shift times. If successful (there was a repeater), keep the original
+                 * state and remove closed time. If times were not shifted (there was no repeater)
+                 * update the state and set closed time.
+                 */
+
                 boolean shifted = false;
 
                 if (scheduled != null) {
@@ -54,10 +60,19 @@ public class StateChangeLogic {
                     state = targetState;
                     closed = new OrgRange(new OrgDateTime(false));
                 }
+
+            } else {
+                /* From done-type to done-type state.
+                 * Set the state and update the closed time.
+                 */
+                state = targetState;
+                closed = new OrgRange(new OrgDateTime(false));
             }
 
-        } else { /* Target keyword is a to-do state.
-            /* Set state and remove closed time. */
+        } else {
+            /* Target keyword is a to-do-type state.
+             * Set state and remove closed time.
+             */
             state = targetState;
             closed = null;
         }
