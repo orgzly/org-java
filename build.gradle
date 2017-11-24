@@ -12,9 +12,9 @@ allprojects {
 }
 
 dependencies {
-    compile 'joda-time:joda-time:2.9.9'
+    implementation 'joda-time:joda-time:2.9.9'
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
 
 group = "com.orgzly"
