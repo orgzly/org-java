@@ -60,7 +60,7 @@ public class OrgDateTimeUtils {
         /* If Org time has no repeater or it should be ignored,
          * just check if time part is within the interval.
          */
-        if (!useRepeater || !orgDateTime.hasRepeater()) {
+        if (!useRepeater || !orgDateTime.hasRepeater() || orgDateTime.getRepeater().getValue() == 0) {
             if (!time.isBefore(fromTime) && (beforeTime == null || time.isBefore(beforeTime))) {
                 result.add(time);
             }
