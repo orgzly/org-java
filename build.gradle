@@ -6,11 +6,6 @@ repositories {
     mavenCentral()
 }
 
-allprojects {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-}
-
 dependencies {
     implementation 'joda-time:joda-time:2.9.9'
 
