@@ -81,6 +81,19 @@ public class OrgDateTimeUtilsTest {
                         DateTime.parse("2017-07-16")))));
     }
 
+    @Test
+    public void testZeroRepeaterValue() {
+        assertThat(
+                toStringArray(OrgDateTimeUtils.getTimesInInterval(
+                        OrgDateTime.parse("<2017-04-16 .+0d>"),
+                        DateTime.parse("2017-04-15T05:39:58"),
+                        DateTime.parse("2017-04-20T05:39:58"),
+                        true,
+                        0)),
+                is(toStringArray(Arrays.asList(
+                        DateTime.parse("2017-04-16")))));
+    }
+
     private List<String> toStringArray(List<DateTime> times) {
         List<String> result = new ArrayList<>();
 
