@@ -4,17 +4,19 @@ import com.orgzly.org.OrgHead;
 import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgStringUtils;
 
+import com.orgzly.org.logbook.LogbookEntry;
+
 public class OrgParserWriter {
     /** org-log-note-headings */
     private static final String[] ORG_LOG_NOTE_HEADINGS = new String[] {
-            "CLOSING NOTE ",
-            "State ",
-            "Note taken on ",
-            "Rescheduled from ",
-            "Not scheduled, was ",
-            "New deadline from ",
-            "Removed deadline, was ",
-            "Refiled on "
+        "CLOSING NOTE ",
+        "State ",
+        "Note taken on ",
+        "Rescheduled from ",
+        "Not scheduled, was ",
+        "New deadline from ",
+        "Removed deadline, was ",
+        "Refiled on "
     };
 
     private OrgParserSettings settings;
@@ -172,9 +174,9 @@ public class OrgParserWriter {
                 s.append("\n");
                 appendIndent(s, level, isIndented);
                 s.append(String.format(
-                        settings.propertyFormat,
-                        ":" + property.getName() + ":",
-                        property.getValue()));
+                                       settings.propertyFormat,
+                                       ":" + property.getName() + ":",
+                                       property.getValue()));
             }
 
             s.append("\n");
@@ -189,10 +191,13 @@ public class OrgParserWriter {
             appendIndent(s, level, isIndented);
             s.append(":LOGBOOK:");
 
-            for (String log: head.getLogbook()) {
-                s.append("\n");
-                appendIndent(s, level, isIndented);
-                s.append(log);
+            for (LogbookEntry log: head.getLogbook()) {
+                String[] lines = log.toString().split("\\r?\\n");
+                for (String line : lines) {
+                    s.append("\n");
+                    appendIndent(s, level, isIndented);
+                    s.append(line);
+                }
             }
 
             s.append("\n");

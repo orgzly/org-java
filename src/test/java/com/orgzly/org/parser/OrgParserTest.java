@@ -543,14 +543,14 @@ public class OrgParserTest extends OrgTestParser {
     public void testRich1() throws IOException {
         String str = "* TODO Rich markup :tag:\n" +
                      "  DEADLINE: <2015-02-08 Sun> SCHEDULED: <2015-02-11 Wed +1d>\n" +
-                     "  :LOGBOOK:  \n" +
+                     "  :LOGBOOK:\n" +
                      "  - Note taken on [2015-02-07 Sat 20:58] \\\\\n" +
                      "    This is a multi\n" +
                      "    line note.\n" +
                      "  - State \"DONE\"       from \"TODO\"       [2015-02-07 Sat 20:47]\n" +
                      "  CLOCK: [2015-02-07 Sat 20:47]--[2015-02-07 Sat 20:47] =>  0:00\n" +
                      "  - State \"DONE\"       from \"TODO\"       [2015-02-07 Sat 20:47]\n" +
-                     "  :END:      \n" +
+                     "  :END:\n" +
                      "  - Note taken on [2015-02-07 Sat 20:43] \\\\\n" +
                      "    note in logbook\n" +
                      "  - State \"DONE\"       from \"TODO\"       [2015-02-07 Sat 20:42]\n" +

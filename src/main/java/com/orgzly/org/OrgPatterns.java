@@ -42,4 +42,7 @@ public class OrgPatterns {
     public static final Pattern HEAD_TAGS_P = Pattern.compile("^(.*)\\s+:(\\S+):\\s*$");
 
     public static final Pattern PROPERTY = Pattern.compile("^:([^:\\s]+):\\s+(.*)\\s*$");
+
+    public static final Pattern LOGBOOK_NOTE_P = Pattern.compile("^- Note taken on " + DT + " \\\\\\\\$");
+    public static final Pattern LOGBOOK_GENERIC_P = Pattern.compile("^(Clock:|-)\\s+(.*)\\s*$");
 }

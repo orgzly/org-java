@@ -46,4 +46,19 @@ public class OrgPatternsTest {
         assertEquals("2", m.group(2));
         assertEquals("d", m.group(3));
     }
+
+    @Test
+    public void testNoteEntry1() {
+        String s = "- Note taken on [2015-02-07 Sat 20:58]";
+        Matcher m = OrgPatterns.LOGBOOK_NOTE_P.matcher(s);
+        assertFalse(m.find());
+    }
+
+    @Test
+    public void testNoteEntry2() {
+        String s = "- Note taken on [2015-02-07 Sat 20:58] \\\\";
+        Matcher m = OrgPatterns.LOGBOOK_NOTE_P.matcher(s);
+        assertTrue(m.find());
+        assertEquals("[2015-02-07 Sat 20:58]", m.group(1));
+    }
 }

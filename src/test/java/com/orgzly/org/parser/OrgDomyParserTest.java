@@ -171,9 +171,9 @@ public class OrgDomyParserTest {
             "Content with no new-line spacing\n" +
             "\n" +
             "** Another note\n" +
-            ":LOGBOOK:\n" +
-            "- Blah\n" +
-            ":END:\n" +
+            "   :LOGBOOK:\n" +
+            "   - Blah\n" +
+            "   :END:\n" +
             "\n" +
             "**** Grandchild with no parent\n" +
             "*** Note\n"

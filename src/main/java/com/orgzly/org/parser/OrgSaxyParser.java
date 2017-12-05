@@ -7,9 +7,14 @@ import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgStringUtils;
 import com.orgzly.org.datetime.OrgRange;
 
+import com.orgzly.org.logbook.GenericLogbookEntry;
+import com.orgzly.org.logbook.NoteEntry;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -20,6 +25,7 @@ import java.util.regex.Pattern;
  */
 class OrgSaxyParser extends OrgParser {
     private static final int FIRST_HEADING_POSITION_NUMBER = 1;
+    private static final int BUFFER_SIZE = 1000;
 
     private BufferedReader reader;
     private OrgSaxyParserListener listener;
@@ -73,7 +79,7 @@ class OrgSaxyParser extends OrgParser {
         OrgNodeInList currentElement = null;
         boolean isAfterHeading = false;
         boolean inProperties = false;
-        // boolean inLogbook = false;
+        boolean inLogbook = false;
         int nextFreePosition = FIRST_HEADING_POSITION_NUMBER;
 
         /* Count of how many properties are indented. Can be negative. */
@@ -105,7 +111,7 @@ class OrgSaxyParser extends OrgParser {
                 currentElement = head;
                 isAfterHeading = true;
                 inProperties = false;
-                // inLogbook = false;
+                inLogbook = false;
                 nextFreePosition++;
 
             } else { /* Not a heading. */
@@ -165,19 +171,44 @@ class OrgSaxyParser extends OrgParser {
                             found = true;
                         }
 
-//                        if (!inLogbook && ":LOGBOOK:".equals(lineTrimmed)) {
-//                            currentElement.head.initLogbook();
-//                            inLogbook = true;
-//                            found = true;
-//
-//                        } else if (inLogbook && ":END:".equals(lineTrimmed)) {
-//                            inLogbook = false;
-//                            found = true;
-//
-//                        } else if (inLogbook) {
-//                            currentElement.head.addLog(lineTrimmed);
-//                            found = true;
-//                        }
+                        if (!inLogbook && ":LOGBOOK:".equals(lineTrimmed)) {
+                            currentElement.head.initLogbook();
+                            inLogbook = true;
+                            found = true;
+
+                        } else if (inLogbook && ":END:".equals(lineTrimmed)) {
+                            inLogbook = false;
+                            found = true;
+
+                        } else if (inLogbook) {
+                            Matcher noteMatcher = OrgPatterns.LOGBOOK_NOTE_P.matcher(lineTrimmed);
+                            ArrayList<String> lines = new ArrayList<String>();
+
+                            if (noteMatcher.find()) {
+                                String time = noteMatcher.group(1);
+                                while (true) {
+                                    String mline;
+                                    reader.mark(BUFFER_SIZE);
+                                    mline = reader.readLine();
+                                    if (mline == null) break;
+                                    String mlineTrimmed = mline.trim();
+                                    Matcher logbookMatcher = OrgPatterns.LOGBOOK_GENERIC_P.matcher(mlineTrimmed);
+                                    if (":END:".equals(mlineTrimmed) || logbookMatcher.matches()) {
+                                        reader.reset();
+                                        break;
+                                    }
+                                    lines.add(mlineTrimmed);
+                                }
+                                System.out.printf("I'm here");
+                                NoteEntry entry = new NoteEntry(time, lines);
+                                currentElement.head.addLog(entry);
+                            } else {
+                                GenericLogbookEntry entry = new GenericLogbookEntry(lineTrimmed);
+                                currentElement.head.addLog(entry);
+                            }
+
+                            found = true;
+                        }
 
                         int spacesBeforeContent = line.indexOf(lineTrimmed);
 
