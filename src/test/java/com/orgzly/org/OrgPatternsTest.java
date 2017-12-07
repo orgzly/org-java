@@ -61,4 +61,20 @@ public class OrgPatternsTest {
         assertTrue(m.find());
         assertEquals("[2015-02-07 Sat 20:58]", m.group(1));
     }
+
+    @Test
+    public void testClockEntry1() {
+        String s = "CLOCK: [2017-09-02 Sat 12:38]--[2017-09-02 Sat 12:54] =>  0:16";
+        Matcher m = OrgPatterns.LOGBOOK_CLOCK_P.matcher(s);
+        assertTrue(m.find());
+        assertEquals("[2017-09-02 Sat 12:38]--[2017-09-02 Sat 12:54]", m.group(1));
+    }
+
+    @Test
+    public void testClockEntry2() {
+        String s = "CLOCK: [2017-09-02 Sat 12:38]";
+        Matcher m = OrgPatterns.LOGBOOK_CLOCK_P.matcher(s);
+        assertTrue(m.find());
+        assertEquals("[2017-09-02 Sat 12:38]", m.group(1));
+    }
 }

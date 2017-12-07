@@ -44,5 +44,6 @@ public class OrgPatterns {
     public static final Pattern PROPERTY = Pattern.compile("^:([^:\\s]+):\\s+(.*)\\s*$");
 
     public static final Pattern LOGBOOK_NOTE_P = Pattern.compile("^- Note taken on " + DT + " \\\\\\\\$");
-    public static final Pattern LOGBOOK_GENERIC_P = Pattern.compile("^(Clock:|-)\\s+(.*)\\s*$");
+    public static final Pattern LOGBOOK_CLOCK_P = Pattern.compile("CLOCK: " + DT_OR_RANGE + "(.*)$");
+    public static final Pattern LOGBOOK_GENERIC_P = Pattern.compile("^(CLOCK:|-)\\s+(.*)\\s*$");
 }
