@@ -193,13 +193,15 @@ class OrgSaxyParser extends OrgParser {
                                     if (mline == null) break;
                                     String mlineTrimmed = mline.trim();
                                     Matcher logbookMatcher = OrgPatterns.LOGBOOK_GENERIC_P.matcher(mlineTrimmed);
-                                    if (":END:".equals(mlineTrimmed) || logbookMatcher.matches()) {
+                                    Matcher headMatcher = OrgPatterns.HEAD_P.matcher(mlineTrimmed);
+                                    if (":END:".equals(mlineTrimmed) ||
+                                        headMatcher.matches() ||
+                                        logbookMatcher.matches()) {
                                         reader.reset();
                                         break;
                                     }
                                     lines.add(mlineTrimmed);
                                 }
-                                System.out.printf("I'm here");
                                 NoteEntry entry = new NoteEntry(time, lines);
                                 currentElement.head.addLog(entry);
                             } else {
