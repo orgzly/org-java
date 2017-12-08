@@ -186,13 +186,15 @@ class OrgSaxyParser extends OrgParser {
 
                             if (noteMatcher.find()) {
                                 String time = noteMatcher.group(1);
+                                int space = line.indexOf(lineTrimmed);
                                 while (true) {
                                     String mline;
                                     reader.mark(BUFFER_SIZE);
                                     mline = reader.readLine();
                                     if (mline == null) break;
+                                    String mlineSub = mline.substring(space);
                                     String mlineTrimmed = mline.trim();
-                                    Matcher logbookMatcher = OrgPatterns.LOGBOOK_GENERIC_P.matcher(mlineTrimmed);
+                                    Matcher logbookMatcher = OrgPatterns.LOGBOOK_GENERIC_P.matcher(mlineSub);
                                     Matcher headMatcher = OrgPatterns.HEAD_P.matcher(mlineTrimmed);
                                     if (":END:".equals(mlineTrimmed) ||
                                         headMatcher.matches() ||

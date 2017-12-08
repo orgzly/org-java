@@ -19,6 +19,10 @@ public class OrgNodeInList extends OrgNode {
         this.position = position;
     }
 
+    public OrgHead getHead() {
+        return this.head;
+    }
+
     public String toString() {
         StringBuilder s = new StringBuilder();
 

@@ -540,6 +540,38 @@ public class OrgParserTest extends OrgTestParser {
     }
 
     @Test
+    public void testLogBookMalformed1() throws IOException {
+        String str = "* TODO Note 1\n" +
+            ":LOGBOOK:\n" +
+            "- Note taken on [2017-12-07 Thu 11:46] \\\\\n" +
+            "  next line starts with a star\n" +
+            "* Note 2";
+
+        String expected = "* TODO Note 1\n" +
+            ":LOGBOOK:\n" +
+            "- Note taken on [2017-12-07 Thu 11:46] \\\\\n" +
+            "  next line starts with a star\n" +
+            ":END:\n\n" +
+            "* Note 2\n";
+
+        Assert.assertEquals(expected, parsed(str));
+    }
+
+    @Test
+    public void testNoteinMultilineNote() throws IOException {
+        String str = "* Note\n" +
+            ":LOGBOOK:\n" +
+            "- Note taken on [2017-12-07 Thu 11:46] \\\\\n" +
+            "  next line starts with a dash\n" +
+            "  - Trying to confuse the parser\n" +
+            ":END:\n\n";
+        OrgParsedFile file = parserBuilder.setInput(str).build().parse();
+        Assert.assertEquals(str, file.toString());
+        Assert.assertEquals(1, file.getHeadsInList().size());
+        Assert.assertEquals(1, file.getHeadsInList().get(0).getHead().getLogbook().size());
+    }
+
+    @Test
     public void testRich1() throws IOException {
         String str = "* TODO Rich markup :tag:\n" +
                      "  DEADLINE: <2015-02-08 Sun> SCHEDULED: <2015-02-11 Wed +1d>\n" +
