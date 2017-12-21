@@ -21,7 +21,7 @@ public class OrgEffortTime {
     }
 
 
-    public static OrgEffortTime parse(String string) {
+    public static OrgEffortTime parseOrNull(String string) {
         if (string == null) {
             return null;
         }
