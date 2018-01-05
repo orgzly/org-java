@@ -265,7 +265,7 @@ public class OrgHead {
      * Logbook.
      */
 
-    public void initLogbook() {
+    private void initLogbook() {
         if (logbook == null) {
             logbook = new ArrayList<>();
         }
