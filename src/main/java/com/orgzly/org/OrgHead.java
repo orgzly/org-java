@@ -3,6 +3,7 @@ package com.orgzly.org;
 import com.orgzly.org.datetime.OrgRange;
 
 import com.orgzly.org.logbook.Logbook;
+import com.orgzly.org.logbook.LogbookEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,10 +268,24 @@ public class OrgHead {
     }
 
     public void initLogbook() {
-        logbook = new Logbook();
+        if (logbook == null) {
+            logbook = new Logbook();
+        }
     }
 
     public Logbook getLogbook() {
+        return logbook;
+    }
+
+    public Logbook addLog(LogbookEntry log) {
+        initLogbook();
+        logbook.addLog(log);
+        return logbook;
+    }
+
+    public Logbook addLogToFront(LogbookEntry log) {
+        initLogbook();
+        logbook.addLogToFront(log);
         return logbook;
     }
 

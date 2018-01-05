@@ -173,7 +173,6 @@ class OrgSaxyParser extends OrgParser {
                         }
 
                         if (!inLogbook && ":LOGBOOK:".equals(lineTrimmed)) {
-                            currentElement.head.initLogbook();
                             inLogbook = true;
                             found = true;
 
@@ -212,7 +211,7 @@ class OrgSaxyParser extends OrgParser {
                                 entry = new GenericLogbookEntry(lineTrimmed);
                             }
 
-                            currentElement.head.getLogbook().addLogToFront(entry);
+                            currentElement.head.addLogToFront(entry);
                             found = true;
                         }
 
