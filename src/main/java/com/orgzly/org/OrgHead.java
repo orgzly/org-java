@@ -2,7 +2,7 @@ package com.orgzly.org;
 
 import com.orgzly.org.datetime.OrgRange;
 
-import com.orgzly.org.logbook.LogbookEntry;
+import com.orgzly.org.logbook.Logbook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class OrgHead {
 
     private List<OrgProperty> properties;
 
-    private List<LogbookEntry> logbook;
+    private Logbook logbook;
 
     private StringBuilder content;
 
@@ -261,32 +261,17 @@ public class OrgHead {
         properties = null;
     }
 
-    /*
-     * Logbook.
-     */
-
-    private void initLogbook() {
-        if (logbook == null) {
-            logbook = new ArrayList<>();
-        }
-    }
-
-    public List<LogbookEntry> getLogbook() {
-        if (logbook == null) {
-            throw new IllegalArgumentException("Logbook does not exist");
-        }
-
-        return logbook;
-    }
-
+    // Logbook
     public boolean hasLogbook() {
         return logbook != null;
     }
 
-    public void addLog(LogbookEntry log) {
-        initLogbook();
+    public void initLogbook() {
+        logbook = new Logbook();
+    }
 
-        logbook.add(log);
+    public Logbook getLogbook() {
+        return logbook;
     }
 
     public String toString() {

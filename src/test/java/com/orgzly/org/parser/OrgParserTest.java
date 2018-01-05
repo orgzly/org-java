@@ -569,7 +569,7 @@ public class OrgParserTest extends OrgTestParser {
         OrgParsedFile file = parserBuilder.setInput(str).build().parse();
         Assert.assertEquals(str, file.toString());
         Assert.assertEquals(1, file.getHeadsInList().size());
-        Assert.assertEquals(2, file.getHeadsInList().get(0).getHead().getLogbook().size());
+        Assert.assertEquals(2, file.getHeadsInList().get(0).getHead().getLogbook().getEntries().size());
     }
 
     @Test

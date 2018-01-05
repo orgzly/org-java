@@ -6,6 +6,8 @@ import com.orgzly.org.OrgStringUtils;
 
 import com.orgzly.org.logbook.LogbookEntry;
 
+import java.util.Iterator;
+
 public class OrgParserWriter {
     /** org-log-note-headings */
     private static final String[] ORG_LOG_NOTE_HEADINGS = new String[] {
@@ -191,7 +193,12 @@ public class OrgParserWriter {
             appendIndent(s, level, isIndented);
             s.append(":LOGBOOK:");
 
-            for (LogbookEntry log: head.getLogbook()) {
+            // Items are stored in chronological order, which is the reverse
+            // of how it is written in the drawer.
+            Iterator<LogbookEntry> reverseIterator = head.getLogbook().getEntries().descendingIterator();
+
+            while (reverseIterator.hasNext()) {
+                LogbookEntry log = reverseIterator.next();
                 String[] lines = log.toString().split("\\r?\\n");
                 for (String line : lines) {
                     s.append("\n");

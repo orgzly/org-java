@@ -7,6 +7,7 @@ import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgStringUtils;
 import com.orgzly.org.datetime.OrgRange;
 
+import com.orgzly.org.logbook.LogbookEntry;
 import com.orgzly.org.logbook.GenericLogbookEntry;
 import com.orgzly.org.logbook.NoteEntry;
 
@@ -128,20 +129,20 @@ class OrgSaxyParser extends OrgParser {
                             String timeString = m.group(2);
 
                             switch (timeKey) {
-                                case "SCHEDULED:":
-                                    currentElement.getHead().setScheduled(OrgRange.parse(timeString));
-                                    break;
+                            case "SCHEDULED:":
+                                currentElement.getHead().setScheduled(OrgRange.parse(timeString));
+                                break;
 
-                                case "CLOSED:":
-                                    currentElement.getHead().setClosed(OrgRange.parse(timeString));
-                                    break;
+                            case "CLOSED:":
+                                currentElement.getHead().setClosed(OrgRange.parse(timeString));
+                                break;
 
-                                case "DEADLINE:":
-                                    currentElement.getHead().setDeadline(OrgRange.parse(timeString));
-                                    break;
+                            case "DEADLINE:":
+                                currentElement.getHead().setDeadline(OrgRange.parse(timeString));
+                                break;
 
-                                default:
-                                    throw new IllegalStateException("Unknown time key " + timeKey);
+                            default:
+                                throw new IllegalStateException("Unknown time key " + timeKey);
                             }
 
                             found = true;
@@ -162,8 +163,8 @@ class OrgSaxyParser extends OrgParser {
 
                             if (propertyMatcher.find()) {
                                 OrgProperty property = new OrgProperty(
-                                        propertyMatcher.group(1),
-                                        propertyMatcher.group(2));
+                                                                       propertyMatcher.group(1),
+                                                                       propertyMatcher.group(2));
 
                                 currentElement.head.addProperty(property);
                             }
@@ -172,6 +173,7 @@ class OrgSaxyParser extends OrgParser {
                         }
 
                         if (!inLogbook && ":LOGBOOK:".equals(lineTrimmed)) {
+                            currentElement.head.initLogbook();
                             inLogbook = true;
                             found = true;
 
@@ -182,6 +184,8 @@ class OrgSaxyParser extends OrgParser {
                         } else if (inLogbook) {
                             Matcher noteMatcher = OrgPatterns.LOGBOOK_NOTE_P.matcher(lineTrimmed);
                             ArrayList<String> lines = new ArrayList<String>();
+
+                            LogbookEntry entry = null;
 
                             if (noteMatcher.find()) {
                                 String time = noteMatcher.group(1);
@@ -203,13 +207,12 @@ class OrgSaxyParser extends OrgParser {
                                     }
                                     lines.add(mlineTrimmed);
                                 }
-                                NoteEntry entry = new NoteEntry(time, lines);
-                                currentElement.head.addLog(entry);
+                                entry = new NoteEntry(time, lines);
                             } else {
-                                GenericLogbookEntry entry = new GenericLogbookEntry(lineTrimmed);
-                                currentElement.head.addLog(entry);
+                                entry = new GenericLogbookEntry(lineTrimmed);
                             }
 
+                            currentElement.head.getLogbook().addLogToFront(entry);
                             found = true;
                         }
 
@@ -283,7 +286,7 @@ class OrgSaxyParser extends OrgParser {
 
         Matcher m;
 
-		/* First assume entire line is a title and no state. */
+        /* First assume entire line is a title and no state. */
         String title = str.trim();
 
         /* Try known states. */
@@ -299,14 +302,14 @@ class OrgSaxyParser extends OrgParser {
             }
         }
 
-		/* Parse priority. */
+        /* Parse priority. */
         m = OrgPatterns.HEAD_PRIORITY_P.matcher(title);
         if (m.find()) {
             head.setPriority(m.group(1));
             title = m.group(2).trim();
         }
 
-		/* Parse tags. */
+        /* Parse tags. */
         m = OrgPatterns.HEAD_TAGS_P.matcher(title);
         if (m.find()) {
             title = m.group(1).trim();
