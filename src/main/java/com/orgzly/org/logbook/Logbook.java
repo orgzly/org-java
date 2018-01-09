@@ -3,6 +3,7 @@ package com.orgzly.org.logbook;
 import com.orgzly.org.logbook.LogbookEntry;
 
 import java.util.LinkedList;
+import java.util.Iterator;
 
 /**
  * The internal representation for a LOGBOOK drawer.
@@ -33,5 +34,21 @@ public class Logbook {
 
     public void addLogbookEntry(LogbookEntry log) {
         entries.addLast(log);
+    }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append(":LOGBOOK:");
+        Iterator<LogbookEntry> reverseIterator = entries.descendingIterator();
+        while (reverseIterator.hasNext()) {
+            LogbookEntry log = reverseIterator.next();
+            String[] lines = log.toString().split("\\r?\\n");
+            for (String line : lines) {
+                s.append("\n");
+                s.append(line);
+            }
+        }
+        s.append("\n:END:");
+        return s.toString();
     }
 }
