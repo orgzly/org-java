@@ -277,15 +277,15 @@ public class OrgHead {
         return logbook;
     }
 
-    public Logbook addLog(LogbookEntry log) {
+    public Logbook addLogbookEntry(LogbookEntry log) {
         initLogbook();
-        logbook.addLog(log);
+        logbook.addLogbookEntry(log);
         return logbook;
     }
 
-    public Logbook addLogToFront(LogbookEntry log) {
+    public Logbook addLogbookEntryToFront(LogbookEntry log) {
         initLogbook();
-        logbook.addLogToFront(log);
+        logbook.addLogbookEntryToFront(log);
         return logbook;
     }
 

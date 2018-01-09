@@ -27,11 +27,11 @@ public class Logbook {
         return entries;
     }
 
-    public void addLogToFront(LogbookEntry log) {
+    public void addLogbookEntryToFront(LogbookEntry log) {
         entries.addFirst(log);
     }
 
-    public void addLog(LogbookEntry log) {
+    public void addLogbookEntry(LogbookEntry log) {
         entries.addLast(log);
     }
 }

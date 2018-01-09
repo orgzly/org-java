@@ -211,7 +211,7 @@ class OrgSaxyParser extends OrgParser {
                                 entry = new GenericLogbookEntry(lineTrimmed);
                             }
 
-                            currentElement.head.addLogToFront(entry);
+                            currentElement.head.addLogbookEntryToFront(entry);
                             found = true;
                         }
 
