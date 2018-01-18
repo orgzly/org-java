@@ -198,7 +198,12 @@ class OrgSaxyParser extends OrgParser {
                             // There could still be heading-bound lines.
                             continue;
                         }
+                    }
 
+                    /* Parse all plain timestamps in this line */
+                    Matcher m = OrgPatterns.DT_OR_RANGE_P.matcher(line);
+                    while (m.find()) {
+                        currentElement.getHead().addTimestamp(OrgRange.parse(m.group()));
                     }
 
                     currentElement.getHead().appendContent(line);

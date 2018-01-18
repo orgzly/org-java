@@ -22,6 +22,7 @@ public class OrgHead {
     private OrgRange scheduled;
     private OrgRange deadline;
     private OrgRange closed;
+    private List<OrgRange> timestamps;
 
     private OrgRange clock; // TODO: Create OrgClock with elapsed time?
 
@@ -178,6 +179,29 @@ public class OrgHead {
 
     public void setDeadline(OrgRange time) {
         deadline = time;
+    }
+
+    /**
+     * Plain timestamps.
+     */
+    public List<OrgRange> getTimestamps() {
+        if (timestamps == null) {
+            return new ArrayList<>();
+        } else {
+            return timestamps;
+        }
+    }
+
+    public boolean hasTimestamps() {
+        return timestamps != null && !timestamps.isEmpty();
+    }
+
+    public void addTimestamp(OrgRange timestamp) {
+        if (timestamps == null) {
+            timestamps = new ArrayList<>();
+        }
+
+        timestamps.add(timestamp);
     }
 
     /**
