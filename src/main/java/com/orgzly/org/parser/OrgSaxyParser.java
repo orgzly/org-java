@@ -203,7 +203,7 @@ class OrgSaxyParser extends OrgParser {
                     /* Parse all plain timestamps in this line */
                     Matcher m = OrgPatterns.DT_OR_RANGE_P.matcher(line);
                     while (m.find()) {
-                        currentElement.getHead().addTimestamp(OrgRange.parse(m.group()));
+                        currentElement.getHead().getContent().addTimestamp(OrgRange.parse(m.group()));
                     }
 
                     currentElement.getHead().appendContent(line);
@@ -294,7 +294,7 @@ class OrgSaxyParser extends OrgParser {
      * Called before every announcement.
      */
     private void trimContent(OrgHead head) {
-        head.setContent(OrgStringUtils.trimLines(head.getContent()));
+        head.setContent(OrgStringUtils.trimLines(head.getContent().toString()));
     }
 
     /**

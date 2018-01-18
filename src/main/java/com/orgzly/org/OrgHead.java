@@ -22,7 +22,6 @@ public class OrgHead {
     private OrgRange scheduled;
     private OrgRange deadline;
     private OrgRange closed;
-    private List<OrgRange> timestamps;
 
     private OrgRange clock; // TODO: Create OrgClock with elapsed time?
 
@@ -30,7 +29,7 @@ public class OrgHead {
 
     private List<String> logbook;
 
-    private StringBuilder content;
+    private OrgContent content;
 
     /**
      * Creates an empty heading.
@@ -41,7 +40,6 @@ public class OrgHead {
 
     public OrgHead(String str) {
         this.title = str;
-        this.content = new StringBuilder();
     }
 
     /**
@@ -98,26 +96,31 @@ public class OrgHead {
      *
      * @return content
      */
-    public String getContent() {
-        return content.toString();
+    public OrgContent getContent() {
+        if (content == null) {
+            content = new OrgContent();
+        }
+        return content;
     }
 
     /**
      * @return {@code true} if there is a text below heading, {@code false} otherwise
      */
     public boolean hasContent() {
-        return content.length() > 0;
+        return content != null && !content.isEmpty();
     }
 
-    public void setContent(String content) {
-        if (content != null) {
-            this.content = new StringBuilder(content);
-        } else {
-            this.content = new StringBuilder("");
+    public void setContent(String s) {
+        if (content == null) {
+            content = new OrgContent();
         }
+        content.set(s);
     }
 
     public void appendContent(String s) {
+        if (content == null) {
+            content = new OrgContent();
+        }
         content.append(s);
     }
 
@@ -179,29 +182,6 @@ public class OrgHead {
 
     public void setDeadline(OrgRange time) {
         deadline = time;
-    }
-
-    /**
-     * Plain timestamps.
-     */
-    public List<OrgRange> getTimestamps() {
-        if (timestamps == null) {
-            return new ArrayList<>();
-        } else {
-            return timestamps;
-        }
-    }
-
-    public boolean hasTimestamps() {
-        return timestamps != null && !timestamps.isEmpty();
-    }
-
-    public void addTimestamp(OrgRange timestamp) {
-        if (timestamps == null) {
-            timestamps = new ArrayList<>();
-        }
-
-        timestamps.add(timestamp);
     }
 
     /**
