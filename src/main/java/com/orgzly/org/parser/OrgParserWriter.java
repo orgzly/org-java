@@ -212,14 +212,14 @@ public class OrgParserWriter {
              * unless it starts with following strings.
              * Until LOGBOOK and CLOCK support is added.
              */
-            String content = head.getContent().toString().trim();
+            String content = head.getContentString().trim();
             if (!content.startsWith(":LOGBOOK:") && !content.startsWith("CLOCK: ") && !isLogNoteHeading(content)) {
                 if (settings.separateHeaderAndContentWithNewLine) {
                     s.append("\n");
                 }
             }
 
-            s.append(head.getContent());
+            s.append(head.getContentString());
             s.append("\n");
 
             if (settings.separateNotesWithNewLine == OrgParserSettings.SeparateNotesWithNewLine.MULTI_LINE_NOTES_ONLY) {

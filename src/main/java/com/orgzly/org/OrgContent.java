@@ -17,15 +17,6 @@ public class OrgContent {
     }
 
     /**
-     * Content (body). Text after the heading.
-     *
-     * @return content
-     */
-    public String toString() {
-        return value.toString();
-    }
-
-    /**
      * @return {@code false} if there is a text below heading, {@code true} otherwise
      */
     public boolean isEmpty() {
@@ -40,6 +31,13 @@ public class OrgContent {
 
     public void append(String s) {
         value.append(s);
+    }
+
+    /**
+     * @return the content text
+     */
+    public String toString() {
+        return value.toString();
     }
 
     /**

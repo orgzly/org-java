@@ -94,13 +94,22 @@ public class OrgHead {
     /**
      * Content (body). Text after the heading.
      *
-     * @return content
+     * @return the content object
      */
     public OrgContent getContent() {
         if (content == null) {
             content = new OrgContent();
         }
         return content;
+    }
+
+    /**
+     * Content (body). Text after the heading.
+     *
+     * @return the content text
+     */
+    public String getContentString() {
+        return getContent().toString();
     }
 
     /**
