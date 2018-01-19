@@ -4,6 +4,7 @@ import com.orgzly.org.datetime.OrgRange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 /**
  * Text below a heading.
@@ -24,13 +25,14 @@ public class OrgContent {
     }
 
     public void set(String value) {
-        if (value != null) {
-            this.value = new StringBuilder(value);
-        }
+        this.value = new StringBuilder(value);
+        timestamps = null;
+        reparse();
     }
 
     public void append(String s) {
         value.append(s);
+        parseLine(s);
     }
 
     /**
@@ -61,6 +63,22 @@ public class OrgContent {
         }
 
         timestamps.add(timestamp);
+    }
+
+    /** Parse all plain timestamps in this line and add them to the timestamps list. */
+    public void parseLine(String line) {
+        Matcher m = OrgPatterns.DT_OR_RANGE_P.matcher(line);
+        while (m.find()) {
+            addTimestamp(OrgRange.parse(m.group()));
+        }
+    }
+
+    /** Parse the whole content to rebuild the timestamps list. */
+    public void reparse() {
+        String content = toString();
+        for (String line: content.split("\n")) {
+            parseLine(line);
+        }
     }
 
 }
