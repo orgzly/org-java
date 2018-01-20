@@ -10,11 +10,14 @@ import java.util.regex.Matcher;
  * Text below a heading.
  */
 public class OrgContent {
-    StringBuilder value;
+    private StringBuilder value;
     private List<OrgRange> timestamps;
+    private boolean dirty; /** Whether timestamps are out of sync with `value`,
+                            * and need to be reparsed. */
 
     public OrgContent() {
-        this.value = new StringBuilder();
+        value = new StringBuilder();
+        dirty = false;
     }
 
     /**
@@ -26,13 +29,12 @@ public class OrgContent {
 
     public void set(String value) {
         this.value = new StringBuilder(value);
-        timestamps = null;
-        reparse();
+        dirty = true;
     }
 
     public void append(String s) {
         value.append(s);
-        parseLine(s);
+        dirty = true;
     }
 
     /**
@@ -47,38 +49,26 @@ public class OrgContent {
      */
     public List<OrgRange> getTimestamps() {
         if (timestamps == null) {
-            return new ArrayList<>();
-        } else {
-            return timestamps;
+            timestamps = new ArrayList<>();
         }
+        if (dirty) {
+            reparse();
+        }
+        return timestamps;
     }
 
     public boolean hasTimestamps() {
         return timestamps != null && !timestamps.isEmpty();
     }
 
-    public void addTimestamp(OrgRange timestamp) {
-        if (timestamps == null) {
-            timestamps = new ArrayList<>();
-        }
-
-        timestamps.add(timestamp);
-    }
-
-    /** Parse all plain timestamps in this line and add them to the timestamps list. */
-    public void parseLine(String line) {
-        Matcher m = OrgPatterns.DT_OR_RANGE_P.matcher(line);
+    /** Parse all plain timestamps in this content and rebuild the timestamps list. */
+    private void reparse() {
+        timestamps.clear();
+        Matcher m = OrgPatterns.DT_OR_RANGE_P.matcher(toString());
         while (m.find()) {
-            addTimestamp(OrgRange.parse(m.group()));
+            timestamps.add(OrgRange.parse(m.group()));
         }
-    }
-
-    /** Parse the whole content to rebuild the timestamps list. */
-    public void reparse() {
-        String content = toString();
-        for (String line: content.split("\n")) {
-            parseLine(line);
-        }
+        dirty = false;
     }
 
 }

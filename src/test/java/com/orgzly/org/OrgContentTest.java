@@ -14,6 +14,15 @@ public class OrgContentTest {
     }
 
     @Test
+    public void testTimestampMultiline() {
+        OrgContent o = new OrgContent();
+        o.append("<2000-01-01 10:10>\n<2001-01-01 10:10>");
+        Assert.assertEquals(2, o.getTimestamps().size());
+        Assert.assertEquals("<2000-01-01 10:10>", o.getTimestamps().get(0).toString());
+        Assert.assertEquals("<2001-01-01 10:10>", o.getTimestamps().get(1).toString());
+    }
+
+    @Test
     public void testReparse() {
         OrgContent o = new OrgContent();
         o.append("<2000-01-01 10:10>");
