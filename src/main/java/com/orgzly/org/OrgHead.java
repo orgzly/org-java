@@ -233,10 +233,10 @@ public class OrgHead {
      */
     public OrgProperties getProperties() {
         if (properties == null) {
-            return new OrgProperties();
-        } else {
-            return properties;
+            properties = new OrgProperties();
         }
+
+        return properties;
     }
 
     public boolean hasProperties() {
