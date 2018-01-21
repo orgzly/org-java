@@ -3,7 +3,6 @@ package com.orgzly.org.parser;
 import com.orgzly.org.OrgFile;
 import com.orgzly.org.OrgHead;
 import com.orgzly.org.OrgPatterns;
-import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgStringUtils;
 import com.orgzly.org.datetime.OrgRange;
 
@@ -155,11 +154,10 @@ class OrgSaxyParser extends OrgParser {
                             Matcher propertyMatcher = OrgPatterns.PROPERTY.matcher(lineTrimmed);
 
                             if (propertyMatcher.find()) {
-                                OrgProperty property = new OrgProperty(
+                                currentElement.head.addProperty(
                                         propertyMatcher.group(1),
-                                        propertyMatcher.group(2));
-
-                                currentElement.head.addProperty(property);
+                                        propertyMatcher.group(2)
+                                );
                             }
 
                             found = true;

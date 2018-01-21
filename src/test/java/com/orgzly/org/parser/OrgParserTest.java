@@ -3,7 +3,6 @@ package com.orgzly.org.parser;
 
 import com.orgzly.org.OrgFileSettings;
 import com.orgzly.org.OrgHead;
-import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgTestParser;
 import org.junit.Assert;
 import org.junit.Before;
@@ -419,7 +418,7 @@ public class OrgParserTest extends OrgTestParser {
 
         OrgHead head1 = new OrgHead("Title 1");
         head1.setContent("Content");
-        head1.addProperty(new OrgProperty("A", "B"));
+        head1.addProperty("A", "B");
         OrgNodeInList nodeInList1 = new OrgNodeInList(1, 1, head1);
 
         String out = parserWriter.whiteSpacedFilePreface("") + parserWriter.whiteSpacedHead(nodeInList1, false);
