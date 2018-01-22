@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 
-public class OrgPropertyTest extends OrgTestParser {
+public class OrgPropertiesTest extends OrgTestParser {
     @Test
     public void testProperties() throws IOException {
         String fileContent =

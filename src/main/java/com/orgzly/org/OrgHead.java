@@ -25,7 +25,7 @@ public class OrgHead {
 
     private OrgRange clock; // TODO: Create OrgClock with elapsed time?
 
-    private List<OrgProperty> properties;
+    private OrgProperties properties;
 
     private List<String> logbook;
 
@@ -231,27 +231,27 @@ public class OrgHead {
      *
      * @return list of properties
      */
-    public List<OrgProperty> getProperties() {
+    public OrgProperties getProperties() {
         if (properties == null) {
-            return new ArrayList<>();
-        } else {
-            return properties;
+            properties = new OrgProperties();
         }
+
+        return properties;
     }
 
     public boolean hasProperties() {
         return properties != null && !properties.isEmpty();
     }
 
-    public void addProperty(OrgProperty property) {
+    public void addProperty(String name, String value) {
         if (properties == null) {
-            properties = new ArrayList<>();
+            properties = new OrgProperties();
         }
 
-        properties.add(property);
+        properties.put(name, value);
     }
 
-    public void setProperties(List<OrgProperty> properties) {
+    public void setProperties(OrgProperties properties) {
         this.properties = properties;
     }
 

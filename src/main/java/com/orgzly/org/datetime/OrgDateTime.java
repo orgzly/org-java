@@ -63,11 +63,11 @@ public class OrgDateTime {
         this.hasTime = true;
     }
 
-    public OrgDateTime(long ms, boolean isActive) {
+    public OrgDateTime(long millis, boolean isActive) {
         this.isActive = isActive;
 
         this.cal = GregorianCalendar.getInstance();
-        this.cal.setTimeInMillis(ms);
+        this.cal.setTimeInMillis(millis);
         this.cal.set(Calendar.SECOND, 0);
         this.cal.set(Calendar.MILLISECOND, 0);
 
