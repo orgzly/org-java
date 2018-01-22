@@ -30,4 +30,11 @@ public class OrgContentTest {
         Assert.assertEquals(1, o.getTimestamps().size());
         Assert.assertEquals("<2001-01-01 10:10>", o.getTimestamps().get(0).toString());
     }
+
+    @Test
+    public void testEmptyContent() {
+        OrgContent o = new OrgContent();
+        Assert.assertEquals(0, o.getTimestamps().size());
+        Assert.assertFalse(o.hasTimestamps());
+    }
 }

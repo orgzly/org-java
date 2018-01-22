@@ -21,7 +21,8 @@ public class OrgContent {
     }
 
     /**
-     * @return {@code false} if there is a text below heading, {@code true} otherwise
+     * @return {@code false} if there is a text below heading, {@code true}
+     * otherwise
      */
     public boolean isEmpty() {
         return value.length() == 0;
@@ -58,7 +59,13 @@ public class OrgContent {
     }
 
     public boolean hasTimestamps() {
-        return timestamps != null && !timestamps.isEmpty();
+        if (timestamps == null) {
+            return false;
+        }
+        if (dirty) {
+            reparse();
+        }
+        return !timestamps.isEmpty();
     }
 
     /** Parse all plain timestamps in this content and rebuild the timestamps list. */
