@@ -288,7 +288,7 @@ class OrgSaxyParser extends OrgParser {
      * Called before every announcement.
      */
     private void trimContent(OrgHead head) {
-        head.setContent(OrgStringUtils.trimLines(head.getContentString()));
+        head.setContent(OrgStringUtils.trimLines(head.getContent()));
     }
 
     /**

@@ -689,7 +689,7 @@ public class OrgParserTest extends OrgTestParser {
 
         OrgParsedFile file = parserBuilder.setInput(str).build().parse();
 
-        List<OrgRange> timestamps = file.getHeadsInList().get(0).getHead().getContent().getTimestamps();
+        List<OrgRange> timestamps = file.getHeadsInList().get(0).getHead().getContentObject().getTimestamps();
         Assert.assertEquals(4, timestamps.size());
         Assert.assertEquals("<2018-01-15 Mon>", timestamps.get(0).toString());
         Assert.assertEquals("<2018-01-16 Tue>", timestamps.get(1).toString());
@@ -704,7 +704,7 @@ public class OrgParserTest extends OrgTestParser {
 
         OrgParsedFile file = parserBuilder.setInput(str).build().parse();
 
-        List<OrgRange> timestamps = file.getHeadsInList().get(0).getHead().getContent().getTimestamps();
+        List<OrgRange> timestamps = file.getHeadsInList().get(0).getHead().getContentObject().getTimestamps();
         Assert.assertEquals(1, timestamps.size());
         Assert.assertEquals("<2018-01-15 Mon>", timestamps.get(0).toString());
     }

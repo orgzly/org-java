@@ -96,7 +96,7 @@ public class OrgHead {
      *
      * @return the content object
      */
-    public OrgContent getContent() {
+    public OrgContent getContentObject() {
         if (content == null) {
             content = new OrgContent();
         }
@@ -108,8 +108,8 @@ public class OrgHead {
      *
      * @return the content text
      */
-    public String getContentString() {
-        return getContent().toString();
+    public String getContent() {
+        return getContentObject().toString();
     }
 
     /**
