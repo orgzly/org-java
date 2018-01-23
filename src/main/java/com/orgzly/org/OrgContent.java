@@ -29,8 +29,13 @@ public class OrgContent {
     }
 
     public void set(String value) {
-        this.value = new StringBuilder(value);
-        dirty = true;
+        if (value == null) {
+            this.value = new StringBuilder("");
+        }
+        else {
+            this.value = new StringBuilder(value);
+            dirty = true;
+        }
     }
 
     public void append(String s) {
@@ -46,7 +51,7 @@ public class OrgContent {
     }
 
     /**
-     * Plain timestamps.
+     * @return the list of plain timestamps in this content text
      */
     public List<OrgRange> getTimestamps() {
         if (timestamps == null) {
