@@ -198,6 +198,18 @@ public class OrgDateTimeTest {
     }
 
     @Test
+    public void testDoParse() {
+        OrgDateTime time = OrgDateTime.doParse("[2014-05-26 Mon]");
+        Assert.assertNotNull(time);
+    }
+
+    @Test
+    public void testDoParseInvalid() {
+        OrgDateTime time = OrgDateTime.doParse("2014-05-26 Mon");
+        Assert.assertNull(time);
+    }
+
+    @Test
     public void testEndTime() {
         OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15-14:30>");
 

@@ -15,7 +15,6 @@ public class OrgRange {
     private OrgDateTime startTime;
     private OrgDateTime endTime;
 
-
     public static OrgRange parseOrNull(String str) {
         if (OrgStringUtils.isEmpty(str)) {
             return null;
@@ -57,6 +56,22 @@ public class OrgRange {
             throw new IllegalArgumentException(
                     "String " + str +
                     " cannot be parsed as OrgRange using pattern " + OrgPatterns.DT_OR_RANGE_P);
+        }
+    }
+
+    // TODO: Rename to parse, rename other methods to getInstance, add *orThrow methods if needed
+    public static OrgRange doParse(String str) {
+        try {
+            // Make sure both OrgDateTime are actually parsed.
+            // This is pretty bad, clean these classes.
+            OrgRange range = OrgRange.parse(str);
+            range.startTime.getCalendar();
+            if (range.endTime != null) {
+                range.endTime.getCalendar();
+            }
+            return range;
+        } catch (Exception e) {
+            return null;
         }
     }
 

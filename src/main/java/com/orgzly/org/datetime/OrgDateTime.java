@@ -107,6 +107,17 @@ public class OrgDateTime {
         return time;
     }
 
+    // TODO: Rename to parse, rename other methods to getInstance, add *orThrow methods if needed
+    public static OrgDateTime doParse(String str) {
+        try {
+            OrgDateTime time = OrgDateTime.parse(str);
+            time.ensureCalendar();
+            return time;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * Returns {@link Calendar} representing this time.
      *

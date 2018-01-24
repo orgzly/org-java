@@ -147,4 +147,16 @@ public class OrgRangeTest {
     public void testLargeYear() {
         OrgRange.parse("<10016-04-03 Sun ++100y>");
     }
+
+    @Test
+    public void testDoParse() {
+        OrgRange time = OrgRange.doParse("[2014-05-26 Mon]");
+        Assert.assertNotNull(time);
+    }
+
+    @Test
+    public void testDoParseInvalid() {
+        OrgRange time = OrgRange.doParse("2014-05-26 Mon");
+        Assert.assertNull(time);
+    }
 }
