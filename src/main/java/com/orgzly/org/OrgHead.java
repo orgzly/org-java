@@ -29,7 +29,7 @@ public class OrgHead {
 
     private List<String> logbook;
 
-    private StringBuilder content;
+    private OrgContent content;
 
     /**
      * Creates an empty heading.
@@ -40,7 +40,6 @@ public class OrgHead {
 
     public OrgHead(String str) {
         this.title = str;
-        this.content = new StringBuilder();
     }
 
     /**
@@ -95,28 +94,42 @@ public class OrgHead {
     /**
      * Content (body). Text after the heading.
      *
-     * @return content
+     * @return the content object
+     */
+    public OrgContent getContentObject() {
+        if (content == null) {
+            content = new OrgContent();
+        }
+        return content;
+    }
+
+    /**
+     * Content (body). Text after the heading.
+     *
+     * @return the content text
      */
     public String getContent() {
-        return content.toString();
+        return getContentObject().toString();
     }
 
     /**
      * @return {@code true} if there is a text below heading, {@code false} otherwise
      */
     public boolean hasContent() {
-        return content.length() > 0;
+        return content != null && !content.isEmpty();
     }
 
-    public void setContent(String content) {
-        if (content != null) {
-            this.content = new StringBuilder(content);
-        } else {
-            this.content = new StringBuilder("");
+    public void setContent(String s) {
+        if (content == null) {
+            content = new OrgContent();
         }
+        content.set(s);
     }
 
     public void appendContent(String s) {
+        if (content == null) {
+            content = new OrgContent();
+        }
         content.append(s);
     }
 

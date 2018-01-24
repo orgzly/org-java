@@ -1,9 +1,10 @@
 package com.orgzly.org.parser;
 
-
+import java.util.List;
 import com.orgzly.org.OrgFileSettings;
 import com.orgzly.org.OrgHead;
 import com.orgzly.org.OrgTestParser;
+import com.orgzly.org.datetime.OrgRange;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -674,6 +675,37 @@ public class OrgParserTest extends OrgTestParser {
 
         String parsedStr = parsed(str, settings);
         Assert.assertEquals(expectedStr, parsedStr);
+    }
+
+    @Test
+    public void testPlainTimestamps() throws IOException {
+        String str = "* Node\n" +
+            "CLOSED: [2012-12-29 Sat 08:05] DEADLINE: <2012-12-28 Fri> SCHEDULED: <2012-12-27 Thu>\n" +
+            "<2018-01-15 Mon> some text between timestamps <2018-01-16 Tue>\n" +
+            "Blabla some other text in front <2018-01-17 Wed> text after\n" +
+            "\n\n" +
+            "[2018-01-18 Thu]\n\n";
+
+        OrgParsedFile file = parserBuilder.setInput(str).build().parse();
+
+        List<OrgRange> timestamps = file.getHeadsInList().get(0).getHead().getContentObject().getTimestamps();
+        Assert.assertEquals(4, timestamps.size());
+        Assert.assertEquals("<2018-01-15 Mon>", timestamps.get(0).toString());
+        Assert.assertEquals("<2018-01-16 Tue>", timestamps.get(1).toString());
+        Assert.assertEquals("<2018-01-17 Wed>", timestamps.get(2).toString());
+        Assert.assertEquals("[2018-01-18 Thu]", timestamps.get(3).toString());
+    }
+
+    @Test
+    public void testPlainTimestampsNoHeader() throws IOException {
+        String str = "* Node\n" +
+            "<2018-01-15 Mon>\n";
+
+        OrgParsedFile file = parserBuilder.setInput(str).build().parse();
+
+        List<OrgRange> timestamps = file.getHeadsInList().get(0).getHead().getContentObject().getTimestamps();
+        Assert.assertEquals(1, timestamps.size());
+        Assert.assertEquals("<2018-01-15 Mon>", timestamps.get(0).toString());
     }
 
     private String parsed(String original) throws IOException {

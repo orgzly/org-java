@@ -196,7 +196,6 @@ class OrgSaxyParser extends OrgParser {
                             // There could still be heading-bound lines.
                             continue;
                         }
-
                     }
 
                     currentElement.getHead().appendContent(line);
