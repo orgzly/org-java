@@ -30,12 +30,11 @@ public class OrgContent {
 
     public void set(String value) {
         if (value == null) {
-            this.value = new StringBuilder("");
-        }
-        else {
+            this.value = new StringBuilder();
+        } else {
             this.value = new StringBuilder(value);
-            dirty = true;
         }
+        dirty = true;
     }
 
     public void append(String s) {
