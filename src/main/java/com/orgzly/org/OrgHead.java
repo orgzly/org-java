@@ -91,12 +91,7 @@ public class OrgHead {
         }
     }
 
-    /**
-     * Content (body). Text after the heading.
-     *
-     * @return the content object
-     */
-    public OrgContent getContentObject() {
+    private OrgContent getContentObject() {
         if (content == null) {
             content = new OrgContent();
         }
@@ -120,17 +115,19 @@ public class OrgHead {
     }
 
     public void setContent(String s) {
-        if (content == null) {
-            content = new OrgContent();
-        }
-        content.set(s);
+        getContentObject().set(s);
     }
 
     public void appendContent(String s) {
-        if (content == null) {
-            content = new OrgContent();
-        }
-        content.append(s);
+        getContentObject().append(s);
+    }
+
+    public List<OrgRange> getTimestamps() {
+        return getContentObject().getTimestamps();
+    }
+
+    public boolean hasTimestamps() {
+        return getContentObject().hasTimestamps();
     }
 
     /**
