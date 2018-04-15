@@ -155,6 +155,13 @@ public class OrgDateTimeTest {
     }
 
     @Test
+    public void testShiftTimeWithHabitDeadline() {
+        OrgDateTime time = OrgDateTime.parse("<2009-10-17 Sat 13:15 +2d/4d>");
+        time.shift(Calendar.getInstance());
+        Assert.assertEquals("<2009-10-19 Mon 13:15 +2d/4d>", time.toString());
+    }
+
+    @Test
     public void testDelayOnlyWithTime() {
         OrgDateTime time = OrgDateTime.parse("<2009-10-17 13:15 -2d>");
         Assert.assertFalse(time.hasRepeater());

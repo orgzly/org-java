@@ -170,6 +170,10 @@ public class OrgRepeater extends OrgInterval {
         /* Interval. */
         s.append(super.toString());
 
+        if (habitDeadline != null) {
+            s.append("/").append(habitDeadline);
+        }
+
         return s.toString();
     }
 }
