@@ -17,6 +17,8 @@ public class StateChangeLogic {
     private OrgRange deadline;
     private OrgRange closed;
 
+    private boolean shifted = false;
+
     public StateChangeLogic(Set<String> doneKeywords) {
         this.doneKeywords = doneKeywords;
     }
@@ -36,8 +38,6 @@ public class StateChangeLogic {
                  * state and remove closed time. If times were not shifted (there was no repeater)
                  * update the state and set closed time.
                  */
-
-                boolean shifted = false;
 
                 if (scheduled != null) {
                     if (scheduled.shift()) {
@@ -92,5 +92,9 @@ public class StateChangeLogic {
 
     public OrgRange getClosed() {
         return closed;
+    }
+
+    public boolean isShifted() {
+        return shifted;
     }
 }
