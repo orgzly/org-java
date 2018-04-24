@@ -348,6 +348,28 @@ public class OrgParserTest extends OrgTestParser {
     }
 
     @Test
+    public void testContentLineStartingWithStarAndSpace() {
+        OrgHead head = new OrgHead();
+        OrgNodeInList nodeInList = new OrgNodeInList(1, 1, head);
+        head.setTitle("Title");
+        head.setContent("* list item");
+
+        String out = parserWriter.whiteSpacedHead(nodeInList, false);
+        Assert.assertEquals("* Title\n\n * list item\n\n", out);
+    }
+
+    @Test
+    public void testContentLineStartingWithStar() {
+        OrgHead head = new OrgHead();
+        OrgNodeInList nodeInList = new OrgNodeInList(1, 1, head);
+        head.setTitle("Title");
+        head.setContent("*bold*");
+
+        String out = parserWriter.whiteSpacedHead(nodeInList, false);
+        Assert.assertEquals("* Title\n\n*bold*\n\n", out);
+    }
+
+    @Test
     public void testNoteNote() {
         OrgNodeInList nodeInList1 = new OrgNodeInList(1, 1, new OrgHead("Title 1"));
         OrgNodeInList nodeInList2 = new OrgNodeInList(2, 1, new OrgHead("Title 2"));

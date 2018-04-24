@@ -219,7 +219,9 @@ public class OrgParserWriter {
                 }
             }
 
-            s.append(head.getContent());
+//             s.append(head.getContent());
+            s.append(head.getContent().replaceAll("(?m)^(\\*+\\s+)", " $1"));
+
             s.append("\n");
 
             if (settings.separateNotesWithNewLine == OrgParserSettings.SeparateNotesWithNewLine.MULTI_LINE_NOTES_ONLY) {
