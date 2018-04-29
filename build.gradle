@@ -14,7 +14,7 @@ dependencies {
 
 group = "com.orgzly"
 
-version = "1.2.2-SNAPSHOT"
+version = "1.2.2"
 
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
