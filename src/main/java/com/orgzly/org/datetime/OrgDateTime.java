@@ -357,6 +357,8 @@ public class OrgDateTime {
 
         private OrgRepeater repeater;
 
+        private OrgDelay delay;
+
         public Builder setIsActive(boolean isActive) {
             this.isActive = isActive;
             return this;
@@ -402,6 +404,11 @@ public class OrgDateTime {
             return this;
         }
 
+        public Builder setDelay(OrgDelay delay) {
+            this.delay = delay;
+            return this;
+        }
+
         public OrgDateTime build() {
             OrgDateTime time = new OrgDateTime();
 
@@ -413,6 +420,10 @@ public class OrgDateTime {
 
             if (hasRepeater) {
                 time.repeater = repeater;
+            }
+
+            if (delay != null) {
+                time.delay = delay;
             }
 
             return time;
