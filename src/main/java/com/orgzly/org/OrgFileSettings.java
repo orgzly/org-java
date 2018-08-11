@@ -1,5 +1,9 @@
 package com.orgzly.org;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+
 /**
  * In-buffer settings.
  * http://orgmode.org/manual/In_002dbuffer-settings.html
@@ -56,4 +60,31 @@ public class OrgFileSettings {
 
         return settingFound;
     }
+
+
+    public static OrgFileSettings fromPreface(String preface) {
+        OrgFileSettings settings = new OrgFileSettings();
+
+        BufferedReader reader = new BufferedReader(new StringReader(preface));
+
+        try {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                settings.parseLine(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return settings;
+    }
+
 }
