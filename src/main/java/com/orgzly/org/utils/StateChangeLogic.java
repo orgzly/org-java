@@ -47,6 +47,12 @@ public class StateChangeLogic {
 
                 if (deadline != null) {
                     if (deadline.shift()) {
+
+                        // Scheduled time exists but has no repeater - remove it
+                        if (scheduled != null && !shifted) {
+                            scheduled = null;
+                        }
+
                         shifted = true;
                     }
                 }
