@@ -543,7 +543,7 @@ public class OrgParserTest extends OrgTestParser {
         Assert.assertNotNull(file.getFile().getSettings().getTitle());
         Assert.assertEquals("Org Title", file.getFile().getSettings().getTitle());
         String[] values = {"Wrong title", "Org Title"};
-        Assert.assertArrayEquals(file.getFile().getSettings().getKeywordValues(OrgFileSettings.TITLE).toArray(), values);
+        Assert.assertArrayEquals(values, file.getFile().getSettings().getKeywordValues(OrgFileSettings.TITLE).toArray());
         Assert.assertNull(file.getFile().getSettings().getLastKeywordValue("NEWKEYWORD"));
         Assert.assertTrue(file.getFile().getSettings().getKeywordValues("NEWKEYWORD").isEmpty());
     }

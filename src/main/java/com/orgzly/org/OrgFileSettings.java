@@ -36,7 +36,7 @@ public class OrgFileSettings {
     }
 
     public void setTitle(String title) {
-        if (title != null && getTitle() != title) {
+        if (title != null && !title.equals(getTitle())) {
             addKeywordSetting(TITLE, title);
         }
     }
