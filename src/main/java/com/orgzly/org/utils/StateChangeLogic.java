@@ -24,14 +24,10 @@ public class StateChangeLogic {
     }
 
     public void setState(String targetState, String originalState, OrgRange scheduledTime, OrgRange deadlineTime) {
-        if (targetState == null) {
-            throw new IllegalArgumentException("Target state cannot be null");
-        }
-
         this.scheduled = scheduledTime;
         this.deadline = deadlineTime;
 
-        if (doneKeywords.contains(targetState)) {
+        if (targetState != null && doneKeywords.contains(targetState)) {
             if (! doneKeywords.contains(originalState)) {
                 /* From to-do-type to done-type state.
                  * Try to shift times. If successful (there was a repeater), keep the original
