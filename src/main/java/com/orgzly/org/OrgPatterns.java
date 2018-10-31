@@ -42,4 +42,15 @@ public class OrgPatterns {
     public static final Pattern HEAD_TAGS_P = Pattern.compile("^(.*)\\s+:(\\S+):\\s*$");
 
     public static final Pattern PROPERTY = Pattern.compile("^:([^:\\s]+):\\s+(.*)\\s*$");
+
+    /*
+    https://orgmode.org/manual/In_002dbuffer-settings.html
+
+    "In-buffer settings start with ‘#+’, followed by a keyword, a colon,
+    and then a word for each setting. Org accepts multiple settings on the same line.
+    Org also accepts multiple lines for a keyword."
+
+    Here we don't allow multiple settings per line for now.
+     */
+    public static final Pattern KEYWORD_VALUE = Pattern.compile("^#\\+([A-Za-z0-9_]+):\\s*(.*)$");
 }

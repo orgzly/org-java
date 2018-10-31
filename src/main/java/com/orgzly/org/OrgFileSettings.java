@@ -3,18 +3,26 @@ package com.orgzly.org;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
 
 /**
  * In-buffer settings.
  * http://orgmode.org/manual/In_002dbuffer-settings.html
  */
 public class OrgFileSettings {
-    public static final String TITLE = "#+TITLE:";
+    public static final String TITLE = "TITLE";
 //    public static final String FILE_TAGS = "#+FILETAGS:";
 
+    private HashMap<String, List<String>> keywords;
     private String title;
 //    private List<String> fileTags = new ArrayList<>();
 
+    public OrgFileSettings() {
+        keywords = new HashMap<String, List<String>>();
+    }
 
     /**
      * Are planning, property drawers etc. indented with spaced or not.
@@ -24,11 +32,13 @@ public class OrgFileSettings {
     private boolean indented;
 
     public String getTitle() {
-        return title;
+        return getLastKeywordValue(TITLE);
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if (title != null && !title.equals(getTitle())) {
+            addKeywordSetting(TITLE, title);
+        }
     }
 
     public boolean isIndented() {
@@ -48,22 +58,40 @@ public class OrgFileSettings {
     public boolean parseLine(String line) {
         boolean settingFound = false;
 
-        if (line.startsWith(TITLE)) {
-            String val = line.substring(TITLE.length()).trim();
-
-            if (val.length() > 0) {
-                setTitle(val);
-            }
-
+        Matcher matcher = OrgPatterns.KEYWORD_VALUE.matcher(line);
+        if (matcher.matches()) {
+            addKeywordSetting(matcher.group(1), matcher.group(2));
             settingFound = true;
         }
 
         return settingFound;
     }
 
+    public List<String> getKeywordValues(String keyword) {
+        if (!keywords.containsKey(keyword))
+            return null;
+        return keywords.get(keyword);
+    }
+
+    public String getLastKeywordValue(String keyword) {
+        List<String> values = getKeywordValues(keyword);
+        if (values == null || values.isEmpty())
+            return null;
+        return values.get(values.size() - 1);
+    }
+
+    private void addKeywordSetting(String keyword, String value) {
+        if (!keywords.containsKey(keyword)) {
+            keywords.put(keyword, new ArrayList<String>());
+        }
+        if (!value.isEmpty()) {
+            keywords.get(keyword).add(value);
+        }
+    }
 
     public static OrgFileSettings fromPreface(String preface) {
         OrgFileSettings settings = new OrgFileSettings();
+
 
         BufferedReader reader = new BufferedReader(new StringReader(preface));
 
