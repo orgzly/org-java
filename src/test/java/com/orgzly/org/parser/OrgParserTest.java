@@ -536,16 +536,22 @@ public class OrgParserTest extends OrgTestParser {
         Assert.assertNotNull(file.getFile().getSettings().getTitle());
         Assert.assertEquals("Org Title", file.getFile().getSettings().getTitle());
     }
+
     @Test
     public void testFileSettingsKeywords() throws IOException {
         OrgParsedFile file = parserBuilder.setInput("#+TITLE: Wrong title\n#+NEWKEYWORD:\n#+TITLE: Org Title\n\n* TODO Note\n").build().parse();
         Assert.assertNotNull(file.getFile().getSettings());
         Assert.assertNotNull(file.getFile().getSettings().getTitle());
         Assert.assertEquals("Org Title", file.getFile().getSettings().getTitle());
-        String[] values = {"Wrong title", "Org Title"};
-        Assert.assertArrayEquals(values, file.getFile().getSettings().getKeywordValues(OrgFileSettings.TITLE).toArray());
+        Assert.assertNull(file.getFile().getSettings().getKeywordValues(OrgFileSettings.TITLE));
         Assert.assertNull(file.getFile().getSettings().getLastKeywordValue("NEWKEYWORD"));
         Assert.assertTrue(file.getFile().getSettings().getKeywordValues("NEWKEYWORD").isEmpty());
+    }
+
+    @Test
+    public void testFileSettingsUnsupportedKeyword() throws IOException {
+        OrgParsedFile file = parserBuilder.setInput("#+FOO: bar").build().parse();
+        Assert.assertEquals("bar", file.getFile().getSettings().getLastKeywordValue("FOO"));
     }
 
     @Test

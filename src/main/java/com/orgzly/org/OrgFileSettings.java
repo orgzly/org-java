@@ -14,14 +14,13 @@ import java.util.regex.Matcher;
  */
 public class OrgFileSettings {
     public static final String TITLE = "TITLE";
-//    public static final String FILE_TAGS = "#+FILETAGS:";
 
-    private HashMap<String, List<String>> keywords;
     private String title;
-//    private List<String> fileTags = new ArrayList<>();
+
+    private HashMap<String, List<String>> otherKeywords;
 
     public OrgFileSettings() {
-        keywords = new HashMap<String, List<String>>();
+        otherKeywords = new HashMap<>();
     }
 
     /**
@@ -32,13 +31,11 @@ public class OrgFileSettings {
     private boolean indented;
 
     public String getTitle() {
-        return getLastKeywordValue(TITLE);
+        return title;
     }
 
     public void setTitle(String title) {
-        if (title != null && !title.equals(getTitle())) {
-            addKeywordSetting(TITLE, title);
-        }
+        this.title = title;
     }
 
     public boolean isIndented() {
@@ -68,9 +65,9 @@ public class OrgFileSettings {
     }
 
     public List<String> getKeywordValues(String keyword) {
-        if (!keywords.containsKey(keyword))
+        if (!otherKeywords.containsKey(keyword))
             return null;
-        return keywords.get(keyword);
+        return otherKeywords.get(keyword);
     }
 
     public String getLastKeywordValue(String keyword) {
@@ -81,11 +78,16 @@ public class OrgFileSettings {
     }
 
     private void addKeywordSetting(String keyword, String value) {
-        if (!keywords.containsKey(keyword)) {
-            keywords.put(keyword, new ArrayList<String>());
-        }
-        if (!value.isEmpty()) {
-            keywords.get(keyword).add(value);
+        if (keyword.equals(TITLE)) {
+            title = value;
+
+        } else {
+            if (!otherKeywords.containsKey(keyword)) {
+                otherKeywords.put(keyword, new ArrayList<>());
+            }
+            if (!value.isEmpty()) {
+                otherKeywords.get(keyword).add(value);
+            }
         }
     }
 
