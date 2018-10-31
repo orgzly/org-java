@@ -555,6 +555,18 @@ public class OrgParserTest extends OrgTestParser {
     }
 
     @Test
+    public void testFileSettingsTrimSupportedKeyword() throws IOException {
+        OrgParsedFile file = parserBuilder.setInput("#+TITLE:     Title     ").build().parse();
+        Assert.assertEquals("Title", file.getFile().getSettings().getTitle());
+    }
+
+    @Test
+    public void testFileSettingsTrimUnsupportedKeyword() throws IOException {
+        OrgParsedFile file = parserBuilder.setInput("#+NAME:     value value     ").build().parse();
+        Assert.assertEquals("value value", file.getFile().getSettings().getLastKeywordValue("NAME"));
+    }
+
+    @Test
     public void testIndented() throws IOException {
         OrgParsedFile file = parserBuilder.setInput("* TODO Title\n  SCHEDULED: <2015-02-11 Wed +1d>").build().parse();
         Assert.assertTrue(file.getFile().getSettings().isIndented());

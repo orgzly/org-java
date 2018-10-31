@@ -52,5 +52,5 @@ public class OrgPatterns {
 
     Here we don't allow multiple settings per line for now.
      */
-    public static final Pattern KEYWORD_VALUE = Pattern.compile("^#\\+([A-Za-z0-9_]+):\\s*(.*)$");
+    public static final Pattern KEYWORD_VALUE = Pattern.compile("^#\\+([A-Za-z0-9_]+):\\s*(.*?)\\s*$");
 }
