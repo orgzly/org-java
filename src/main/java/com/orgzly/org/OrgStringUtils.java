@@ -2,6 +2,9 @@ package com.orgzly.org;
 
 import java.util.Collection;
 
+import com.ibm.icu.lang.UCharacter;
+import com.ibm.icu.lang.UProperty;
+
 public class OrgStringUtils {
     public static String trimLines(String str) {
         return str.replaceFirst("\n+[\\s]*$", "").replaceFirst("^[\\s]*\n", "");
@@ -24,5 +27,34 @@ public class OrgStringUtils {
         }
 
         return result.toString();
+    }
+
+    public static int stringWidth(String str) {
+        int total = 0;
+
+        for (int i = 0; i < str.length(); ) {
+            int cp = str.codePointAt(i);
+
+            int width = codePointWidth(cp);
+
+            // System.out.printf("Code point %c width: %d\n", cp, width);
+
+            total += width;
+
+            i += Character.charCount(cp);
+        }
+
+        return total;
+    }
+
+    private static int codePointWidth(int cp) {
+        switch (UCharacter.getIntPropertyValue(cp, UProperty.EAST_ASIAN_WIDTH)) {
+            case UCharacter.EastAsianWidth.WIDE:
+            case UCharacter.EastAsianWidth.FULLWIDTH:
+                return 2;
+
+            default:
+                return 1;
+        }
     }
 }

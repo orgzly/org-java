@@ -4,6 +4,8 @@ import com.orgzly.org.OrgHead;
 import com.orgzly.org.OrgProperties;
 import com.orgzly.org.OrgStringUtils;
 
+import java.util.List;
+
 public class OrgParserWriter {
     /** org-log-note-headings */
     private static final String[] ORG_LOG_NOTE_HEADINGS = new String[] {
@@ -80,20 +82,14 @@ public class OrgParserWriter {
 
         /* Tags. */
         if (head.hasTags()) {
-            StringBuilder ts = new StringBuilder();
 
             /* Always add at least one space after the heading. */
             s.append(" ");
 
-            /* String the tags together, separated by colons. */
-            for (int i = 0; i < head.getTags().size(); i++) {
-                ts.append(":").append(head.getTags().get(i));
-            }
-
-            ts.append(":");
+            String ts = tagsString(head.getTags());
 
             /* Figure out how many spaces we need to align the tags properly. */
-            int padding = Math.abs(settings.tagsColumn) - s.length();
+            int padding = Math.abs(settings.tagsColumn) - OrgStringUtils.stringWidth(s.toString());
 
             /* Shift the tags left for users of org-indent-mode.
              *
@@ -106,14 +102,14 @@ public class OrgParserWriter {
             }
 
             if (settings.tagsColumn < 0) {
-                padding -= ts.length();
+                padding -= OrgStringUtils.stringWidth(ts);
             }
 
             for (; padding > 0; padding--) {
                 s.append(" ");
             }
 
-            s.append(ts.toString());
+            s.append(ts);
         }
 
         /* Anything that should go right under header, with no new-line in between. */
@@ -242,6 +238,18 @@ public class OrgParserWriter {
         }
 
         return s.toString();
+    }
+
+    /** String the tags together, separated by colons. */
+    private String tagsString(List<String> tags) {
+        StringBuilder str = new StringBuilder();
+
+        for (int i = 0; i < tags.size(); i++) {
+            str.append(":").append(tags.get(i));
+        }
+        str.append(":");
+
+        return str.toString();
     }
 
     private boolean isLogNoteHeading(String content) {

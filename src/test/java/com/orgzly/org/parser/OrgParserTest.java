@@ -729,6 +729,23 @@ public class OrgParserTest extends OrgTestParser {
     }
 
     @Test
+    public void testOrgTagsColumnNegativeWithFullWidthChars() throws IOException {
+        String str =
+                "* Note 漢字 :tag1:tag2:\n" +
+                "**** Note 2 :tag2:\n\n";
+
+        String expectedStr =
+                "* Note 漢字        :tag1:tag2:\n" +
+                "**** Note 2             :tag2:\n";
+
+        OrgParserSettings settings = new OrgParserSettings();
+        settings.tagsColumn = -30;
+
+        String parsedStr = parsed(str, settings);
+        Assert.assertEquals(expectedStr, parsedStr);
+    }
+
+    @Test
     public void testPlainTimestamps() throws IOException {
         String str = "* Node\n" +
             "CLOSED: [2012-12-29 Sat 08:05] DEADLINE: <2012-12-28 Fri> SCHEDULED: <2012-12-27 Thu>\n" +
