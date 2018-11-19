@@ -48,13 +48,18 @@ public class OrgStringUtils {
     }
 
     private static int codePointWidth(int cp) {
-        switch (UCharacter.getIntPropertyValue(cp, UProperty.EAST_ASIAN_WIDTH)) {
-            case UCharacter.EastAsianWidth.WIDE:
-            case UCharacter.EastAsianWidth.FULLWIDTH:
-                return 2;
+        try {
+            switch (UCharacter.getIntPropertyValue(cp, UProperty.EAST_ASIAN_WIDTH)) {
+                case UCharacter.EastAsianWidth.WIDE:
+                case UCharacter.EastAsianWidth.FULLWIDTH:
+                    return 2;
 
-            default:
-                return 1;
+                default:
+                    return 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 1;
         }
     }
 }
