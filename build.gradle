@@ -9,8 +9,6 @@ repositories {
 dependencies {
     implementation 'joda-time:joda-time:2.9.9'
 
-    implementation 'com.ibm.icu:icu4j:63.1'
-
     testImplementation 'junit:junit:4.12'
 }
 
