@@ -20,10 +20,10 @@ import java.util.regex.Pattern;
  *
  */
 public class OrgDateTime {
-    private static final SimpleDateFormat DATE_FORMAT =
+    private final SimpleDateFormat DATE_FORMAT =
             new SimpleDateFormat("yyyy-MM-dd EEE", Locale.ENGLISH);
 
-    private static final SimpleDateFormat TIME_FORMAT =
+    private final SimpleDateFormat TIME_FORMAT =
             new SimpleDateFormat("HH:mm", Locale.ENGLISH);
 
     private boolean isActive;
@@ -341,6 +341,11 @@ public class OrgDateTime {
         }
 
         return stringWithoutBrackets;
+    }
+
+    /** Returns inner state without trying to generate a new string from Calendar. */
+    public String toDebugString() {
+        return String.format("cal: %s string: %s", cal != null ? cal.getTime() : "null", string);
     }
 
     public static class Builder {
