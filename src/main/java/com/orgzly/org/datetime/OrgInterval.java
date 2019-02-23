@@ -35,7 +35,11 @@ public class OrgInterval {
 
     public void setValue(String str) {
         try {
-            value = Integer.valueOf(str);
+            if (str.length() > 1 && str.charAt(0) == '+') { // Before Java 7
+                value = Integer.valueOf(str.substring(1));
+            } else {
+                value = Integer.valueOf(str);
+            }
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Interval value " + str + " couldn't be parsed as integer", e);
         }

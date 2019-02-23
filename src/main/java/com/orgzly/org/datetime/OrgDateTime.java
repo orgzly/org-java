@@ -343,7 +343,7 @@ public class OrgDateTime {
         return stringWithoutBrackets;
     }
 
-    /** Returns inner state without trying to generate a new string from Calendar. */
+    /** @return inner state without trying to generate a new string from Calendar. */
     public String toDebugString() {
         return String.format("cal: %s string: %s", cal != null ? cal.getTime() : "null", string);
     }
