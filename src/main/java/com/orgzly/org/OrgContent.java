@@ -77,7 +77,10 @@ public class OrgContent {
         timestamps.clear();
         Matcher m = OrgPatterns.DT_OR_RANGE_P.matcher(toString());
         while (m.find()) {
-            timestamps.add(OrgRange.parse(m.group()));
+            OrgRange range = OrgRange.parse(m.group());
+            if (range.getStartTime().isActive()) {
+                timestamps.add(range);
+            }
         }
         dirty = false;
     }

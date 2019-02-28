@@ -32,6 +32,13 @@ public class OrgContentTest {
     }
 
     @Test
+    public void testIgnoreInactive() {
+        OrgContent o = new OrgContent();
+        o.set("[2000-01-01 10:10]");
+        Assert.assertEquals(0, o.getTimestamps().size());
+    }
+
+    @Test
     public void testEmptyContent() {
         OrgContent o = new OrgContent();
         Assert.assertEquals(0, o.getTimestamps().size());
