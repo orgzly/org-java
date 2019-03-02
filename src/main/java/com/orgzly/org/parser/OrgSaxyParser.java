@@ -156,7 +156,7 @@ class OrgSaxyParser extends OrgParser {
                             if (propertyMatcher.find()) {
                                 currentElement.head.addProperty(
                                         propertyMatcher.group(1),
-                                        propertyMatcher.group(2)
+                                        propertyMatcher.group(2).trim()
                                 );
                             }
 
@@ -246,7 +246,7 @@ class OrgSaxyParser extends OrgParser {
 
         Matcher m;
 
-		/* First assume entire line is a title and no state. */
+        /* First assume entire line is a title and no state. */
         String title = str.trim();
 
         /* Try known states. */
@@ -262,14 +262,14 @@ class OrgSaxyParser extends OrgParser {
             }
         }
 
-		/* Parse priority. */
+        /* Parse priority. */
         m = OrgPatterns.HEAD_PRIORITY_P.matcher(title);
         if (m.find()) {
             head.setPriority(m.group(1));
             title = m.group(2).trim();
         }
 
-		/* Parse tags. */
+        /* Parse tags. */
         m = OrgPatterns.HEAD_TAGS_P.matcher(title);
         if (m.find()) {
             title = m.group(1).trim();

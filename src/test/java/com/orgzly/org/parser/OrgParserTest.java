@@ -679,6 +679,20 @@ public class OrgParserTest extends OrgTestParser {
     }
 
     @Test
+    public void testEmptyProperty() throws IOException {
+        String str = "* Note\n:PROPERTIES:\n:NAME:\n:END:\n\n";
+        OrgParsedFile file = parserBuilder.setInput(str).build().parse();
+        Assert.assertEquals(1, file.getHeadsInList().get(0).getHead().getProperties().size());
+    }
+
+    @Test
+    public void testInvalidPropertyNoSeparator() throws IOException {
+        String str = "* Note\n:PROPERTIES:\n:NAME:VALUE\n:END:\n\n";
+        OrgParsedFile file = parserBuilder.setInput(str).build().parse();
+        Assert.assertEquals(0, file.getHeadsInList().get(0).getHead().getProperties().size());
+    }
+
+    @Test
     public void testOrgTagsColumnPositive () throws IOException {
         String str = "* Note :tag:thisalsoisatag:\n" +
             "**** Note 2 :tag2:\n\n";

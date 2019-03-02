@@ -41,7 +41,7 @@ public class OrgPatterns {
     public static final Pattern HEAD_PRIORITY_P = Pattern.compile("^\\s*\\[#([A-Z])\\](.*)");
     public static final Pattern HEAD_TAGS_P = Pattern.compile("^(.*)\\s+:(\\S+):\\s*$");
 
-    public static final Pattern PROPERTY = Pattern.compile("^:([^:\\s]+):\\s+(.*)\\s*$");
+    public static final Pattern PROPERTY = Pattern.compile("^:([^:\\s]+):(\\s+.+|)$");
 
     /*
     https://orgmode.org/manual/In_002dbuffer-settings.html
