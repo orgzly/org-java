@@ -414,6 +414,15 @@ public class OrgDateTime {
             return this;
         }
 
+        public Builder setDay(long timestamp) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(timestamp);
+
+            return setYear(cal.get(Calendar.YEAR))
+                    .setMonth(cal.get(Calendar.MONTH))
+                    .setDay(cal.get(Calendar.DAY_OF_MONTH));
+        }
+
         public OrgDateTime build() {
             OrgDateTime time = new OrgDateTime();
 

@@ -122,14 +122,6 @@ public class OrgHead {
         getContentObject().append(s);
     }
 
-    public List<OrgRange> getTimestamps() {
-        return getContentObject().getTimestamps();
-    }
-
-    public boolean hasTimestamps() {
-        return getContentObject().hasTimestamps();
-    }
-
     /**
      * Scheduled time.
      *
