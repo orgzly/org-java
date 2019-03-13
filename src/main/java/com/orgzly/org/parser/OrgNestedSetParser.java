@@ -19,17 +19,7 @@ public class OrgNestedSetParser extends OrgParser {
     public static final int STARTING_LEVEL = 0;
     public static final long STARTING_VALUE = 1;
 
-    /**
-     * Allow some space between values, for cheaper inserts.
-     *
-     * The only reason we do this now is to test that these do not *have* to be true:
-     * - "lft + 1 == rgt" for a single node
-     * - "rgt + 1 == lft" for two siblings
-     *
-     * TODO: Not used.
-     */
-    private static final int GAP = 5;
-
+    private static final int GAP = 1;
 
     private Reader reader;
     private OrgNestedSetParserListener listener;
