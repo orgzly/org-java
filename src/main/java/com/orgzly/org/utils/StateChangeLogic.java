@@ -3,33 +3,52 @@ package com.orgzly.org.utils;
 import com.orgzly.org.datetime.OrgDateTime;
 import com.orgzly.org.datetime.OrgRange;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * State setting logic.
  */
 public class StateChangeLogic {
-    private final Set<String> doneKeywords;
+    private final Collection<String> doneKeywords;
 
     private String state;
 
     private OrgRange scheduled;
     private OrgRange deadline;
+    private List<OrgRange> timestamps;
     private OrgRange closed;
 
     private boolean shifted = false;
 
-    public StateChangeLogic(Set<String> doneKeywords) {
+    public StateChangeLogic(Collection<String> doneKeywords) {
         this.doneKeywords = doneKeywords;
     }
 
-    public void setState(String targetState, String originalState, OrgRange scheduledTime, OrgRange deadlineTime) {
+    public void setState(
+            String targetState,
+            String originalState,
+            OrgRange scheduledTime,
+            OrgRange deadlineTime) {
+
+        setState(targetState, originalState, scheduledTime, deadlineTime, new ArrayList<>());
+    }
+
+    public void setState(
+            String targetState,
+            String originalState,
+            OrgRange scheduledTime,
+            OrgRange deadlineTime,
+            List<OrgRange> timestamps) {
+
         this.scheduled = scheduledTime;
         this.deadline = deadlineTime;
+        this.timestamps = timestamps;
 
         if (targetState != null && doneKeywords.contains(targetState)) {
-            if (! doneKeywords.contains(originalState)) {
-                /* From to-do-type to done-type state.
+            if (! doneKeywords.contains(originalState)) { // to-do -> done
+                /*
                  * Try to shift times. If successful (there was a repeater), keep the original
                  * state and remove closed time. If times were not shifted (there was no repeater)
                  * update the state and set closed time.
@@ -53,6 +72,12 @@ public class StateChangeLogic {
                     }
                 }
 
+                for (OrgRange timestamp: timestamps) {
+                    if (timestamp.shift()) {
+                        shifted = true;
+                    }
+                }
+
                 if (shifted) {
                     /* Keep the original state and remove the closed time */
                     state = originalState;
@@ -63,16 +88,16 @@ public class StateChangeLogic {
                     closed = new OrgRange(new OrgDateTime(false));
                 }
 
-            } else {
-                /* From done-type to done-type state.
+            } else { // done -> done
+                /*
                  * Set the state and update the closed time.
                  */
                 state = targetState;
                 closed = new OrgRange(new OrgDateTime(false));
             }
 
-        } else {
-            /* Target keyword is a to-do-type state.
+        } else { // -> to-do
+            /*
              * Set state and remove closed time.
              */
             state = targetState;
@@ -90,6 +115,10 @@ public class StateChangeLogic {
 
     public OrgRange getDeadline() {
         return deadline;
+    }
+
+    public List<OrgRange> getTimestamps() {
+        return timestamps;
     }
 
     public OrgRange getClosed() {
