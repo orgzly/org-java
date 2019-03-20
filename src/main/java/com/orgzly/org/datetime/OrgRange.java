@@ -78,6 +78,14 @@ public class OrgRange {
     private OrgRange() {
     }
 
+    public OrgRange(OrgRange orgRange) {
+        this.startTime = new OrgDateTime(orgRange.getStartTime());
+
+        if (orgRange.getEndTime() != null) {
+            this.endTime = new OrgDateTime(orgRange.getEndTime());
+        }
+    }
+
     public OrgRange(OrgDateTime fromTime) {
         this(fromTime, null);
     }

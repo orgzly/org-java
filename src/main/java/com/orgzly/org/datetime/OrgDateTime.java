@@ -47,6 +47,10 @@ public class OrgDateTime {
     private OrgDateTime() {
     }
 
+    public OrgDateTime(OrgDateTime orgDateTime) {
+        this.string = orgDateTime.toString();
+    }
+
     /**
      * Creates instance representing current time.
      *

@@ -19,7 +19,7 @@ public class OrgRangeTest {
     @Test
     public void testGetInstanceForNullOrgDateTime() {
         try {
-            new OrgRange(null);
+            new OrgRange((OrgDateTime) null);
             Assert.fail("Parsing null OrgDateTime must throw exception");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getMessage().equals("OrgRange cannot be created from null OrgDateTime"));
