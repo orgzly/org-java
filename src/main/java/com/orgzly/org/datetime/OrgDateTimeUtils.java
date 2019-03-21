@@ -44,6 +44,7 @@ public class OrgDateTimeUtils {
      * @param beforeTime Exclusive. Can be null in which case limit has to be specified
      * @param useRepeater Use repeater from {@link OrgDateTime}
      * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
+     *
      * @return List of times within specified interval
      */
     public static List<DateTime> getTimesInInterval(
@@ -53,9 +54,11 @@ public class OrgDateTimeUtils {
             boolean useRepeater,
             int limit) {
 
+        List<DateTime> result = new ArrayList<>();
+
         DateTime time = new DateTime(orgDateTime.getCalendar());
 
-        List<DateTime> result = new ArrayList<>();
+        // System.out.println(orgDateTime + " (" + time + ") " + fromTime + " - " + beforeTime);
 
         /* If Org time has no repeater or it should be ignored,
          * just check if time part is within the interval.
@@ -87,14 +90,23 @@ public class OrgDateTimeUtils {
                 /* How many units to add to get just after the start of interval.
                  * This is multiples of repeater's value.
                  */
-                int repeatTimes = units / repeater.getValue();
-                int addUnits = repeater.getValue() * (repeatTimes + 1);
+                int repeatTimes = (units + repeater.getValue() - 1) / repeater.getValue(); // ceil
+                int addUnits = repeater.getValue() * repeatTimes;
 
                 /* Time just after the interval we are interested in. */
                 curr = time.withFieldAdded(OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()), addUnits);
+
+                /* System.out.println(
+                        "gap: " + gap
+                        + " intervalPeriod: " + intervalPeriod
+                        + " units: " + units
+                        + " repeatTimes: " + repeatTimes
+                        + " addUnits: " + addUnits
+                        + " curr: " + curr); */
             }
 
             while (beforeTime == null || curr.isBefore(beforeTime)) {
+                System.out.println("WIP " + curr + ", " + beforeTime);
                 result.add(curr);
 
                 /* Check if limit has been reached. */

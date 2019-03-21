@@ -94,6 +94,20 @@ public class OrgDateTimeUtilsTest {
                         DateTime.parse("2017-04-16")))));
     }
 
+    @Test
+    public void testCumulateOneDay() {
+        assertThat(
+                toStringArray(OrgDateTimeUtils.getTimesInInterval(
+                        OrgDateTime.parse("<2017-04-16 +1d>"),
+                        DateTime.parse("2017-04-17"),
+                        DateTime.parse("2017-04-19"),
+                        true,
+                        0)),
+                is(toStringArray(Arrays.asList(
+                        DateTime.parse("2017-04-17"),
+                        DateTime.parse("2017-04-18")))));
+    }
+
     private List<String> toStringArray(List<DateTime> times) {
         List<String> result = new ArrayList<>();
 
