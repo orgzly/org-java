@@ -2,6 +2,7 @@ package com.orgzly.org.parser;
 
 import com.orgzly.org.OrgHead;
 import com.orgzly.org.OrgProperties;
+import com.orgzly.org.OrgProperty;
 import com.orgzly.org.OrgStringUtils;
 
 import java.util.List;
@@ -165,12 +166,10 @@ public class OrgParserWriter {
             s.append(":PROPERTIES:");
 
             OrgProperties properties = head.getProperties();
-            for (String name: properties.keySet()) {
-                String value = properties.get(name);
-
+            for (OrgProperty property: properties.getAll()) {
                 s.append("\n");
                 appendIndent(s, level, isIndented);
-                s.append(String.format(settings.propertyFormat, ":" + name + ":", value));
+                s.append(String.format(settings.propertyFormat, ":" + property.getName() + ":", property.getValue()));
             }
 
             s.append("\n");
