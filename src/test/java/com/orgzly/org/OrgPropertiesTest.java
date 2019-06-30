@@ -9,6 +9,28 @@ import java.io.IOException;
 
 public class OrgPropertiesTest extends OrgTestParser {
     @Test
+    public void appendToValue() throws IOException {
+        OrgProperties properties = new OrgProperties();
+
+        properties.put("var", "foo=1");
+        properties.put("var+", "bar=2");
+
+        Assert.assertEquals(2, properties.size());
+        Assert.assertEquals("foo=1 bar=2", properties.get("var"));
+    }
+
+    @Test
+    public void removeProperty() throws IOException {
+        OrgProperties properties = new OrgProperties();
+
+        properties.put("LAST_REPEAT", "[2009-10-19 Mon 00:36]");
+        properties.remove("LAST_REPEAT");
+
+        Assert.assertEquals(0, properties.size());
+        Assert.assertNull(properties.get("LAST_REPEAT"));
+    }
+
+    @Test
     public void indented() throws IOException {
         String fileContent =
                 "** TODO Note\n" +
