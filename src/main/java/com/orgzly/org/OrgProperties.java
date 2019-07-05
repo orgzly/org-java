@@ -75,21 +75,52 @@ public class OrgProperties {
             return;
         }
 
-        Set<Integer> toRemove = new HashSet<>();
+        List<OrgProperty> toRemove = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
             OrgProperty property = list.get(i);
 
             if (name.equals(property.getName()) || (name + "+").equals(property.getName())) {
-                toRemove.add(i);
+                toRemove.add(property);
             }
         }
 
-        for (int i: toRemove) {
-            list.remove(i);
-        }
+        list.removeAll(toRemove);
 
         values.remove(name);
+    }
+
+    public void set(String name, String value) {
+        if (name == null) {
+            return;
+        }
+
+        if (containsKey(name)) {
+            boolean foundFirst = false;
+            List<OrgProperty> newList = new ArrayList<>();
+
+            for (int i = 0; i < list.size(); i++) {
+                OrgProperty property = list.get(i);
+
+                if (name.equals(property.getName()) || (name + "+").equals(property.getName())) {
+                    // Replace the value of first occurrence
+                    if (!foundFirst) {
+                        newList.add(new OrgProperty(name, value));
+                        foundFirst = true;
+                    }
+                } else {
+                    newList.add(property);
+                }
+            }
+
+            list.clear();
+            list.addAll(newList);
+
+        } else {
+            list.add(new OrgProperty(name, value));
+        }
+
+        values.put(name, value);
     }
 
     public List<OrgProperty> getAll() {

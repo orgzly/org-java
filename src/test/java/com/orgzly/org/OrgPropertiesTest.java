@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class OrgPropertiesTest extends OrgTestParser {
     @Test
-    public void appendToValue() throws IOException {
+    public void appendToValue() {
         OrgProperties properties = new OrgProperties();
 
         properties.put("var", "foo=1");
@@ -20,14 +20,58 @@ public class OrgPropertiesTest extends OrgTestParser {
     }
 
     @Test
-    public void removeProperty() throws IOException {
+    public void removeProperty() {
         OrgProperties properties = new OrgProperties();
 
-        properties.put("LAST_REPEAT", "[2009-10-19 Mon 00:36]");
+        properties.put("LAST_REPEAT", "[2009-10-19 Mon 00:30]");
+
         properties.remove("LAST_REPEAT");
 
         Assert.assertEquals(0, properties.size());
         Assert.assertNull(properties.get("LAST_REPEAT"));
+    }
+
+    @Test
+    public void removeMultipleProperties() {
+        OrgProperties properties = new OrgProperties();
+
+        properties.put("LAST_REPEAT", "[2009-10-19 Mon 00:30]");
+        properties.put("LAST_REPEAT", "[2009-10-19 Mon 00:35]");
+
+        properties.remove("LAST_REPEAT");
+
+        Assert.assertEquals(0, properties.size());
+        Assert.assertNull(properties.get("LAST_REPEAT"));
+    }
+
+    @Test
+    public void set() {
+        OrgProperties properties = new OrgProperties();
+
+        properties.put("FOO", "BAR");
+        properties.set("LAST_REPEAT", "[2009-10-19 Mon 00:40]");
+
+        Assert.assertEquals(2, properties.size());
+        Assert.assertEquals("FOO", properties.getAll().get(0).getName());
+        Assert.assertEquals("BAR", properties.getAll().get(0).getValue());
+        Assert.assertEquals("LAST_REPEAT", properties.getAll().get(1).getName());
+        Assert.assertEquals("[2009-10-19 Mon 00:40]", properties.getAll().get(1).getValue());
+    }
+
+    @Test
+    public void setReplacesExistingValue() {
+        OrgProperties properties = new OrgProperties();
+
+        properties.put("LAST_REPEAT", "[2009-10-19 Mon 00:30]");
+        properties.put("LAST_REPEAT", "[2009-10-19 Mon 00:35]");
+        properties.put("FOO", "BAR");
+        properties.set("LAST_REPEAT", "[2009-10-19 Mon 00:40]");
+
+        Assert.assertEquals(2, properties.size());
+        Assert.assertEquals("LAST_REPEAT", properties.getAll().get(0).getName());
+        Assert.assertEquals("[2009-10-19 Mon 00:40]", properties.getAll().get(0).getValue());
+        Assert.assertEquals("FOO", properties.getAll().get(1).getName());
+        Assert.assertEquals("BAR", properties.getAll().get(1).getValue());
     }
 
     @Test
