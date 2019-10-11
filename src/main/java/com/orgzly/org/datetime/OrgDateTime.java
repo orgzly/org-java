@@ -276,7 +276,7 @@ public class OrgDateTime {
         /* Delay. */
         m = OrgPatterns.TIME_DELAY_P.matcher(string);
         if (m.find()) {
-            delay = OrgDelay.parse(m.group(0));
+            delay = OrgDelay.parse(m.group());
         }
     }
 
@@ -408,6 +408,17 @@ public class OrgDateTime {
             return this;
         }
 
+        public Builder setDateTime(long timestamp) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(timestamp);
+
+            return setYear(cal.get(Calendar.YEAR))
+                    .setMonth(cal.get(Calendar.MONTH))
+                    .setDay(cal.get(Calendar.DAY_OF_MONTH))
+                    .setHour(cal.get(Calendar.HOUR_OF_DAY))
+                    .setMinute(cal.get(Calendar.MINUTE));
+        }
+
         public Builder setRepeater(OrgRepeater repeater) {
             this.repeater = repeater;
             return this;
@@ -416,15 +427,6 @@ public class OrgDateTime {
         public Builder setDelay(OrgDelay delay) {
             this.delay = delay;
             return this;
-        }
-
-        public Builder setDay(long timestamp) {
-            Calendar cal = new GregorianCalendar();
-            cal.setTimeInMillis(timestamp);
-
-            return setYear(cal.get(Calendar.YEAR))
-                    .setMonth(cal.get(Calendar.MONTH))
-                    .setDay(cal.get(Calendar.DAY_OF_MONTH));
         }
 
         public OrgDateTime build() {

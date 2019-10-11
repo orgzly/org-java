@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  */
 public class OrgPatterns {
     // org-ts-regexp-both
-    private static final String DT = "(([\\[<])[0-9]{4,}-[0-9]{2}-[0-9]{2} ?[^]\r\n>]*?[\\]>])";
+    private static final String DT = "(([\\[<])[0-9]{4,}-[0-9]{2}-[0-9]{2} ?[^]\r\n>]*?[]>])";
 
     // org-tsr-regexp-both
     private static final String DT_OR_RANGE = "(" + DT + "(--?-?" + DT + ")?)";
@@ -37,8 +37,8 @@ public class OrgPatterns {
     public static final Pattern PLANNING_TIMES_P = Pattern.compile(
             "(SCHEDULED:|CLOSED:|DEADLINE:) *" + DT_OR_RANGE);
 
-    public static final Pattern HEAD_P = Pattern.compile("^([\\*]+)\\s+(.*)\\s*$");
-    public static final Pattern HEAD_PRIORITY_P = Pattern.compile("^\\s*\\[#([A-Z])\\](.*)");
+    public static final Pattern HEAD_P = Pattern.compile("^([*]+)\\s+(.*)\\s*$");
+    public static final Pattern HEAD_PRIORITY_P = Pattern.compile("^\\s*\\[#([A-Z])](.*)");
     public static final Pattern HEAD_TAGS_P = Pattern.compile("^(.*)\\s+:(\\S+):\\s*$");
 
     public static final Pattern PROPERTY = Pattern.compile("^:([^:\\s]+):(\\s+.+|)$");
