@@ -5,8 +5,9 @@ import com.orgzly.org.OrgPatterns;
 import java.util.regex.Matcher;
 
 /**
- * Delay used for scheduled time.
- * Also used as a warning period for deadline time.
+ * Delay for scheduled time.
+ *
+ * FIXME: Also used as a warning period for deadline time.
  *
  * http://orgmode.org/manual/Deadlines-and-scheduling.html
  */
@@ -38,6 +39,15 @@ public class OrgDelay extends OrgInterval {
         }
 
         return delay;
+    }
+
+    private OrgDelay() {
+    }
+
+    public OrgDelay(Type type, int value, Unit unit) {
+        this.type = type;
+        this.value = value;
+        this.unit = unit;
     }
 
     private void setTypeFromString(String str) {

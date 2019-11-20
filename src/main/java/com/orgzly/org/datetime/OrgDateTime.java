@@ -355,14 +355,17 @@ public class OrgDateTime {
     public static class Builder {
         private boolean isActive;
 
-        private boolean hasTime;
-        private boolean hasRepeater;
-
         private int year;
         private int month;
         private int day;
+
+        private boolean hasTime;
         private int hour;
         private int minute;
+
+        private boolean hasEndTime;
+        private int endHour;
+        private int endMinute;
 
         private OrgRepeater repeater;
 
@@ -373,13 +376,13 @@ public class OrgDateTime {
             return this;
         }
 
-        public Builder setHasTime(boolean isTimeUsed) {
-            this.hasTime = isTimeUsed;
+        public Builder setHasTime(boolean hasTime) {
+            this.hasTime = hasTime;
             return this;
         }
 
-        public Builder setHasRepeater(boolean isRepeaterUsed) {
-            this.hasRepeater = isRepeaterUsed;
+        public Builder setHasEndTime(boolean hasEndTime) {
+            this.hasEndTime = hasEndTime;
             return this;
         }
 
@@ -405,6 +408,16 @@ public class OrgDateTime {
 
         public Builder setMinute(int minute) {
             this.minute = minute;
+            return this;
+        }
+
+        public Builder setEndHour(int hour) {
+            this.endHour = hour;
+            return this;
+        }
+
+        public Builder setEndMinute(int minute) {
+            this.endMinute = minute;
             return this;
         }
 
@@ -434,11 +447,15 @@ public class OrgDateTime {
 
             time.isActive = isActive;
 
-            time.hasTime = hasTime;
-
             time.cal = new GregorianCalendar(year, month, day, hour, minute);
 
-            if (hasRepeater) {
+            time.hasTime = hasTime;
+
+            if (hasEndTime) {
+                time.endCal = new GregorianCalendar(year, month, day, endHour, endMinute);
+            }
+
+            if (repeater != null) {
                 time.repeater = repeater;
             }
 
