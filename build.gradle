@@ -9,6 +9,8 @@ repositories {
 dependencies {
     implementation 'joda-time:joda-time:2.10.4'
 
+    implementation "org.jetbrains:annotations:16.0.3"
+
     testImplementation 'junit:junit:4.12'
 }
 

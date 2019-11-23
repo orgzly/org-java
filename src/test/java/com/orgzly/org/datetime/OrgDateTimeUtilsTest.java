@@ -108,6 +108,38 @@ public class OrgDateTimeUtilsTest {
                         DateTime.parse("2017-04-18")))));
     }
 
+    @Test
+    public void testWarningPeriod() {
+        assertThat(
+                toStringArray(OrgDateTimeUtils.getTimesInInterval(
+                        OrgDateTime.parse("<2017-04-16 -1d>"),
+                        DateTime.parse("2017-04-10"),
+                        null,
+                        true,
+                        new OrgInterval(1, OrgInterval.Unit.DAY),
+                        0)),
+                is(toStringArray(Arrays.asList(
+                        DateTime.parse("2017-04-15")))));
+    }
+
+    @Test
+    public void testWarningPeriodWithRepeater() {
+        assertThat(
+                toStringArray(OrgDateTimeUtils.getTimesInInterval(
+                        OrgDateTime.parse("<2017-04-16 +3d -2d>"),
+                        DateTime.parse("2017-04-15"),
+                        null,
+                        true,
+                        new OrgInterval(2, OrgInterval.Unit.DAY),
+                        5)),
+                is(toStringArray(Arrays.asList(
+                        DateTime.parse("2017-04-17"),
+                        DateTime.parse("2017-04-20"),
+                        DateTime.parse("2017-04-23"),
+                        DateTime.parse("2017-04-26"),
+                        DateTime.parse("2017-04-29")))));
+    }
+
     private List<String> toStringArray(List<DateTime> times) {
         List<String> result = new ArrayList<>();
 

@@ -1,5 +1,7 @@
 package com.orgzly.org.datetime;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DurationFieldType;
 import org.joda.time.Interval;
@@ -13,23 +15,33 @@ import java.util.List;
 public class OrgDateTimeUtils {
     private static final int MAX_INSTANTS_IN_INTERVAL = 100;
 
-    /**
-     * Returns list of {@link DateTime} that belong to specified {@link OrgDateTime}
-     * and are within specified time interval.
-     *
-     * @param orgDateTime {@link OrgDateTime}
-     * @param fromTime Inclusive
-     * @param beforeTime Exclusive. Can be null in which case limit has to be specified
-     * @param useRepeater Use repeater from {@link OrgDateTime}
-     * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
-     *
-     * @return List of times within specified interval
-     */
     public static List<DateTime> getTimesInInterval(
-            OrgDateTime orgDateTime,
-            ReadableInstant fromTime,
-            ReadableInstant beforeTime,
+            @NotNull OrgDateTime orgDateTime,
+            @NotNull ReadableInstant fromTime,
+            @Nullable ReadableInstant beforeTime,
             boolean useRepeater,
+            int limit) {
+        return getTimesInInterval(orgDateTime, fromTime, beforeTime, useRepeater, null, limit);
+    }
+
+        /**
+         * Returns list of {@link DateTime} that belong to specified {@link OrgDateTime}
+         * and are within specified time interval.
+         *
+         * @param orgDateTime {@link OrgDateTime}
+         * @param fromTime Inclusive
+         * @param beforeTime Exclusive. Can be null in which case limit has to be specified
+         * @param useRepeater Use repeater from {@link OrgDateTime}
+         * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
+         *
+         * @return List of times within specified interval
+         */
+    public static List<DateTime> getTimesInInterval(
+            @NotNull OrgDateTime orgDateTime,
+            @NotNull ReadableInstant fromTime,
+            @Nullable ReadableInstant beforeTime,
+            boolean useRepeater,
+            @Nullable OrgInterval warningPeriod,
             int limit) {
 
         List<DateTime> result = new ArrayList<>();
@@ -42,6 +54,8 @@ public class OrgDateTimeUtils {
          * just check if time part is within the interval.
          */
         if (!useRepeater || !orgDateTime.hasRepeater() || orgDateTime.getRepeater().getValue() == 0) {
+            time = applyWarningPeriod(time, warningPeriod);
+
             if (!time.isBefore(fromTime) && (beforeTime == null || time.isBefore(beforeTime))) {
                 result.add(time);
             }
@@ -57,7 +71,7 @@ public class OrgDateTimeUtils {
 
             OrgRepeater repeater = orgDateTime.getRepeater();
 
-            DateTime curr = time;
+            time = applyWarningPeriod(time, warningPeriod);
 
             if (time.isBefore(fromTime)) {
                 /* How many periods between time and start of interval. */
@@ -72,20 +86,21 @@ public class OrgDateTimeUtils {
                 int addUnits = repeater.getValue() * repeatTimes;
 
                 /* Time just after the interval we are interested in. */
-                curr = time.withFieldAdded(OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()), addUnits);
+                time = time.withFieldAdded(OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()), addUnits);
 
-                /* System.out.println(
+                System.out.println(
                         "gap: " + gap
                         + " intervalPeriod: " + intervalPeriod
                         + " units: " + units
                         + " repeatTimes: " + repeatTimes
                         + " addUnits: " + addUnits
-                        + " curr: " + curr); */
+                        + " time: " + time);
             }
 
-            while (beforeTime == null || curr.isBefore(beforeTime)) {
-                System.out.println("WIP " + curr + ", " + beforeTime);
-                result.add(curr);
+            // Shift time until it's out of the specified interval or limit is reached
+            while (beforeTime == null || time.isBefore(beforeTime)) {
+                System.out.println("WIP " + time + ", " + beforeTime);
+                result.add(time);
 
                 /* Check if limit has been reached. */
                 if (limit > 0 && result.size() >= limit) {
@@ -93,7 +108,7 @@ public class OrgDateTimeUtils {
                 }
 
                 /* Shift. */
-                curr = curr.withFieldAdded(
+                time = time.withFieldAdded(
                         OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()),
                         repeater.getValue()
                 );
@@ -101,6 +116,16 @@ public class OrgDateTimeUtils {
         }
 
         return result;
+    }
+
+    private static DateTime applyWarningPeriod(DateTime time, OrgInterval warningPeriod) {
+        if (warningPeriod != null) {
+            return time.withFieldAdded(
+                    OrgDateTimeUtils.getDurationFieldType(warningPeriod.getUnit()),
+                    -1 * warningPeriod.getValue());
+        } else {
+            return time;
+        }
     }
 
     private static PeriodType getPeriodType(OrgInterval.Unit unit) {
