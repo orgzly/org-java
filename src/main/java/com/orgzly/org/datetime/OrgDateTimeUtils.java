@@ -32,6 +32,7 @@ public class OrgDateTimeUtils {
          * @param fromTime Inclusive
          * @param beforeTime Exclusive. Can be null in which case limit has to be specified
          * @param useRepeater Use repeater from {@link OrgDateTime}
+         * @param warningPeriod Deadline warning period
          * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
          *
          * @return List of times within specified interval
