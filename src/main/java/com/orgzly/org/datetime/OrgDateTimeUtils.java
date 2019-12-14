@@ -119,11 +119,21 @@ public class OrgDateTimeUtils {
         return result;
     }
 
-    private static DateTime applyWarningPeriod(DateTime time, OrgInterval warningPeriod) {
-        if (warningPeriod != null) {
+    private static DateTime applyWarningPeriod(DateTime time, OrgInterval period) {
+        if (period != null) {
             return time.withFieldAdded(
-                    OrgDateTimeUtils.getDurationFieldType(warningPeriod.getUnit()),
-                    -1 * warningPeriod.getValue());
+                    OrgDateTimeUtils.getDurationFieldType(period.getUnit()),
+                    -1 * period.getValue());
+        } else {
+            return time;
+        }
+    }
+
+    public static DateTime applyDelayPeriod(DateTime time, OrgInterval period) {
+        if (period != null) {
+            return time.withFieldAdded(
+                    OrgDateTimeUtils.getDurationFieldType(period.getUnit()),
+                    period.getValue());
         } else {
             return time;
         }
@@ -146,7 +156,7 @@ public class OrgDateTimeUtils {
         }
     }
 
-    private static DurationFieldType getDurationFieldType(OrgInterval.Unit unit) {
+    public static DurationFieldType getDurationFieldType(OrgInterval.Unit unit) {
         switch (unit) {
             case HOUR:
                 return DurationFieldType.hours();
