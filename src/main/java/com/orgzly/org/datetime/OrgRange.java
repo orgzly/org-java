@@ -3,6 +3,8 @@ package com.orgzly.org.datetime;
 import com.orgzly.org.OrgPatterns;
 import com.orgzly.org.OrgStringUtils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Calendar;
 import java.util.regex.Matcher;
 
@@ -106,6 +108,7 @@ public class OrgRange {
     /**
      * @return last time of the range, can be {@code null}
      */
+    @Nullable
     public OrgDateTime getEndTime() {
         return endTime;
     }
