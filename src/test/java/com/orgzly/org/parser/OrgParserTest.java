@@ -549,6 +549,12 @@ public class OrgParserTest extends OrgTestParser {
     }
 
     @Test
+    public void testCaseInsensitiveFileSettingsKeywords() throws IOException {
+        OrgParsedFile file = parserBuilder.setInput("#+title: Title\n\n* Note\n").build().parse();
+        Assert.assertEquals("Title", file.getFile().getSettings().getTitle());
+    }
+
+    @Test
     public void testFileSettingsUnsupportedKeyword() throws IOException {
         OrgParsedFile file = parserBuilder.setInput("#+FOO: bar").build().parse();
         Assert.assertEquals("bar", file.getFile().getSettings().getLastKeywordValue("FOO"));

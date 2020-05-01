@@ -78,7 +78,7 @@ public class OrgFileSettings {
     }
 
     private void addKeywordSetting(String keyword, String value) {
-        if (keyword.equals(TITLE)) {
+        if (keyword.equalsIgnoreCase(TITLE)) {
             title = value;
 
         } else {
