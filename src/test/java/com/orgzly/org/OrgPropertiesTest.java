@@ -169,4 +169,22 @@ public class OrgPropertiesTest extends OrgTestParser {
         Assert.assertEquals(4, head.getProperties().size());
         Assert.assertEquals("c d", head.getProperties().get("KEY"));
     }
+
+    @Test
+    public void headerArguments() throws IOException {
+        String fileContent =
+                "* Test heading\n" +
+                        ":PROPERTIES:\n" +
+                        ":header-args: :cache yes\n" +
+                        ":header-args:python:: :results output\n" +
+                        ":END:";
+
+        OrgParsedFile file = parserBuilder.setInput(fileContent).build().parse();
+        OrgHead head = file.getHeadsInList().get(0).getHead();
+
+        Assert.assertTrue(head.hasProperties());
+        Assert.assertEquals(2, head.getProperties().size());
+        Assert.assertEquals(":cache yes", head.getProperties().get("header-args"));
+        Assert.assertEquals(":results output", head.getProperties().get("header-args:python:"));
+    }
 }
