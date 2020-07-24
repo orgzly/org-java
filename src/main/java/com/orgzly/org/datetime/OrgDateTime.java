@@ -447,9 +447,14 @@ public class OrgDateTime {
 
             time.isActive = isActive;
 
-            time.cal = new GregorianCalendar(year, month, day, hour, minute);
-
             time.hasTime = hasTime;
+
+            if (hasTime) {
+                time.cal = new GregorianCalendar(year, month, day, hour, minute);
+            } else {
+                time.cal = new GregorianCalendar(year, month, day);
+
+            }
 
             if (hasEndTime) {
                 time.endCal = new GregorianCalendar(year, month, day, endHour, endMinute);
