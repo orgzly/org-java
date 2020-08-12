@@ -337,4 +337,10 @@ public class OrgDateTimeTest {
 
         Assert.assertEquals("<2001-02-01 Thu>", timestamp.toString());
     }
+
+    @Test
+    public void testBuilderClone() {
+        String s = "<2020-01-01 Wed 15:00-16:00 .+1w -2d>";
+        Assert.assertEquals(s, new OrgDateTime.Builder(OrgDateTime.parse(s)).build().toString());
+    }
 }

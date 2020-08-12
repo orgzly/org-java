@@ -371,6 +371,23 @@ public class OrgDateTime {
 
         private OrgDelay delay;
 
+        public Builder() {
+        }
+
+        public Builder(OrgDateTime orgDateTime) {
+            this
+                    .setIsActive(orgDateTime.isActive())
+                    .setDateTime(orgDateTime.getCalendar().getTimeInMillis())
+                    .setHasTime(orgDateTime.hasTime())
+                    .setRepeater(orgDateTime.getRepeater())
+                    .setDelay(orgDateTime.getDelay());
+
+            if (orgDateTime.hasEndTime()) {
+                this.setHasEndTime(true);
+                this.setEndHourAndMinute(orgDateTime.getEndCalendar().getTimeInMillis());
+            }
+        }
+
         public Builder setIsActive(boolean isActive) {
             this.isActive = isActive;
             return this;
@@ -430,6 +447,14 @@ public class OrgDateTime {
                     .setDay(cal.get(Calendar.DAY_OF_MONTH))
                     .setHour(cal.get(Calendar.HOUR_OF_DAY))
                     .setMinute(cal.get(Calendar.MINUTE));
+        }
+
+        public Builder setEndHourAndMinute(long timestamp) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(timestamp);
+
+            return setEndHour(cal.get(Calendar.HOUR_OF_DAY))
+                    .setEndMinute(cal.get(Calendar.MINUTE));
         }
 
         public Builder setRepeater(OrgRepeater repeater) {
