@@ -19,7 +19,9 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-04-01 .+3d>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         DateTime.parse("2017-04-20T05:39:58"),
+                        0,
                         true,
+                        null,
                         0)),
                 is(toStringArray(Arrays.asList(
                         DateTime.parse("2017-04-16"),
@@ -33,7 +35,9 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-04-01 .+3d>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         DateTime.parse("2017-04-20T05:39:58"),
+                        0,
                         false,
+                        null,
                         0)),
                 is(Collections.<String>emptyList()));
     }
@@ -45,7 +49,9 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-04-01 .+3d>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         null,
+                        0,
                         true,
+                        null,
                         3)),
                 is(toStringArray(Arrays.asList(
                         DateTime.parse("2017-04-16"),
@@ -60,7 +66,9 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-07-16 Sun ++1w>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         null,
+                        0,
                         true,
+                        null,
                         3)),
                 is(toStringArray(Arrays.asList(
                         DateTime.parse("2017-07-16"),
@@ -75,7 +83,9 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-07-16 Sun ++1w>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         null,
+                        0,
                         false,
+                        null,
                         3)),
                 is(toStringArray(Arrays.asList(
                         DateTime.parse("2017-07-16")))));
@@ -88,7 +98,9 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-04-16 .+0d>"),
                         DateTime.parse("2017-04-15T05:39:58"),
                         DateTime.parse("2017-04-20T05:39:58"),
+                        0,
                         true,
+                        null,
                         0)),
                 is(toStringArray(Arrays.asList(
                         DateTime.parse("2017-04-16")))));
@@ -101,7 +113,9 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-04-16 +1d>"),
                         DateTime.parse("2017-04-17"),
                         DateTime.parse("2017-04-19"),
+                        0,
                         true,
+                        null,
                         0)),
                 is(toStringArray(Arrays.asList(
                         DateTime.parse("2017-04-17"),
@@ -115,6 +129,7 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-04-16 -1d>"),
                         DateTime.parse("2017-04-10"),
                         null,
+                        0,
                         true,
                         new OrgInterval(1, OrgInterval.Unit.DAY),
                         0)),
@@ -129,6 +144,7 @@ public class OrgDateTimeUtilsTest {
                         OrgDateTime.parse("<2017-04-16 +3d -2d>"),
                         DateTime.parse("2017-04-15"),
                         null,
+                        0,
                         true,
                         new OrgInterval(2, OrgInterval.Unit.DAY),
                         5)),

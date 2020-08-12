@@ -15,41 +15,47 @@ import java.util.List;
 public class OrgDateTimeUtils {
     private static final int MAX_INSTANTS_IN_INTERVAL = 100;
 
+    /**
+     * Returns list of {@link DateTime} that belong to specified {@link OrgDateTime}
+     * and are within specified time interval.
+     *
+     * @param orgDateTime {@link OrgDateTime}
+     * @param fromTime Inclusive
+     * @param beforeTime Exclusive. Can be null in which case limit has to be specified
+     * @param dailyTimeOffset Time to use when {@code orgDateTime} has no time part (minutes after midnight)
+     * @param useRepeater Use repeater from {@link OrgDateTime}
+     * @param warningPeriod Deadline warning period
+     * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
+     *
+     * @return List of times within specified interval
+     */
     public static List<DateTime> getTimesInInterval(
             @NotNull OrgDateTime orgDateTime,
             @NotNull ReadableInstant fromTime,
             @Nullable ReadableInstant beforeTime,
-            boolean useRepeater,
-            int limit) {
-        return getTimesInInterval(orgDateTime, fromTime, beforeTime, useRepeater, null, limit);
-    }
-
-        /**
-         * Returns list of {@link DateTime} that belong to specified {@link OrgDateTime}
-         * and are within specified time interval.
-         *
-         * @param orgDateTime {@link OrgDateTime}
-         * @param fromTime Inclusive
-         * @param beforeTime Exclusive. Can be null in which case limit has to be specified
-         * @param useRepeater Use repeater from {@link OrgDateTime}
-         * @param warningPeriod Deadline warning period
-         * @param limit When {@code orgTime} has a repeater, limit the number of results to this number
-         *
-         * @return List of times within specified interval
-         */
-    public static List<DateTime> getTimesInInterval(
-            @NotNull OrgDateTime orgDateTime,
-            @NotNull ReadableInstant fromTime,
-            @Nullable ReadableInstant beforeTime,
+            int dailyTimeOffset,
             boolean useRepeater,
             @Nullable OrgInterval warningPeriod,
             int limit) {
 
         List<DateTime> result = new ArrayList<>();
 
+        OrgDateTime originalOrgDateTime = orgDateTime;
+
+        if (!orgDateTime.hasTime() && dailyTimeOffset > 0) {
+            int hours = dailyTimeOffset / 60;
+            int minutes = dailyTimeOffset % 60;
+
+            orgDateTime = new OrgDateTime.Builder(orgDateTime)
+                    .setHour(hours)
+                    .setMinute(minutes)
+                    .setHasTime(true)
+                    .build();
+        }
+
         DateTime time = new DateTime(orgDateTime.getCalendar());
 
-        // System.out.println(orgDateTime + " (" + time + ") " + fromTime + " - " + beforeTime);
+        // System.out.println(originalOrgDateTime + " now " + orgDateTime + " (" + time + ") " + fromTime + " - " + beforeTime);
 
         /* If Org time has no repeater or it should be ignored,
          * just check if time part is within the interval.
@@ -100,7 +106,6 @@ public class OrgDateTimeUtils {
 
             // Shift time until it's out of the specified interval or limit is reached
             while (beforeTime == null || time.isBefore(beforeTime)) {
-                System.out.println("WIP " + time + ", " + beforeTime);
                 result.add(time);
 
                 /* Check if limit has been reached. */
