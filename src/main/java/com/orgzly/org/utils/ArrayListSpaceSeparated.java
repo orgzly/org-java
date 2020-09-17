@@ -13,7 +13,7 @@ public class ArrayListSpaceSeparated extends ArrayList<String> {
 
     public ArrayListSpaceSeparated(String str) {
         for (String s: str.split(DELIMITER)) {
-            String st = s.trim();
+            String st = s.trim().replace("\s", " ").replace("\ ", "\s");
             if (st.length() > 0) {
                 add(st);
             }
@@ -21,6 +21,10 @@ public class ArrayListSpaceSeparated extends ArrayList<String> {
     }
 
     public String toString() {
-        return OrgStringUtils.join(this, DELIMITER);
+        String str = "";
+        for (String s: this) {
+            str += s.replace("\s", "\\s").replace(" ", "\s") + " ";
+        }
+        return str.substring(0, str.length() - 1);
     }
 }
