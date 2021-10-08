@@ -21,32 +21,22 @@ def isReleaseBuild() {
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-}
 
-task javadocJar(type: Jar) {
-    archiveClassifier.set('javadoc')
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            from components.java
+
             groupId = 'com.orgzly'
             artifactId = 'org-java'
             version = VERSION_NAME
 
             pom {
                 name = 'org-java'
-                packaging = 'jar'
                 description = 'Org files parser and generator'
                 url = 'https://github.com/orgzly/org-java'
 
@@ -76,7 +66,10 @@ publishing {
 
     repositories {
         maven {
-            url = isReleaseBuild() ? 'https://oss.sonatype.org/service/local/staging/deploy/maven2/' : 'https://oss.sonatype.org/content/repositories/snapshots/'
+            def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+
+            url = isReleaseBuild() ? releasesRepoUrl : snapshotsRepoUrl
 
             credentials {
                 username = ossrhUsername
@@ -87,6 +80,5 @@ publishing {
 }
 
 signing {
-    required { gradle.taskGraph.hasTask("uploadArchives") }
     sign publishing.publications.mavenJava
 }
