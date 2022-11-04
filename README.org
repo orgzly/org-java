@@ -1,6 +1,6 @@
 [[https://travis-ci.org/orgzly/org-java.svg?branch=master]]
 
-*[[http://orgmode.org/][Org files]] parser used by [[http://www.orgzly.com][Orgzly]]*
+*[[http://orgmode.org/][Org files]] parser used by [[https://www.orgzly.com][Orgzly]]*
 
 * Installation
 
