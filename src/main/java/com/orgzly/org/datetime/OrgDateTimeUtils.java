@@ -89,8 +89,8 @@ public class OrgDateTimeUtils {
                 /* How many units to add to get just after the start of interval.
                  * This is multiples of repeater's value.
                  */
-                int repeatTimes = (units + repeater.getValue() - 1) / repeater.getValue(); // ceil
-                int addUnits = repeater.getValue() * repeatTimes;
+                int repeatTimes = (units + repeater.getValue()) / repeater.getValue();
+                int addUnits = repeatTimes * repeater.getValue();
 
                 /* Time just after the interval we are interested in. */
                 time = time.withFieldAdded(OrgDateTimeUtils.getDurationFieldType(repeater.getUnit()), addUnits);
